@@ -20,7 +20,17 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 
@@ -31,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     //private static final int CAPTURE_CODE = 1001;
     private AppCompatButton btFoto, enviarFoto;
     private ImageView fotinha;
+    private TextView tvTeste;
 
     //Uri img;
 
@@ -39,8 +50,39 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        String url = "https://jsonplaceholder.typicode.com/todos/1";
+
         iniciarComponentes();
-        enviarFoto = enviarImg(view);
+
+        JsonObjectRequest obgJs = new JsonObjectRequest(url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    int userId = response.getInt("userId");
+                    int id = response.getInt("id");
+                    String title = response.getString("title");
+                    boolean completed = response.getBoolean("completed");
+
+                    tvTeste.setText(userId + "/n" + id + "/n" + title + "/n" + completed);
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                    tvTeste.setText("ERROR");
+            }
+        });
+
+        if (!fotinha.equals(null)) {
+        fotinha.setVisibility(View.INVISIBLE);
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(obgJs);
+        }
+
 
         btFoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,7 +98,10 @@ public class MainActivity extends AppCompatActivity {
     //depois de enviar vou receber um resultado que no caso vai ser a bula abrindo
     //posso fazer automaticamente colocando um handler talvez? Mas por enquanto fica assim
     //vou jogar a bula em uma nova Activity ou Fragment, depende do que for melhor
-    public void enviarImg(View v, Bitmap img, String url){
+
+    //Aqui estou convertendo a foto em um array de bytes, porém como não vejo como aplicar isto agora
+    //vou deixar comentado para mais tarde puxar o código
+    /*public void enviarImg(View v, Bitmap img, String url){
         Intent intent = new Intent();
 
         ByteArrayOutputStream arrayBytes = new ByteArrayOutputStream();
@@ -65,12 +110,13 @@ public class MainActivity extends AppCompatActivity {
 
         //nesse starActivity, ele ja vai trazer a bula pra mim
         startActivity(intent);
-    }
+    }*/
 
     private void iniciarComponentes() {
         fotinha = findViewById(R.id.fotoCamera);
         btFoto = findViewById(R.id.fotobtn);
         enviarFoto = findViewById(R.id.solicitar_resposta_btn);
+        tvTeste = findViewById(R.id.testAPI);
     }
 
     ActivityResultLauncher<Intent> resultFoto = registerForActivityResult(

@@ -27,8 +27,17 @@
             android:src="@drawable/ic_launcher_background"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="100dp"
+            android:layout_margin="50dp"
             android:layout_gravity="center"/>
+
+        <TextView
+            android:id="@+id/testAPI"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Aqui vai o Json"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:textAlignment="center"/>
     </LinearLayout>
 
     <LinearLayout
