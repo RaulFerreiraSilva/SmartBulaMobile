@@ -43,6 +43,8 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG= "MainActivity";
+    private RequestQueue requestQueue;
     private AppCompatButton btFoto, enviarFoto;
     private ImageView fotinha;
 
@@ -79,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
             }
     );
 
-    private void analisarImagem(Bitmap img, String url, String chave) {
+    private void analisarImagem(Bitmap img, final String endpoint, final String key) {
         //Inicia o objeto para conexão com o webservice do CustomVision
         RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
         requestQueue.start();
@@ -99,15 +101,29 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //Configura a requisição ao webservice
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, endpoint, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.d("APP_BULA", ">>>>>>>>>>>> " + response.toString());
+                Log.d("APP_BULA", "Conectado na API " + response.toString());
                 //Se conseguir conectar...
                 try {
                     //Recupera a informação da previsão
-                    JSONArray retorno = response.getJSONArray("readResult");
-                    if (retorno.length() != 0) { //Se houver contedúdo
+                    //JSONArray retorno = response.getJSONArray("readResult");
+                    JSONArray retorno = response.getJSONArray("regions");
+                    for (int i = 0; i < retorno.length(); i++){
+                        JSONObject obj = retorno.getJSONObject(i);
+                        JSONArray lines = obj.getJSONArray("lines");
+                        for (int j = 0; j < lines.length(); j++){
+                            JSONObject lineObj = lines.getJSONObject(j);
+                            JSONArray words = lineObj.getJSONArray("words");
+                            for (int k = 0; k < words.length(); k++){
+                                JSONObject wordObj = words.getJSONObject(k);
+                                String text = wordObj.getString("text");
+                                Log.d(TAG, "Detected word: " + text);
+                            }
+                        }
+                    }
+                    /*if (retorno.length() != 0) { //Se houver contedúdo
                         JSONObject obj1 = retorno.getJSONObject(0);
                         obj1.getJSONArray("content");
                         Toast.makeText(MainActivity.this, "E: " + obj1, Toast.LENGTH_SHORT).show();
@@ -118,26 +134,26 @@ public class MainActivity extends AppCompatActivity {
                         }
                     } else {
                         Toast.makeText(MainActivity.this, "Não foi encontrado o item", Toast.LENGTH_LONG).show();
-                    }
+                    }*/
                 } catch (JSONException e) {
-                    Toast.makeText(MainActivity.this, "ERRO!" + e, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "DEU RUIM!" + e, Toast.LENGTH_SHORT).show();
 
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.w("APP_BULA", ">>>>>>>>>>>> " + error);
-                Log.w("APP_BULA", ">>>>>>>>>>>> " + error.getMessage());
-                Log.w("APP_BULA", ">>>>>>>>>>>> " + error.getCause());
+                Log.d("APP_BULA", "DEU ZIKA " + error);
+                Log.d("APP_BULA", ">>>>>>>>>>>> " + error.getMessage());
+                Log.d("APP_BULA", ">>>>>>>>>>>> " + error.getCause());
                 error.printStackTrace();
             }
         }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
+                Map<String, String> headers = new HashMap<String, String>();
                 //headers.put("Content-Type", "application/json");
-                headers.put("Ocp-Apim-Subscription-Key", chave);
+                headers.put("Ocp-Apim-Subscription-Key", endpoint);
                 headers.put("Content-Type", "application/octet-stream");
                 return headers;
             }
