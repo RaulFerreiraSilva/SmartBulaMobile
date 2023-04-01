@@ -2,29 +2,20 @@ package com.example.usarcamera;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.core.app.ActivityCompat;
 
-import android.annotation.SuppressLint;
-import android.content.ContentValues;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.Camera;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -44,9 +35,9 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG= "MainActivity";
-    private RequestQueue requestQueue;
-    private AppCompatButton btFoto, enviarFoto;
+    private AppCompatButton btFoto;
     private ImageView fotinha;
+    private TextView txtResultado;
 
     //Uri img;
 
@@ -55,8 +46,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //referencias aos componentes da tela usados
         iniciarComponentes();
 
+        //evento de clique do botão que chama a câmera
         btFoto.setOnClickListener(view -> {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             resultFoto.launch(intent);
@@ -64,27 +57,36 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //recupera o resultado obtido pela câmera e coloca no ImageView
     ActivityResultLauncher<Intent> resultFoto = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(), result -> {
-                if (result.getResultCode() == RESULT_OK){
-                    Bundle extras = result.getData().getExtras();
-                    Bitmap img = (Bitmap) extras.get("data");
+                try {
+                    if (result.getResultCode() == RESULT_OK){
+                        Bundle extras = result.getData().getExtras();
+                        Bitmap img = (Bitmap) extras.get("data");
 
-                    fotinha.setRotation(90);
+                        fotinha.setRotation(90);
 
-                    fotinha.setImageBitmap(img);
+                        fotinha.setImageBitmap(img);
 
-                    analisarImagem(img, "https://scanremedio.cognitiveservices.azure.com/computervision/imageanalysis:analyze?api-version=2023-02-01-preview&features=read"
-                            , "6c193a3b7d2747ae8fc02707a665fb7f");
+                        analisarImagem(img, "https://scanremedio.cognitiveservices.azure.com/computervision/imageanalysis:analyze?api-version=2023-02-01-preview&features=read"
+                                , "6c193a3b7d2747ae8fc02707a665fb7f");
+                    }
 
                 }
+                catch (NullPointerException e){
+                    Log.w(TAG, "Error: " + e.getMessage());
+                }
+
+
             }
     );
 
+    //método responsável por analisar a imagem e fazer toda a requisição a API para trazer o retorno
     private void analisarImagem(Bitmap img, final String endpoint, final String key) {
         //Inicia o objeto para conexão com o webservice do CustomVision
         RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
-        requestQueue.start();
+        //requestQueue.start();
 
         //Converte a imagem para ser enviada via URL
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -104,40 +106,21 @@ public class MainActivity extends AppCompatActivity {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, endpoint, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.d("APP_BULA", "Conectado na API " + response.toString());
-                //Se conseguir conectar...
-                try {
-                    //Recupera a informação da previsão
-                    //JSONArray retorno = response.getJSONArray("readResult");
-                    JSONArray retorno = response.getJSONArray("regions");
-                    for (int i = 0; i < retorno.length(); i++){
-                        JSONObject obj = retorno.getJSONObject(i);
-                        JSONArray lines = obj.getJSONArray("lines");
-                        for (int j = 0; j < lines.length(); j++){
-                            JSONObject lineObj = lines.getJSONObject(j);
-                            JSONArray words = lineObj.getJSONArray("words");
-                            for (int k = 0; k < words.length(); k++){
-                                JSONObject wordObj = words.getJSONObject(k);
-                                String text = wordObj.getString("text");
-                                Log.d(TAG, "Detected word: " + text);
-                            }
-                        }
-                    }
-                    /*if (retorno.length() != 0) { //Se houver contedúdo
-                        JSONObject obj1 = retorno.getJSONObject(0);
-                        obj1.getJSONArray("content");
-                        Toast.makeText(MainActivity.this, "E: " + obj1, Toast.LENGTH_SHORT).show();
-                        //Recupera o nome da Tag
-                        String nomeTag = obj1.getString("Bula");
-                        if (!nomeTag.equals(null)) { //Se a probabilidade for acima de 85%
-                            Toast.makeText(MainActivity.this, "bula: " + nomeTag, Toast.LENGTH_LONG).show();
-                        }
-                    } else {
-                        Toast.makeText(MainActivity.this, "Não foi encontrado o item", Toast.LENGTH_LONG).show();
-                    }*/
-                } catch (JSONException e) {
-                    Toast.makeText(MainActivity.this, "DEU RUIM!" + e, Toast.LENGTH_SHORT).show();
+                Log.d("APP_CUSTOM_VISION", ">>>>>>>>>>>> " + response.toString());
 
+                //o retorno por enquanto está sendo trazido ao front por um setText, porém depois
+                //o retorno irá vir por meio da bula do remédio
+                try {
+                    JSONObject obj = response.getJSONObject("readResult");
+                    String text = obj.getString("content");
+                    if (!text.equals(null)){
+                            txtResultado.setText(text);
+
+                    } else {
+                        txtResultado.setText("ERRO!");
+                    }
+                } catch (JSONException e) {
+                    Log.d(TAG, "onResponse: " + e.getMessage());
                 }
             }
         }, new Response.ErrorListener() {
@@ -148,13 +131,16 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("APP_BULA", ">>>>>>>>>>>> " + error.getCause());
                 error.printStackTrace();
             }
-        }) {
+        })
+        {
+            //cabeçalho da api
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<String, String>();
-                //headers.put("Content-Type", "application/json");
-                headers.put("Ocp-Apim-Subscription-Key", endpoint);
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Ocp-Apim-Subscription-Key", key);
                 headers.put("Content-Type", "application/octet-stream");
+
                 return headers;
             }
 
@@ -163,6 +149,11 @@ public class MainActivity extends AppCompatActivity {
                 return byteArray;
             }
         };
+        //o Volley tem um TimeOut muito curto, então tive que estender o tempo para 20s pois assim
+        //consigo receber o retorno da API
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                20000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         //Executa a conexão
         requestQueue.add(jsonObjectRequest);
     }
@@ -170,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
     private void iniciarComponentes() {
         fotinha = findViewById(R.id.fotoCamera);
         btFoto = findViewById(R.id.fotobtn);
-        enviarFoto = findViewById(R.id.solicitar_resposta_btn);
+        txtResultado = findViewById(R.id.txtResultado);
     }
 
 }
