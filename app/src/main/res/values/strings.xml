@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">UsarCamera</string>
+    <string name="fragHome">Início</string>
+    <string name="fragFavorito">Favoritos</string>
+    <string name="fragHistorico">Histórico</string>
+    <string name="fragUser">Usuário</string>
+    <string name="fragCamera">Camêra</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fillViewport="true"
+    tools:context=".fragments.HomeFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtNome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NOME"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_margin="10dp"/>
+
+            <TextView
+                android:id="@+id/txtData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="DATA"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_margin="10dp"/>
+
+            <TextView
+                android:id="@+id/txtSbNome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SOBRENOME"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"/>
+
+            <TextView
+                android:id="@+id/txtSenha"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SENHA"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"/>
+
+            <TextView
+                android:id="@+id/txtEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="EMAIL"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_margin="10dp"/>
+
+            <TextView
+                android:id="@+id/txtSucess"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ERRO"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_margin="10dp"/>
+
+            <Button
+                android:id="@+id/btnEnviar"
+                android:layout_width="100dp"
+                android:layout_height="70dp"
+                android:layout_margin="10dp"
+                android:layout_gravity="center"
+                android:text="enviar"/>
+        </LinearLayout>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

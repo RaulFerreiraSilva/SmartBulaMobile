@@ -1,18 +1,22 @@
-package com.example.usarcamera;
+package com.example.usarcamera.activitys;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -22,8 +26,16 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.usarcamera.R;
+import com.example.usarcamera.databinding.ActivityMainBinding;
+import com.example.usarcamera.fragments.CameraFragment;
+import com.example.usarcamera.fragments.FavoritoFragment;
+import com.example.usarcamera.fragments.HistoricoFragment;
+import com.example.usarcamera.fragments.HomeFragment;
+import com.example.usarcamera.fragments.UserFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -39,26 +51,85 @@ public class MainActivity extends AppCompatActivity {
     private ImageView fotinha;
     private TextView txtResultado;
 
+    private ActivityMainBinding binding;
+    private BottomNavigationView bottomNavigationView;
+    private HomeFragment homeFragment = new HomeFragment();
+    private CameraFragment cameraFragment = new CameraFragment();
+    private FavoritoFragment favoritoFragment = new FavoritoFragment();
+    private HistoricoFragment historicoFragment = new HistoricoFragment();
+    private UserFragment userFragment = new UserFragment();
+
     //Uri img;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        iniciarComponentes();
+        replaceFragment(new HomeFragment());
+        binding.btnNav.setBackground(null);
+        binding.btnNav.setOnItemSelectedListener(item -> {
+            switch (item.getItemId()){
+                case R.id.fragHome: replaceFragment(new HomeFragment());break;
+                case R.id.fragFavorito: replaceFragment(new FavoritoFragment());break;
+                case R.id.fragHistorico: replaceFragment(new HistoricoFragment());break;
+                case R.id.fragCamera: replaceFragment(new CameraFragment());break;
+                case R.id.fragUser: replaceFragment(new UserFragment());break;
+            }
+            return true;
+        });
+
 
         //referencias aos componentes da tela usados
-        iniciarComponentes();
+
+
+        /*getSupportFragmentManager().beginTransaction().replace(androidx.core.R.id.action_container,
+                homeFragment).commit();
+
+        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.fragHome: getSupportFragmentManager().beginTransaction().replace(
+                            androidx.fragment.R.id.action_container, homeFragment).commit();
+                    return true;
+                    case R.id.fragCamera: getSupportFragmentManager().beginTransaction().replace(
+                            androidx.fragment.R.id.action_container, cameraFragment).commit();
+                        return true;
+                    case R.id.fragFavorito: getSupportFragmentManager().beginTransaction().replace(
+                            androidx.fragment.R.id.action_container, favoritoFragment).commit();
+                        return true;
+                    case R.id.fragHistorico: getSupportFragmentManager().beginTransaction().replace(
+                            androidx.fragment.R.id.action_container, historicoFragment).commit();
+                        return true;
+                    case R.id.fragUser: getSupportFragmentManager().beginTransaction().replace(
+                            androidx.fragment.R.id.action_container, userFragment).commit();
+                        return true;
+                }
+
+                return false;
+            }
+        });*/
 
         //evento de clique do botão que chama a câmera
-        btFoto.setOnClickListener(view -> {
+        /*btFoto.setOnClickListener(view -> {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             resultFoto.launch(intent);
-        });
+        });*/
 
     }
 
+    private void replaceFragment(Fragment fragment){
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.frame_layout, fragment);
+        transaction.commit();
+    }
+
     //recupera o resultado obtido pela câmera e coloca no ImageView
-    ActivityResultLauncher<Intent> resultFoto = registerForActivityResult(
+    /*ActivityResultLauncher<Intent> resultFoto = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(), result -> {
                 try {
                     if (result.getResultCode() == RESULT_OK){
@@ -156,12 +227,13 @@ public class MainActivity extends AppCompatActivity {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         //Executa a conexão
         requestQueue.add(jsonObjectRequest);
-    }
+    }*/
 
     private void iniciarComponentes() {
-        fotinha = findViewById(R.id.fotoCamera);
+       /* fotinha = findViewById(R.id.fotoCamera);
         btFoto = findViewById(R.id.fotobtn);
-        txtResultado = findViewById(R.id.txtResultado);
+        txtResultado = findViewById(R.id.txtResultado);*/
+        bottomNavigationView = findViewById(R.id.btnNav);
     }
 
 }
