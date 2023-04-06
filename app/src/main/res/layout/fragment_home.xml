@@ -9,9 +9,71 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/background"
+        android:paddingBottom="20dp"
+        android:layout_marginBottom="60dp">
+        
+        <LinearLayout
+            android:id="@+id/layout_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="80dp"
+                android:src="@drawable/ic_mini_logo"
+                android:layout_margin="10dp"
+                android:padding="4.5dp"/>
+
+            <View
+                style="@style/CardBemVindo">
+            </View>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/bem_vindo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bem_vindo"
+            android:textSize="30dp"
+            android:layout_marginLeft="100dp"
+            android:textStyle="italic"
+            app:layout_constraintBottom_toBottomOf="@+id/layout_header"
+            app:layout_constraintEnd_toEndOf="@id/layout_header"
+            app:layout_constraintStart_toStartOf="@+id/layout_header"
+            app:layout_constraintTop_toTopOf="@+id/layout_header" />
 
         <LinearLayout
+            android:id="@+id/layout_medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_header"
+            android:orientation="horizontal">
+
+            <View
+                style="@style/CardAlergia"
+                android:layout_marginRight="10dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/layout_medium"
+            app:layout_constraintTop_toBottomOf="@id/layout_header">
+
+            <View
+                style="@style/CardNote"/>
+        </LinearLayout>
+
+
+       <!-- <LinearLayout
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_width="match_parent"
@@ -77,7 +139,7 @@
                 android:layout_margin="10dp"
                 android:layout_gravity="center"
                 android:text="enviar"/>
-        </LinearLayout>
+        </LinearLayout>-->
 
 
 

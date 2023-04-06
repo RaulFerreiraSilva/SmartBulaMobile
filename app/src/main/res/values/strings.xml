@@ -5,6 +5,8 @@
     <string name="fragHistorico">Histórico</string>
     <string name="fragUser">Usuário</string>
     <string name="fragCamera">Camêra</string>
-    <!-- TODO: Remove or change this placeholder text -->
+
+    <string name="bem_vindo">Olá Pessoa</string>
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

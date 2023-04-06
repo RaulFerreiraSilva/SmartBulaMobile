@@ -1,5 +1,6 @@
 package com.example.usarcamera.fragments;
 
+import android.app.ActionBar;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -38,15 +39,17 @@ public class HomeFragment extends Fragment {
         View root = binding.getRoot();
 
 
-        nome = root.findViewById(R.id.txtNome);
+
+
+        /*nome = root.findViewById(R.id.txtNome);
         sbNome = root.findViewById(R.id.txtSbNome);
         data = root.findViewById(R.id.txtData);
         senha = root.findViewById(R.id.txtSenha);
         email = root.findViewById(R.id.txtEmail);
         sucess = root.findViewById(R.id.txtSucess);
-        enviar = root.findViewById(R.id.btnEnviar);
+        enviar = root.findViewById(R.id.btnEnviar);*/
 
-        enviar.setOnClickListener(new View.OnClickListener() {
+        /*enviar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 RequestQueue queue = Volley.newRequestQueue(root.getContext());
@@ -95,7 +98,7 @@ public class HomeFragment extends Fragment {
 
                 queue.add(request);
             }
-        });
+        });*/
 
 
 
