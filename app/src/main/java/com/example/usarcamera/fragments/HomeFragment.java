@@ -27,7 +27,7 @@ import org.json.JSONObject;
 
 public class HomeFragment extends Fragment {
 
-    private String endpoint = "https://localhost:5001/api/usuario/salvar/";
+    private String endpoint = "https://10.0.2.2:5001/api/usuario/salvar/";
     private TextView nome, sbNome, data, senha, email, sucess;
 
     private Button enviar;
@@ -41,15 +41,15 @@ public class HomeFragment extends Fragment {
 
 
 
-        /*nome = root.findViewById(R.id.txtNome);
+        nome = root.findViewById(R.id.txtNome);
         sbNome = root.findViewById(R.id.txtSbNome);
         data = root.findViewById(R.id.txtData);
         senha = root.findViewById(R.id.txtSenha);
         email = root.findViewById(R.id.txtEmail);
         sucess = root.findViewById(R.id.txtSucess);
-        enviar = root.findViewById(R.id.btnEnviar);*/
+        enviar = root.findViewById(R.id.btnEnviar);
 
-        /*enviar.setOnClickListener(new View.OnClickListener() {
+        enviar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 RequestQueue queue = Volley.newRequestQueue(root.getContext());
@@ -98,7 +98,7 @@ public class HomeFragment extends Fragment {
 
                 queue.add(request);
             }
-        });*/
+        });
 
 
 
