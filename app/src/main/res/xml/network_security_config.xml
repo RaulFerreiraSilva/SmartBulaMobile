@@ -3,7 +3,7 @@
     <domain-config>
         <domain includeSubdomains="true">https://10.0.2.2:5001/api</domain>
         <trust-anchors>
-            <certificates src="@raw/cert" />
+            <certificates src="@raw/meucertificado"/>
         </trust-anchors>
     </domain-config>
 </network-security-config>

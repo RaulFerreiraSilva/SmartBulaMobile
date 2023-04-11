@@ -14,7 +14,7 @@
         android:paddingBottom="20dp"
         android:layout_marginBottom="60dp">
         
-        <!--<LinearLayout
+        <LinearLayout
             android:id="@+id/layout_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -61,18 +61,40 @@
                 style="@style/CardAlergia"
                 android:layout_marginRight="10dp"/>
         </LinearLayout>
+        
+        <ImageView
+            android:id="@+id/ic_alergia"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_alergia"
+            app:layout_constraintStart_toStartOf="@id/layout_medium"
+            app:layout_constraintTop_toTopOf="@id/layout_medium"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"/>
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            app:layout_constraintStart_toStartOf="@id/ic_alergia"
+            app:layout_constraintTop_toBottomOf="@id/ic_alergia"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toEndOf="@id/layout_medium"
-            app:layout_constraintTop_toBottomOf="@id/layout_header">
+            app:layout_constraintTop_toBottomOf="@id/layout_header"
+            android:orientation="vertical">
+
+            <View
+                style="@style/CardNote"
+                />
+
+        </LinearLayout>
 
 
-        </LinearLayout>-->
-
-
-       <LinearLayout
+       <!--<LinearLayout
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_width="match_parent"
@@ -138,7 +160,7 @@
                 android:layout_margin="10dp"
                 android:layout_gravity="center"
                 android:text="enviar"/>
-        </LinearLayout>
+        </LinearLayout>-->
 
 
 

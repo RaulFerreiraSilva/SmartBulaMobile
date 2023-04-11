@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/fragHistorico"
-        android:title="@string/fragHistorico"
-        android:icon="@drawable/ic_hist"/>
-
     <item android:id="@+id/fragHome"
         android:title="@string/fragHome"
         android:icon="@drawable/ic_home"
         android:checked="true"
         />
+
+    <item android:id="@+id/fragHistorico"
+        android:title="@string/fragHistorico"
+        android:icon="@drawable/ic_hist"/>
 
     <item android:id="@+id/fragCamera"
         android:title="@string/fragCamera"

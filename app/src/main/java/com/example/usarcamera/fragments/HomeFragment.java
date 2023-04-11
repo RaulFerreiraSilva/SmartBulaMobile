@@ -25,6 +25,16 @@ import com.example.usarcamera.databinding.FragmentHomeBinding;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.InputStream;
+import java.net.URL;
+import java.security.KeyStore;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManagerFactory;
+
 public class HomeFragment extends Fragment {
 
     private String endpoint = "https://10.0.2.2:5001/api/usuario/salvar/";
@@ -41,7 +51,7 @@ public class HomeFragment extends Fragment {
 
 
 
-        nome = root.findViewById(R.id.txtNome);
+        /*nome = root.findViewById(R.id.txtNome);
         sbNome = root.findViewById(R.id.txtSbNome);
         data = root.findViewById(R.id.txtData);
         senha = root.findViewById(R.id.txtSenha);
@@ -98,7 +108,7 @@ public class HomeFragment extends Fragment {
 
                 queue.add(request);
             }
-        });
+        });*/
 
 
 
