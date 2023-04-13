@@ -16,5 +16,9 @@
     <string name="txtCamera">Basta inserir um nome ou uma imagem do medicamento desejado.</string>
     <string name="editSearch">Digite o nome do medicamento</string>
     <string name="txtCam">Toque aqui para tirar uma foto.</string>
+    <string name="btnSearch">Pesquisar</string>
+
+    <!--HistoricoFragment-->
+    <string name="txtTituloHistorico">Histórico</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

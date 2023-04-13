@@ -8,7 +8,7 @@
     tools:context=".fragments.CameraFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        style="@style/Layout">
+        style="@style/LayoutBackground">
 
         <LinearLayout
             android:id="@+id/layout_header_camera"
@@ -36,6 +36,7 @@
         <EditText
             android:id="@+id/edit_search"
             style="@style/EditText"
+            android:inputType="text"
             android:hint="@string/editSearch"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -49,7 +50,7 @@
             app:layout_constraintEnd_toEndOf="@id/edit_search"
             app:layout_constraintTop_toTopOf="@id/edit_search"
             android:layout_marginTop="15dp"
-            android:layout_marginRight="15dp"/>
+            android:layout_marginStart="15dp"/>
 
         <View
             android:id="@+id/view_camera"
@@ -66,9 +67,19 @@
             app:layout_constraintEnd_toEndOf="@id/view_camera"
             app:layout_constraintTop_toTopOf="@id/view_camera"
             android:textColor="@color/branco"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:layout_marginTop="140dp"
-            android:textStyle="bold"/>
+            android:textStyle="italic"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            style="@style/ButtonPesquisar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@string/btnSearch"
+            android:textColor="@color/branco"
+            android:textSize="20sp"
+            android:textStyle="italic"
+            app:layout_constraintTop_toBottomOf="@id/view_camera"
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>
