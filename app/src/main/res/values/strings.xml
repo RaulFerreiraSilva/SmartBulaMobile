@@ -21,4 +21,11 @@
     <!--HistoricoFragment-->
     <string name="txtTituloHistorico">Histórico</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--FavoritoFragment-->
+    <string name="cardDadosPessoais">Dados Pessoais</string>
+    <string name="txtExplicativoFavorito">Para remover dos favoritos, apenas toque no ícone de estrela.</string>
+    <string name="txtExplicativoLista">Toque aqui para acessar a bula completa ou resumida.</string>
+
+    <!--UserFragment-->
 </resources>

@@ -30,7 +30,7 @@
                 android:textColor="@color/black"
                 android:textSize="40sp" />
 
-            <ImageView style="@style/ImgClose"/>
+            <!--<ImageView style="@style/ImgClose"/>-->
         </LinearLayout>
 
          <ListView
@@ -38,6 +38,7 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              android:layout_marginTop="200dp"
+             tools:listitem="@layout/list_item"
              />
 
 
