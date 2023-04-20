@@ -19,10 +19,47 @@
         <item name="android:padding">5dp</item>
     </style>
 
+    <style name="EditTextUser">
+        <item name="android:layout_width">170dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:background">@drawable/edit_text</item>
+        <item name="android:layout_marginTop">50dp</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:inputType">text</item>
+    </style>
+
     <style name="CardUser">
-        <item name="android:layout_width">350dp</item>
+        <item name="android:layout_width">400dp</item>
         <item name="android:layout_height">350dp</item>
         <item name="android:background">@drawable/card_user</item>
+        <item name="android:layout_marginTop">20dp</item>
+    </style>
+
+    <style name="ViewAlergia">
+        <item name="android:layout_width">400dp</item>
+        <item name="android:layout_height">350dp</item>
+        <item name="android:background">@drawable/card_user</item>
+        <item name="android:layout_marginTop">20dp</item>
+    </style>
+
+    <style name="TextAlterar">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:text">@string/txtAlterar</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginTop">20dp</item>
+    </style>
+
+    <style name="ButtonAlterar">
+        <item name="android:src">@drawable/ic_alterar</item>
+        <item name="android:background">@null</item>
+        <item name="android:layout_width">30dp</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:layout_marginTop">20dp</item>
     </style>
 
     <style name="ImgClose">
@@ -65,6 +102,15 @@
         <item name="android:background">@drawable/button_pesquisar</item>
         <item name="android:layout_marginTop">50dp</item>
         <item name="android:padding">5dp</item>
+    </style>
+
+    <style name="ButtonAlergia">
+        <item name="android:layout_width">150dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:background">@drawable/button_alergia</item>
+        <item name="android:layout_marginVertical">20dp</item>
+        <item name="android:layout_marginHorizontal">20dp</item>
+        <item name="android:padding">10dp</item>
     </style>
 
     <style name="CardCamera">

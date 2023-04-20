@@ -79,7 +79,7 @@
             android:textColor="@color/branco"
             android:textSize="20sp"
             android:textStyle="italic"
-            app:layout_constraintTop_toBottomOf="@id/view_camera"
+            app:layout_constraintTop_toBottomOf="@id/view_camera"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

@@ -32,6 +32,7 @@ import com.example.usarcamera.fragments.CameraFragment;
 import com.example.usarcamera.fragments.FavoritoFragment;
 import com.example.usarcamera.fragments.HistoricoFragment;
 import com.example.usarcamera.fragments.HomeFragment;
+import com.example.usarcamera.fragments.LoadingFragment;
 import com.example.usarcamera.fragments.UserFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -70,10 +71,11 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
         iniciarComponentes();
-        replaceFragment(new HomeFragment());
+        replaceFragment(new LoadingFragment());
         binding.btnNav.setBackground(null);
         binding.btnNav.setOnItemSelectedListener(item -> {
             switch (item.getItemId()){
+                case R.id.fragLoading: replaceFragment(new LoadingFragment());break;
                 case R.id.fragHome: replaceFragment(new HomeFragment());break;
                 case R.id.fragFavorito: replaceFragment(new FavoritoFragment());break;
                 case R.id.fragHistorico: replaceFragment(new HistoricoFragment());break;

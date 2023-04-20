@@ -20,12 +20,29 @@
 
     <!--HistoricoFragment-->
     <string name="txtTituloHistorico">Histórico</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
     <!--FavoritoFragment-->
     <string name="cardDadosPessoais">Dados Pessoais</string>
+    <string name="txtTituloFavorito">Favoritos</string>
     <string name="txtExplicativoFavorito">Para remover dos favoritos, apenas toque no ícone de estrela.</string>
     <string name="txtExplicativoLista">Toque aqui para acessar a bula completa ou resumida.</string>
 
     <!--UserFragment-->
+    <string name="editNomeUser">Nome</string>
+    <string name="editSobreNomeUser">Sobrenome</string>
+    <string name="editEmailUser">Email</string>
+    <string name="editDataUser">00/00/0000</string>
+    <string name="txtAlterar">Alterar</string>
+    <string name="txtTituloAlterar">Alterar Senha</string>
+    <string name="editPasswordAtual">Digite a senha atual</string>
+    <string name="editPasswordNova">Digite a nova senha</string>
+    <string name="editPasswordConfirmar">Confirme a nova senha</string>
+    <string name="txtTituloAlergia">Alergias</string>
+    <string name="editAlergia">Digite o nome do medicamento</string>
+    <string name="btnCadastrarAlergia">Cadastrar</string>
+    <string name="btnMostrarAlergia">Mostrar</string>
+    <string name="txtExplicativoAlergia">Caso você possua alergia a algum tipo de medicamento, informe abaixo para obter resultados de pesquisas personalizados.</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

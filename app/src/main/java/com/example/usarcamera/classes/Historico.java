@@ -32,9 +32,5 @@ public class Historico {
         return idRemedio;
     }
 
-    public void setIdRemedio(int idRemedio) {
-        this.idRemedio = idRemedio;
-    }
-
 
 }

@@ -1,8 +1,7 @@
 package com.example.usarcamera.classes;
 
 public class Pessoa {
-    private String nome, sobreNome, senha, email;
-    private String data;
+    private String nome, sobreNome, senha, email, data;
 
     public Pessoa(String nome, String sobreNome, String senha, String email, String data) {
         this.nome = nome;
