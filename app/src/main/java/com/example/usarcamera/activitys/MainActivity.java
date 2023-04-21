@@ -1,48 +1,23 @@
 package com.example.usarcamera.activitys;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Log;
-import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.usarcamera.R;
 import com.example.usarcamera.databinding.ActivityMainBinding;
 import com.example.usarcamera.fragments.CameraFragment;
 import com.example.usarcamera.fragments.FavoritoFragment;
 import com.example.usarcamera.fragments.HistoricoFragment;
 import com.example.usarcamera.fragments.HomeFragment;
-import com.example.usarcamera.fragments.LoadingFragment;
 import com.example.usarcamera.fragments.UserFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.ByteArrayOutputStream;
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -71,11 +46,10 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
         iniciarComponentes();
-        replaceFragment(new LoadingFragment());
+        replaceFragment(new HomeFragment());
         binding.btnNav.setBackground(null);
         binding.btnNav.setOnItemSelectedListener(item -> {
             switch (item.getItemId()){
-                case R.id.fragLoading: replaceFragment(new LoadingFragment());break;
                 case R.id.fragHome: replaceFragment(new HomeFragment());break;
                 case R.id.fragFavorito: replaceFragment(new FavoritoFragment());break;
                 case R.id.fragHistorico: replaceFragment(new HistoricoFragment());break;

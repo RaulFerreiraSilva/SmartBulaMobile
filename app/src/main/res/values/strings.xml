@@ -43,6 +43,11 @@
     <string name="btnCadastrarAlergia">Cadastrar</string>
     <string name="btnMostrarAlergia">Mostrar</string>
     <string name="txtExplicativoAlergia">Caso você possua alergia a algum tipo de medicamento, informe abaixo para obter resultados de pesquisas personalizados.</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--LoginActivity-->
+    <string name="editEmailLogin">Digite o email</string>
+    <string name="editSenhaLogin">Digite a senha</string>
+    <string name="checkGravarDados">Lembrar meus dados</string>
+    <string name="buttonLogar">Entrar</string>
+    <string name="txtCadastro">Não tem cadastro? Faça agora! </string>
 </resources>
