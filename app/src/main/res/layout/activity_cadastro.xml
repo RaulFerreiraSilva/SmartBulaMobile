@@ -1,9 +1,210 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     tools:context=".activitys.CadastroActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        style="@style/LayoutSemPaddingBottom">
+
+        <TextView
+            android:id="@+id/txtBemVindo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/txtBemVindo"
+            android:textSize="40sp"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textStyle="italic"
+            app:layout_constraintStart_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginVertical="50dp"/>
+
+        <View
+            android:id="@+id/viewCadastro"
+            android:layout_width="match_parent"
+            android:layout_height="520dp"
+            android:background="@drawable/card_cadastro"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtBemVindo"
+            android:layout_marginTop="50dp"
+            android:layout_marginHorizontal="10dp"/>
+        
+        <LinearLayout
+            android:id="@+id/layoutTxtNome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/viewCadastro"
+            app:layout_constraintEnd_toEndOf="@id/viewCadastro"
+            app:layout_constraintTop_toTopOf="@id/viewCadastro"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginHorizontal="30dp"
+            android:orientation="horizontal">
+            
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/txtNomeCadastro"
+                android:textSize="30sp"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/txtSobrenomeCadastro"
+                android:textSize="30sp"
+                android:textColor="@color/black"
+                android:layout_marginStart="120dp"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/layoutEditNome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/viewCadastro"
+            app:layout_constraintEnd_toEndOf="@id/viewCadastro"
+            app:layout_constraintTop_toBottomOf="@id/layoutTxtNome"
+            android:layout_marginTop="5dp"
+            android:layout_marginHorizontal="20dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/editNomeCadastro"
+                android:background="@drawable/edit_text_user"
+                android:layout_width="180dp"
+                android:layout_height="50dp"
+                android:layout_marginVertical="10dp"
+                android:inputType="text"/>
+
+            <EditText
+                android:id="@+id/editSobrenomeCadastro"
+                android:background="@drawable/edit_text_user"
+                android:layout_width="230dp"
+                android:layout_height="50dp"
+                android:layout_marginVertical="10dp"
+                android:layout_marginHorizontal="25dp"
+                android:inputType="text"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutEditData"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/viewCadastro"
+            app:layout_constraintEnd_toEndOf="@id/viewCadastro"
+            app:layout_constraintTop_toBottomOf="@id/layoutEditNome"
+            android:layout_marginHorizontal="20dp"
+            android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/txtNascimentoCadastro"
+                    android:textSize="30sp"
+                    android:textColor="@color/black"
+                    android:layout_margin="10dp"/>
+
+                <EditText
+                    android:id="@+id/editDataCadastro"
+                    android:background="@drawable/edit_text_user"
+                    android:layout_width="230dp"
+                    android:layout_height="50dp"
+                    android:inputType="date"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/txtEmailCadastro"
+                    android:textSize="30sp"
+                    android:textColor="@color/black"
+                    android:layout_margin="10dp"/>
+
+                <EditText
+                    android:id="@+id/editEmailCadastro"
+                    android:background="@drawable/edit_text_user"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:inputType="textEmailAddress"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutTxtSenha"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/viewCadastro"
+            app:layout_constraintEnd_toEndOf="@id/viewCadastro"
+            app:layout_constraintTop_toBottomOf="@id/layoutEditData"
+            android:layout_marginTop="5dp"
+            android:layout_marginHorizontal="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/txtSenhaCadastro"
+                android:textSize="30sp"
+                android:textColor="@color/black"
+                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="10dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/txtComfirmarSenhaCadastro"
+                android:textSize="30sp"
+                android:textColor="@color/black"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="90dp"/>
+        </LinearLayout>
+        
+        <LinearLayout
+            android:id="@+id/layoutEditSenha"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/viewCadastro"
+            app:layout_constraintEnd_toEndOf="@id/viewCadastro"
+            app:layout_constraintTop_toBottomOf="@id/layoutTxtSenha"
+            android:layout_marginTop="5dp"
+            android:layout_marginHorizontal="20dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/editSenhaCadastro"
+                android:background="@drawable/edit_text_user"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:inputType="numberPassword"/>
+
+            <EditText
+                android:id="@+id/editConfirmarSenhaCadastro"
+                android:background="@drawable/edit_text_user"
+                android:layout_width="200dp"
+                android:layout_height="50dp" 
+                android:layout_marginStart="20dp"
+                android:inputType="numberPassword"/>
+        </LinearLayout>
+        
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="200dp"
+            android:layout_height="60dp"
+            android:background="@drawable/button_alergia"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/viewCadastro"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginVertical="30dp"
+            android:text="@string/btnCadastrar"
+            android:textSize="25sp"
+            android:textAllCaps="false"
+            android:textStyle="bold"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

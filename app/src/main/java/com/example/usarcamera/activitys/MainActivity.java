@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.frame_layout, fragment);
         transaction.commit();
+
     }
 
     //recupera o resultado obtido pela câmera e coloca no ImageView

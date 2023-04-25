@@ -71,6 +71,15 @@
             android:layout_marginTop="140dp"
             android:textStyle="italic"/>
 
+        <ImageButton
+            android:id="@+id/imgRemedio"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:background="@null"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/view_camera"/>
+
         <androidx.appcompat.widget.AppCompatButton
             style="@style/ButtonPesquisar"
             app:layout_constraintStart_toStartOf="parent"

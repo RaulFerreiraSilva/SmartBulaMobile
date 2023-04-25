@@ -50,4 +50,15 @@
     <string name="checkGravarDados">Lembrar meus dados</string>
     <string name="buttonLogar">Entrar</string>
     <string name="txtCadastro">Não tem cadastro? Faça agora! </string>
+
+    <!--CadastroActivity-->
+    <string name="txtBemVindo">Olá, seja bem vindo!
+Cadastre-se</string>
+    <string name="txtNomeCadastro">Nome</string>
+    <string name="txtSobrenomeCadastro">Sobrenome</string>
+    <string name="txtNascimentoCadastro">Data de Nascimento</string>
+    <string name="txtEmailCadastro">Email</string>
+    <string name="txtSenhaCadastro">Senha</string>
+    <string name="txtComfirmarSenhaCadastro">Confirme a Senha</string>
+    <string name="btnCadastrar">Cadastrar</string>
 </resources>
