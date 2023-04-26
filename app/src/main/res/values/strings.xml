@@ -61,4 +61,6 @@ Cadastre-se</string>
     <string name="txtSenhaCadastro">Senha</string>
     <string name="txtComfirmarSenhaCadastro">Confirme a Senha</string>
     <string name="btnCadastrar">Cadastrar</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -11,6 +11,8 @@ public class Pessoa {
         this.data = data;
     }
 
+    public Pessoa(){}
+
     public String getNome() {
         return nome;
     }

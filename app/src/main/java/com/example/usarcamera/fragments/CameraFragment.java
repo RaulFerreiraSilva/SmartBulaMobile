@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -41,6 +42,8 @@ public class CameraFragment extends Fragment {
 
     private FragmentCameraBinding binding;
     private ImageButton fotoRemedio;
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -116,6 +119,8 @@ public class CameraFragment extends Fragment {
                     JSONObject obj = response.getJSONObject("readResult");
                     String text = obj.getString("content");
                     if (!text.equals(null)){
+                        Intent intent = new Intent(getActivity().getApplicationContext(), BulaFragment.class);
+                        startActivity(intent);
                         Log.d("SUCESSO", ">>>>>>>>>>>" + text);
 
                     } else {

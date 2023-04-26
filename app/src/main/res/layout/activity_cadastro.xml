@@ -115,7 +115,12 @@
                     android:background="@drawable/edit_text_user"
                     android:layout_width="230dp"
                     android:layout_height="50dp"
-                    android:inputType="date"/>
+                    android:inputType="date"
+                    android:digits="0123456789-"
+                    android:hint="00-00-0000"
+                    android:maxLength="10"
+                    android:paddingHorizontal="20dp"
+                    />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -191,6 +196,7 @@
         </LinearLayout>
         
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnCadastrar"
             android:layout_width="200dp"
             android:layout_height="60dp"
             android:background="@drawable/button_alergia"
