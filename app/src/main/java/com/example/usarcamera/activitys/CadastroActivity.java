@@ -13,9 +13,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -36,43 +38,59 @@ public class CadastroActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cadastro);
 
         iniciarComponentes();
+        RequestQueue queue = Volley.newRequestQueue(this);
         //editNascimento.addTextChangedListener(new Mascara());
 
         btnCadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cadastrarUsuario("https://10.0.2.2/api/usuario/salvar/");
+
+                cadastrarUsuario(queue);
+
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
             }
         });
 
     }
 
-    private void cadastrarUsuario(final String endpoint){
-        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+    private void cadastrarUsuario(RequestQueue queue){
+        Log.d("QUEUEVAZIO", ">>>>>> " + queue);
+        //RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
 
         Pessoa pessoa = new Pessoa(editNome.getText().toString(), editSobrenome.getText().toString(),
                 editSenha.getText().toString(), editEmail.getText().toString(),
                 editNascimento.getText().toString());
 
-        JSONObject dados = new JSONObject();
+        JSONObject usuario = new JSONObject();
         try {
-            dados.put("", pessoa);
+            usuario.put("Nome", pessoa.getNome());
+            usuario.put("SobreNome", pessoa.getSobreNome());
+            usuario.put("DataNasc", pessoa.getDataNasc());
+            usuario.put("Email", pessoa.getEmail());
+            usuario.put("Senha", pessoa.getSenha());
+            Log.d("RESULTADO", ">>>>>>>>>>" + usuario);
         } catch (JSONException e){
             Log.d("TAG", "cadastrarUsuario " + e.getMessage());
         }
 
+        /*int timeout = 20000;
+        RetryPolicy policy = new DefaultRetryPolicy(timeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);*/
+        String endpoint = "http://10.0.2.2:5000/api/Usuario/Salvar/?usuario="+usuario;
+        Log.d("USUARIO", ">>>>>>>>>>>>>>" + usuario);
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, endpoint, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Log.d("SUCESSO", ">>>>>>>>> " + response);
+                String sucesso = response.toString();
+                Log.d("SUCESSO2", ">>>>>>>>> " + sucesso);
 
-                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(intent);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("ERRO", ">>>>>>>>>>>>>> " + error.getMessage());
+                Log.d("ERRO", ">>>>>>>>>>>>>> " + error);
             }
         });
 
