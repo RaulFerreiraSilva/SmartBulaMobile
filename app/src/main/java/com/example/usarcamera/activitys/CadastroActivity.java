@@ -46,17 +46,12 @@ public class CadastroActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 cadastrarUsuario(queue);
-
-                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(intent);
             }
         });
 
     }
 
     private void cadastrarUsuario(RequestQueue queue){
-        Log.d("QUEUEVAZIO", ">>>>>> " + queue);
-        //RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
 
         Pessoa pessoa = new Pessoa(editNome.getText().toString(), editSobrenome.getText().toString(),
                 editSenha.getText().toString(), editEmail.getText().toString(),
@@ -74,18 +69,18 @@ public class CadastroActivity extends AppCompatActivity {
             Log.d("TAG", "cadastrarUsuario " + e.getMessage());
         }
 
-        /*int timeout = 20000;
+        int timeout = 20000;
         RetryPolicy policy = new DefaultRetryPolicy(timeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);*/
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+
         String endpoint = "http://10.0.2.2:5000/api/Usuario/Salvar/?usuario="+usuario;
         Log.d("USUARIO", ">>>>>>>>>>>>>>" + usuario);
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, endpoint, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.d("SUCESSO", ">>>>>>>>> " + response);
-                String sucesso = response.toString();
-                Log.d("SUCESSO2", ">>>>>>>>> " + sucesso);
 
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
             }
         }, new Response.ErrorListener() {
             @Override

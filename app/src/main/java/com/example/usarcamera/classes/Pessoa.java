@@ -1,17 +1,18 @@
 package com.example.usarcamera.classes;
 
 public class Pessoa {
-    private String nome, sobreNome, senha, email, dataNasc;
+    private String nome, sobreNome, dataNasc, email, senha;
 
-    public Pessoa(String nome, String sobreNome, String senha, String email, String dataNasc) {
+    public Pessoa(String nome, String sobreNome, String dataNasc, String email, String senha) {
         this.nome = nome;
         this.sobreNome = sobreNome;
-        this.senha = senha;
-        this.email = email;
         this.dataNasc = dataNasc;
+        this.email = email;
+        this.senha = senha;
     }
 
     public Pessoa(){}
+
 
     public String getNome() {
         return nome;
@@ -29,12 +30,12 @@ public class Pessoa {
         this.sobreNome = sobreNome;
     }
 
-    public String getSenha() {
-        return senha;
+    public String getDataNasc() {
+        return dataNasc;
     }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
+    public void setDataNasc(String dataNasc) {
+        this.dataNasc = dataNasc;
     }
 
     public String getEmail() {
@@ -45,11 +46,11 @@ public class Pessoa {
         this.email = email;
     }
 
-    public String getDataNasc() {
-        return dataNasc;
+    public String getSenha() {
+        return senha;
     }
 
-    public void setDataNasc(String dataNasc) {
-        this.dataNasc = dataNasc;
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 }

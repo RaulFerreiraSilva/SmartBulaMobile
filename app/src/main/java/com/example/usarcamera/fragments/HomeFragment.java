@@ -1,6 +1,8 @@
 package com.example.usarcamera.fragments;
 
 import android.app.ActionBar;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -37,10 +39,8 @@ import javax.net.ssl.TrustManagerFactory;
 
 public class HomeFragment extends Fragment {
 
-    private String endpoint = "https://10.0.2.2:5001/api/usuario/salvar/";
-    private TextView nome, sbNome, data, senha, email, sucess;
+    private TextView nomePessoa;
 
-    private Button enviar;
     private FragmentHomeBinding binding;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,72 +48,14 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(getLayoutInflater());
         View root = binding.getRoot();
 
-
-
-
-        /*nome = root.findViewById(R.id.txtNome);
-        sbNome = root.findViewById(R.id.txtSbNome);
-        data = root.findViewById(R.id.txtData);
-        senha = root.findViewById(R.id.txtSenha);
-        email = root.findViewById(R.id.txtEmail);
-        sucess = root.findViewById(R.id.txtSucess);
-        enviar = root.findViewById(R.id.btnEnviar);
-
-        enviar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                RequestQueue queue = Volley.newRequestQueue(root.getContext());
-
-                nome.setText("Guilherme");
-                sbNome.setText("Scarlati");
-                senha.setText("123456789a");
-                email.setText("123@gmail.com");
-                data.setText("2001-01-04");
-
-
-
-                Pessoa pessoa = new Pessoa(nome.getText().toString(), sbNome.getText().toString(),
-                        senha.getText().toString(), email.getText().toString(), data.getText().toString());
-                JSONObject dados = new JSONObject();
-                try {
-                    dados.put("", pessoa);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, endpoint, null,
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                try {
-                                    nome.setText("");
-                                    sbNome.setText("");
-                                    data.setText("");
-                                    senha.setText("");
-                                    email.setText("");
-
-                                    sucess.setText("SUCESSO!");
-                                } catch (Exception e){
-                                    Log.d("API2", ">>>>>>>>>>>>" + e.getMessage());
-                                }
-
-
-                            }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("API", ">>>>>>>>>" + error.getMessage());
-                    }
-                });
-
-                queue.add(request);
-            }
-        });*/
-
-
-
+        mudarBemVindo();
         return root;
     }
 
+    private void mudarBemVindo() {
+        SharedPreferences ler = getActivity().getSharedPreferences("usuario", Context.MODE_PRIVATE);
 
+        String nome = ler.getString("nome", "");
+        binding.bemVindo.setText("Olá " + nome);
+    }
 }
