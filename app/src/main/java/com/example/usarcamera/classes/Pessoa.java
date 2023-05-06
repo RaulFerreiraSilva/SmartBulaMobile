@@ -11,7 +11,7 @@ public class Pessoa {
         this.senha = senha;
     }
 
-    public Pessoa(){}
+    //public Pessoa(){}
 
 
     public String getNome() {

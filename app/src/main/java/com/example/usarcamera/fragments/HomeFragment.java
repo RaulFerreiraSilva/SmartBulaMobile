@@ -48,14 +48,18 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(getLayoutInflater());
         View root = binding.getRoot();
 
-        mudarBemVindo();
+        SharedPreferences ler = getActivity().getApplicationContext().getSharedPreferences("usuario", Context.MODE_PRIVATE);
+
+        String nome = ler.getString("nome", "");
+        nomePessoa = root.findViewById(R.id.bem_vindo);
+        nomePessoa.setText("Olá " + nome);
+
+        Log.d("RETORNO", ">>>>>>>>>>>" + nome);
+
         return root;
     }
 
     private void mudarBemVindo() {
-        SharedPreferences ler = getActivity().getSharedPreferences("usuario", Context.MODE_PRIVATE);
 
-        String nome = ler.getString("nome", "");
-        binding.bemVindo.setText("Olá " + nome);
     }
 }

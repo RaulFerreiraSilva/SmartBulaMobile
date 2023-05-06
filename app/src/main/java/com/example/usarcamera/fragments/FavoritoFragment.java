@@ -9,15 +9,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.usarcamera.R;
+import com.example.usarcamera.databinding.FragmentFavoritoBinding;
 
 
 public class FavoritoFragment extends Fragment {
 
+    private FragmentFavoritoBinding binding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favorito, container, false);
+        binding = FragmentFavoritoBinding.inflate(getLayoutInflater());
+
+        View root = binding.getRoot();
+
+        return root;
     }
 }

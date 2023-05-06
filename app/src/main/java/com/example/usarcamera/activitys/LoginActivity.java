@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -87,22 +88,34 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                      Pessoa pessoa = new Pessoa(response.getString("nome"),
-                              response.getString("sobreNome"), response.getString("dataNasc"),
-                              response.getString("email"), response.getString("senha"));
 
-                      SharedPreferences.Editor gravar = getSharedPreferences("usuario", MODE_PRIVATE).edit();
-                      gravar.putString("nome", pessoa.getNome());
-                      gravar.putString("SobreNome", pessoa.getSobreNome());
-                      gravar.putString("dataNasc", pessoa.getDataNasc());
-                      gravar.putString("email", pessoa.getEmail());
-                      gravar.putString("senha", pessoa.getSenha());
+                    String nome = response.getString("nome");
 
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(intent);
+
+                      SharedPreferences salvar = getSharedPreferences("usuario", Context.MODE_PRIVATE);
+
+                      SharedPreferences.Editor gravar = salvar.edit();
+                      gravar.putString("nome", nome);
+                      gravar.putString("SobreNome", response.getString("sobreNome"));
+                      gravar.putString("dataNasc", response.getString("dataNasc"));
+                      gravar.putString("email", response.getString("email"));
+                      gravar.putString("senha", response.getString("senha"));
+                      gravar.commit();
+
+                    Log.d("NOME", ">>>>>>>>" + nome);
+
                 } catch (JSONException e){
                     e.printStackTrace();
                 }
+
+                Handler tempo = new Handler();
+                tempo.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
+                    }
+                }, 3000);
 
             }
         }, new Response.ErrorListener() {

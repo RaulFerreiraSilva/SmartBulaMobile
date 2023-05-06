@@ -10,7 +10,7 @@ public class Historico {
         this.idRemedio = idRemedio;
     }
 
-    public Historico() { }
+    //public Historico() { }
 
     public String getNomeRemedio() {
         return nomeRemedio;
