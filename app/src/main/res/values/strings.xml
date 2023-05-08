@@ -1,3 +1,66 @@
 <resources>
     <string name="app_name">UsarCamera</string>
+    <string name="fragHome">Início</string>
+    <string name="fragFavorito">Favoritos</string>
+    <string name="fragHistorico">Histórico</string>
+    <string name="fragUser">Usuário</string>
+    <string name="fragCamera">Camêra</string>
+
+    <!--FragmentHome-->
+    <string name="bem_vindo">Olá Pessoa</string>
+    <string name="txtExplicativo">Obtenha resultados personalizados de acordo com suas alergias</string>
+    <string name="txtNote">Anotações Rápidas</string>
+    <string name="txtTutorial">Rever Tutorial</string>
+
+    <!--FragmentCamera-->
+    <string name="txtCamera">Basta inserir um nome ou uma imagem do medicamento desejado.</string>
+    <string name="editSearch">Digite o nome do medicamento</string>
+    <string name="txtCam">Toque aqui para tirar uma foto.</string>
+    <string name="btnSearch">Pesquisar</string>
+
+    <!--HistoricoFragment-->
+    <string name="txtTituloHistorico">Histórico</string>
+
+
+    <!--FavoritoFragment-->
+    <string name="cardDadosPessoais">Dados Pessoais</string>
+    <string name="txtTituloFavorito">Favoritos</string>
+    <string name="txtExplicativoFavorito">Para remover dos favoritos, apenas toque no ícone de estrela.</string>
+    <string name="txtExplicativoLista">Toque aqui para acessar a bula completa ou resumida.</string>
+
+    <!--UserFragment-->
+    <string name="editNomeUser">Nome</string>
+    <string name="editSobreNomeUser">Sobrenome</string>
+    <string name="editEmailUser">Email</string>
+    <string name="editDataUser">00/00/0000</string>
+    <string name="txtAlterar">Alterar</string>
+    <string name="txtTituloAlterar">Alterar Senha</string>
+    <string name="editPasswordAtual">Digite a senha atual</string>
+    <string name="editPasswordNova">Digite a nova senha</string>
+    <string name="editPasswordConfirmar">Confirme a nova senha</string>
+    <string name="txtTituloAlergia">Alergias</string>
+    <string name="editAlergia">Digite o nome do medicamento</string>
+    <string name="btnCadastrarAlergia">Cadastrar</string>
+    <string name="btnMostrarAlergia">Mostrar</string>
+    <string name="txtExplicativoAlergia">Caso você possua alergia a algum tipo de medicamento, informe abaixo para obter resultados de pesquisas personalizados.</string>
+
+    <!--LoginActivity-->
+    <string name="editEmailLogin">Digite o email</string>
+    <string name="editSenhaLogin">Digite a senha</string>
+    <string name="checkGravarDados">Lembrar meus dados</string>
+    <string name="buttonLogar">Entrar</string>
+    <string name="txtCadastro">Não tem cadastro? Faça agora! </string>
+
+    <!--CadastroActivity-->
+    <string name="txtBemVindo">Olá, seja bem vindo!
+Cadastre-se</string>
+    <string name="txtNomeCadastro">Nome</string>
+    <string name="txtSobrenomeCadastro">Sobrenome</string>
+    <string name="txtNascimentoCadastro">Data de Nascimento</string>
+    <string name="txtEmailCadastro">Email</string>
+    <string name="txtSenhaCadastro">Senha</string>
+    <string name="txtComfirmarSenhaCadastro">Confirme a Senha</string>
+    <string name="btnCadastrar">Cadastrar</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

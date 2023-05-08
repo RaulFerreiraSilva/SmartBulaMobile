@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragLoading"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fillViewport="true"
+    tools:context=".fragments.HomeFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        style="@style/LayoutBackground">
+        
+        <LinearLayout
+            android:id="@+id/layout_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:orientation="horizontal">
+
+            <ImageView
+                style="@style/ImgCapsula"/>
+
+            <View
+                style="@style/CardBemVindo">
+            </View>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/bem_vindo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bem_vindo"
+            android:textSize="30sp"
+            android:layout_marginLeft="100dp"
+            android:textStyle="italic"
+            app:layout_constraintBottom_toBottomOf="@+id/layout_header"
+            app:layout_constraintEnd_toEndOf="@id/layout_header"
+            app:layout_constraintStart_toStartOf="@+id/layout_header"
+            app:layout_constraintTop_toTopOf="@+id/layout_header" />
+
+        <LinearLayout
+            android:id="@+id/layout_medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_header"
+            android:orientation="horizontal">
+
+            <View
+                style="@style/CardAlergia"
+                android:layout_marginRight="10dp"/>
+        </LinearLayout>
+        
+        <ImageView
+            android:id="@+id/ic_alergia"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_alergia"
+            app:layout_constraintStart_toStartOf="@id/layout_medium"
+            app:layout_constraintTop_toTopOf="@id/layout_medium"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"/>
+
+        <TextView
+            android:id="@+id/txtExplicativo"
+            android:layout_width="130sp"
+            android:layout_height="130sp"
+            android:text="@string/txtExplicativo"
+            android:textAlignment="center"
+            android:textSize="17sp"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="@id/ic_alergia"
+            app:layout_constraintTop_toBottomOf="@id/ic_alergia"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"/>
+
+
+        <LinearLayout
+            android:id="@+id/layout_note"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/layout_medium"
+            app:layout_constraintTop_toBottomOf="@id/layout_header"
+            android:orientation="vertical">
+
+            <View
+                style="@style/CardNote"
+                />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/ic_note"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_note"
+            app:layout_constraintStart_toStartOf="@id/layout_note"
+            app:layout_constraintTop_toTopOf="@id/layout_note"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="20dp"/>
+
+        <TextView
+            android:id="@+id/txtNote"
+            android:layout_width="140sp"
+            android:layout_height="180sp"
+            android:hint="@string/txtNote"
+            android:textSize="26sp"
+            android:textAlignment="center"
+            android:paddingTop="40dp"
+            app:layout_constraintStart_toStartOf="@id/ic_note"
+            app:layout_constraintTop_toBottomOf="@id/ic_note"
+            android:layout_marginLeft="30dp"/>
+
+        <View
+            android:id="@+id/view_tutorial"
+            style="@style/CardAlergia"
+            app:layout_constraintStart_toStartOf="@id/layout_note"
+            app:layout_constraintTop_toBottomOf="@id/layout_note"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="35dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"/>
+
+        <ImageButton
+            android:layout_width="160dp"
+            android:layout_height="260dp"
+            android:src="@drawable/img_home"
+            android:backgroundTint="@color/branco"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="10dp"
+            app:layout_constraintStart_toStartOf="@id/view_tutorial"
+            app:layout_constraintTop_toTopOf="@id/view_tutorial" />
+
+        <ImageView
+            android:id="@+id/ic_tutorial"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_tutorial"
+            app:layout_constraintStart_toStartOf="@id/view_tutorial"
+            app:layout_constraintTop_toTopOf="@id/view_tutorial"
+            android:layout_marginTop="25dp"/>
+        
+        <TextView
+            android:id="@+id/txtTutorial"
+            android:layout_width="150sp"
+            android:layout_height="wrap_content"
+            android:text="@string/txtTutorial"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/view_tutorial"
+            app:layout_constraintBottom_toBottomOf="@id/view_tutorial"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="15dp"/>
+
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="250dp"
+            android:src="@drawable/img_home"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="20dp"/>
+
+
+       <!--<LinearLayout
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtNome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NOME"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_margin="10dp"/>
+
+            <TextView
+                android:id="@+id/txtData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="DATA"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_margin="10dp"/>
+
+            <TextView
+                android:id="@+id/txtSbNome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SOBRENOME"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"/>
+
+            <TextView
+                android:id="@+id/txtSenha"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SENHA"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"/>
+
+            <TextView
+                android:id="@+id/txtEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="EMAIL"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_margin="10dp"/>
+
+            <TextView
+                android:id="@+id/txtSucess"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ERRO"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_margin="10dp"/>
+
+            <Button
+                android:id="@+id/btnEnviar"
+                android:layout_width="100dp"
+                android:layout_height="70dp"
+                android:layout_margin="10dp"
+                android:layout_gravity="center"
+                android:text="enviar"/>
+        </LinearLayout>-->
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
