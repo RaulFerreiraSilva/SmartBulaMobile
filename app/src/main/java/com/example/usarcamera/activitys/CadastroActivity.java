@@ -54,8 +54,8 @@ public class CadastroActivity extends AppCompatActivity {
     private void cadastrarUsuario(RequestQueue queue){
 
         Pessoa pessoa = new Pessoa(editNome.getText().toString(), editSobrenome.getText().toString(),
-                editSenha.getText().toString(), editEmail.getText().toString(),
-                editNascimento.getText().toString());
+                editNascimento.getText().toString(), editEmail.getText().toString(),
+                editSenha.getText().toString());
 
         JSONObject usuario = new JSONObject();
         try {
