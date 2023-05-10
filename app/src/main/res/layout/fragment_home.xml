@@ -21,6 +21,7 @@
             android:orientation="horizontal">
 
             <ImageView
+                android:id="@+id/img_sair"
                 style="@style/ImgCapsula"/>
 
             <View

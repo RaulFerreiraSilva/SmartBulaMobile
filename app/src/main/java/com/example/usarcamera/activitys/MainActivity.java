@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
         replaceFragment(new HomeFragment());
-        binding.btnNav.setBackground(null);
+        binding.btnNav.setBackground(getDrawable(R.drawable.background_nav_bar));
         binding.btnNav.setOnItemSelectedListener(item -> {
             switch (item.getItemId()){
                 case R.id.fragHome: replaceFragment(new HomeFragment());break;

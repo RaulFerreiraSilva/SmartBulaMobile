@@ -22,6 +22,7 @@ import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.usarcamera.R;
 import com.example.usarcamera.databinding.FragmentUserBinding;
@@ -57,29 +58,10 @@ public class UserFragment extends Fragment {
 
         //iniciarComponentes(root);
 
-
-
         SharedPreferences ler = getActivity().getApplicationContext().getSharedPreferences(
                 "usuario", Context.MODE_PRIVATE);
 
-        String Nome = ler.getString("nome", "");
-        String sbNome = ler.getString("SobreNome", "");
-        String emailShared = ler.getString("email", "");
-        String data = ler.getString("dataNasc", "");
-
-
-
-
-        nome.setText(Nome);
-        sobreNome.setText(sbNome);
-        email.setText(emailShared);
-        dataNascimento.setText(data);
-        senhaAtual.setText(ler.getString("senha", ""));
-
-        nome.setFocusable(false);
-        sobreNome.setFocusable(false);
-        email.setFocusable(false);
-        dataNascimento.setFocusable(false);
+        passarDados(ler);
 
         RequestQueue queue = Volley.newRequestQueue(getActivity().getApplicationContext());
 
@@ -91,6 +73,18 @@ public class UserFragment extends Fragment {
         });
 
         return root;
+    }
+
+    private void passarDados(SharedPreferences ler) {
+        nome.setText(ler.getString("nome", ""));
+        sobreNome.setText(ler.getString("SobreNome", ""));
+        email.setText(ler.getString("email", ""));
+        dataNascimento.setText(ler.getString("dataNasc", ""));
+
+        nome.setFocusable(false);
+        sobreNome.setFocusable(false);
+        email.setFocusable(false);
+        dataNascimento.setFocusable(false);
     }
 
     private void verficarSenha(RequestQueue queue, SharedPreferences ler) {
@@ -121,43 +115,35 @@ public class UserFragment extends Fragment {
         SharedPreferences ler = getActivity().getApplicationContext().getSharedPreferences(
                 "usuario", Context.MODE_PRIVATE);
 
-        JSONObject dados = new JSONObject();
-        try {
-            dados.put("nome", ler.getString("nome", ""));
-            dados.put("sobreNome", ler.getString("SobreNome", ""));
-            dados.put("dataNasc", "2001-01-04");
-            dados.put("email", ler.getString("email", ""));
-            dados.put("senha", senhaNova.getText().toString());
-        } catch (JSONException e){
-            e.printStackTrace();
-        }
 
-        String endpoint = "http://10.0.2.2:5000/api/Usuario/Editar/?usuario="+dados;
+        //http://localhost:29346/api/Usuario/Editar/?email=banana@gmail.com&senha=123456789
+        String endpoint = "http://10.0.2.2:5000/api/Usuario/Editar/?email="+ler.getString("email", "")
+                +"&senha="+ler.getString("senha", "")+"&senhaNova="+senhaNova.getText().toString();
 
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, endpoint, null, new Response.Listener<JSONObject>() {
+        Log.d("endpoint", ">>>>>>>>>" + endpoint);
+        StringRequest request = new StringRequest(Request.Method.PUT, endpoint, new Response.Listener<String>() {
             @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    SharedPreferences salvar = getActivity().getApplicationContext()
-                            .getSharedPreferences("usuario", Context.MODE_PRIVATE);
+            public void onResponse(String response) {
+                SharedPreferences salvar = getActivity().getApplicationContext().
+                        getSharedPreferences("usuario", Context.MODE_PRIVATE);
 
-                    SharedPreferences.Editor gravar = salvar.edit();
-                    gravar.putString("senha", response.getString("senha"));
+                SharedPreferences.Editor gravar = salvar.edit();
+                gravar.putString("senha", senhaNova.getText().toString());
+                gravar.commit();
 
-                    Log.d("SUCESSO", ">>>>>>>>>" + response);
-                } catch (JSONException x){
-                    Log.d("catch", ">>>>>>>>>>" + x);
-                    x.printStackTrace();
-                }
+                senhaAtual.setText("");
+                senhaNova.setText("");
+                confirmarSenha.setText("");
 
+                Toast.makeText(getActivity().getApplicationContext(), "Senha alterada com sucesso!", Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                    error.printStackTrace();
-                Log.d("volleyError", ">>>>>>>>>>>>>" + error);
+                error.printStackTrace();
             }
         });
+
         queue.add(request);
 
 
