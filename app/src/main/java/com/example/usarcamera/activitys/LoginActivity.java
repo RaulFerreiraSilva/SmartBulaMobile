@@ -91,7 +91,6 @@ public class LoginActivity extends AppCompatActivity {
                       SharedPreferences salvar = getSharedPreferences("usuario", Context.MODE_PRIVATE);
 
                       SharedPreferences.Editor gravar = salvar.edit();
-                      gravar.putString("id", response.getString("id"));
                       gravar.putString("nome", response.getString("nome"));
                       gravar.putString("SobreNome", response.getString("sobreNome"));
                       gravar.putString("dataNasc", response.getString("dataNasc"));
