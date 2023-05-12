@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
         replaceFragment(new HomeFragment());
-        binding.btnNav.setBackground(getDrawable(R.drawable.background_nav_bar));
+        binding.btnNav.setBackground(null);
         binding.btnNav.setOnItemSelectedListener(item -> {
             switch (item.getItemId()){
                 case R.id.fragHome: replaceFragment(new HomeFragment());break;
@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.fragHistorico: replaceFragment(new HistoricoFragment());break;
                 case R.id.fragCamera: replaceFragment(new CameraFragment());break;
                 case R.id.fragUser: replaceFragment(new UserFragment());break;
+
             }
             return true;
         });

@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
+import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
@@ -92,14 +93,15 @@ public class HomeFragment extends Fragment {
 
                 builder.setView(layout);
 
-                tituloAlertDialog.setText("R.string.txtTituloDialog");
-                mensagemAlertDialog.setText("R.string.txtMensagemDialog");
-                btnConfirmarSaida.setText("R.string.btnConfirmarSaida");
-                btnCancelarSaida.setText("R.string.btnCancelarSaida");
+                tituloAlertDialog.setText(R.string.txtTituloDialog);
+                mensagemAlertDialog.setText(R.string.txtMensagemDialog);
+                btnConfirmarSaida.setText(R.string.btnConfirmarSaida);
+                btnCancelarSaida.setText(R.string.btnCancelarSaida);
 
                 final AlertDialog dialog = builder.create();
 
                 dialog.show();
+
                 btnConfirmarSaida.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -115,17 +117,25 @@ public class HomeFragment extends Fragment {
                         Intent intent = new Intent(getActivity().getApplicationContext(), LoginActivity.class);
                         startActivity(intent);
 
-                        if (dialog.getWindow() != null)dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
-
                     }
                 });
 
                 btnCancelarSaida.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        dialog.dismiss();
+                        dialog.cancel();
+                        ViewGroup parent = (ViewGroup) layout.getParent();
+                        if (parent != null) {
+                            parent.removeView(layout);
+                        }
                     }
                 });
+                if (dialog.getWindow() != null){dialog.getWindow().setBackgroundDrawable(
+                        new ColorDrawable(0));}
+
+
+
+
             }
         });
         mudarBemVindo();

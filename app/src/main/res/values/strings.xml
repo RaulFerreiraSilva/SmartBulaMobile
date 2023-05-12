@@ -5,6 +5,7 @@
     <string name="fragHistorico">Histórico</string>
     <string name="fragUser">Usuário</string>
     <string name="fragCamera">Camêra</string>
+    <string name="fragBula">Bula</string>
 
     <!--FragmentHome-->
     <string name="bem_vindo">Olá Pessoa</string>
@@ -13,7 +14,7 @@
     <string name="txtTutorial">Rever Tutorial</string>
     <string name="txtTituloDialog">Realmente deseja sair?</string>
     <string name="txtMensagemDialog">Você está prestes a sair do usuário, caso queira entrar
-        novamente, será necessário realizar o login! Deseja continuar?</string>
+novamente, será necessário realizar o login! Deseja continuar?</string>
     <string name="btnConfirmarSaida">Sim</string>
     <string name="btnCancelarSaida">Não</string>
 

@@ -11,7 +11,8 @@
         android:id="@+id/layoutDialog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/layoutDialogContainer"
+        android:layout_margin="10dp"
+        app:layout_constraintTop_toTopOf="parent"
         android:background="@drawable/dialog_body_background">
         
         <TextView
@@ -21,8 +22,10 @@
             android:padding="10dp"
             android:background="@drawable/dialog_background"
             android:textColor="@color/black"
-            android:textSize="17sp"
-            android:textStyle="bold"
+            android:textAlignment="center"
+            android:text="@string/txtTituloDialog"
+            android:textSize="18sp"
+            android:textStyle="bold|italic"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
@@ -34,7 +37,10 @@
             android:layout_marginTop="18dp"
             android:layout_marginBottom="40dp"
             android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textAlignment="center"
+            android:text="@string/txtMensagemDialog"
+            android:textSize="18sp"
+            android:textStyle="italic"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tituloDialog"/>
 
@@ -47,13 +53,16 @@
         android:layout_height="40dp"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/btn_dialog"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btnCancelar"
         app:layout_constraintBottom_toBottomOf="@id/layoutDialog"
         app:layout_constraintTop_toBottomOf="@id/layoutDialog"
-        android:textSize="14sp"
-        android:textColor="@color/branco"/>
+        android:text="@string/btnConfirmarSaida"
+        android:textSize="15sp"
+        android:textStyle="bold|italic"
+        android:textColor="@color/black"/>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnCancelar"
@@ -61,12 +70,15 @@
         android:layout_height="40dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="40dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/btn_dialog"
         app:layout_constraintBottom_toBottomOf="@id/layoutDialog"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/btnConfirmar"
         app:layout_constraintTop_toBottomOf="@id/layoutDialog"
-        android:textSize="14sp"
-        android:textColor="@color/branco"/>
+        android:text="@string/btnCancelarSaida"
+        android:textSize="15sp"
+        android:textStyle="bold|italic"
+        android:textColor="@color/black"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
