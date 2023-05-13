@@ -24,7 +24,7 @@ public class LoadingActivity extends AppCompatActivity {
 
         Handler handler = new Handler();
 
-        Glide.with(this).load(R.drawable.gif_loading).into(loading);
+        Glide.with(this).load(R.drawable.loading).into(loading);
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {

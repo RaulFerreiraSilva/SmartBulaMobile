@@ -1,14 +1,11 @@
 package com.example.usarcamera.activitys;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.example.usarcamera.R;
 import com.example.usarcamera.databinding.ActivityMainBinding;
@@ -17,7 +14,6 @@ import com.example.usarcamera.fragments.FavoritoFragment;
 import com.example.usarcamera.fragments.HistoricoFragment;
 import com.example.usarcamera.fragments.HomeFragment;
 import com.example.usarcamera.fragments.UserFragment;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
 public class MainActivity extends AppCompatActivity {

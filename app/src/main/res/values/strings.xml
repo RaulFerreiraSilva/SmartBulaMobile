@@ -5,7 +5,6 @@
     <string name="fragHistorico">Histórico</string>
     <string name="fragUser">Usuário</string>
     <string name="fragCamera">Camêra</string>
-    <string name="fragBula">Bula</string>
 
     <!--FragmentHome-->
     <string name="bem_vindo">Olá Pessoa</string>

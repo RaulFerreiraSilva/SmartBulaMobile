@@ -81,6 +81,7 @@
             app:layout_constraintTop_toTopOf="@id/view_camera"/>
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnPesquisar"
             style="@style/ButtonPesquisar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

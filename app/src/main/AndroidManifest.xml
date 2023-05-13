@@ -14,6 +14,9 @@
         android:theme="@style/Theme.UsarCamera"
         tools:targetApi="31">
         <activity
+            android:name=".activitys.BulaActivity"
+            android:exported="true" />
+        <activity
             android:name=".activitys.CadastroActivity"
             android:exported="true" />
         <activity
@@ -24,13 +27,13 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER"/>
 
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".activitys.MainActivity"
-            android:exported="true"/>
+            android:exported="true" />
     </application>
 
 </manifest>

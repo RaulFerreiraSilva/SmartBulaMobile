@@ -1,12 +1,15 @@
 package com.example.usarcamera.fragments;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
@@ -28,6 +31,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.usarcamera.R;
+import com.example.usarcamera.activitys.BulaActivity;
 import com.example.usarcamera.databinding.FragmentCameraBinding;
 
 import org.json.JSONException;
@@ -43,6 +47,8 @@ public class CameraFragment extends Fragment {
     private FragmentCameraBinding binding;
     private ImageButton fotoRemedio;
 
+    private AppCompatButton pesquisar;
+
 
 
     @Override
@@ -51,7 +57,9 @@ public class CameraFragment extends Fragment {
         binding = FragmentCameraBinding.inflate(getLayoutInflater());
         View root = binding.getRoot();
 
+        RequestQueue queue= Volley.newRequestQueue(getActivity().getApplicationContext());
         fotoRemedio = root.findViewById(R.id.imgRemedio);
+        pesquisar = root.findViewById(R.id.btnPesquisar);
 
         fotoRemedio.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,7 +69,52 @@ public class CameraFragment extends Fragment {
             }
         });
 
+        pesquisar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                retornarBula(queue);
+            }
+        });
+
         return root;
+    }
+
+    private void retornarBula(RequestQueue queue) {
+        SharedPreferences ler = getActivity().getApplicationContext()
+                .getSharedPreferences("usuario", Context.MODE_PRIVATE);
+        JSONObject bula = new JSONObject();
+        try {
+            bula.put("response", ler.getString("textoImg", ""));
+        } catch (JSONException e){
+            e.printStackTrace();
+        }
+        String endpoint = "http://10.0.2.2:5000/api/Remedio";
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, endpoint, bula, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    SharedPreferences salvar = getActivity().getApplicationContext()
+                            .getSharedPreferences("usuario", Context.MODE_PRIVATE);
+
+                    SharedPreferences.Editor gravar = salvar.edit();
+                    gravar.putString("bula", response.getString("bula"));
+                    gravar.commit();
+
+                    Intent intent = new Intent(getActivity().getApplicationContext(), BulaActivity.class);
+                    startActivity(intent);
+                }catch (JSONException ex){
+                    ex.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+        queue.add(request);
     }
 
     ActivityResultLauncher<Intent> resultFoto = registerForActivityResult(
@@ -111,21 +164,17 @@ public class CameraFragment extends Fragment {
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, endpoint, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.d("APP_CUSTOM_VISION", ">>>>>>>>>>>> " + response.toString());
-
-                //o retorno por enquanto está sendo trazido ao front por um setText, porém depois
-                //o retorno irá vir por meio da bula do remédio
                 try {
-                    JSONObject obj = response.getJSONObject("readResult");
-                    String text = obj.getString("content");
-                    if (!text.equals(null)){
-                        Intent intent = new Intent(getActivity().getApplicationContext(), BulaFragment.class);
-                        startActivity(intent);
-                        Log.d("SUCESSO", ">>>>>>>>>>>" + text);
 
-                    } else {
-                        Toast.makeText(getActivity(), "Erro", Toast.LENGTH_SHORT).show();;
-                    }
+                    SharedPreferences salvar = getActivity().getApplicationContext().
+                            getSharedPreferences("usuario", Context.MODE_PRIVATE);
+
+                    SharedPreferences.Editor gravar = salvar.edit();
+                    gravar.putString("textoImg", response.getString("readResult"));
+                    gravar.commit();
+
+                    Log.d("TEXTO", ">>>>>>>>>>" + response.getString("content"));
+
                 } catch (JSONException e) {
                     Log.d("ERRO", "onResponse: " + e.getMessage());
                 }
