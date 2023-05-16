@@ -54,6 +54,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 logarUsuario(queue);
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -75,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void logarUsuario(RequestQueue queue){
+   private void logarUsuario(RequestQueue queue){
 
         int timeout = 20000;
         RetryPolicy policy = new DefaultRetryPolicy(timeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,

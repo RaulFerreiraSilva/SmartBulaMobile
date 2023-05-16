@@ -3,6 +3,7 @@ package com.example.usarcamera.fragments;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
@@ -80,7 +81,7 @@ public class HomeFragment extends Fragment {
 
         SharedPreferences ler = getActivity().getApplicationContext().getSharedPreferences("usuario", Context.MODE_PRIVATE);
 
-        nomePessoa.setText(ler.getString("nome", ""));
+        nomePessoa.setText("Olá " + ler.getString("nome", ""));
 
         Log.d("RETORNO", ">>>>>>>>>>>" + nomePessoa.getText().toString());
 
@@ -101,6 +102,14 @@ public class HomeFragment extends Fragment {
                 final AlertDialog dialog = builder.create();
 
                 dialog.show();
+                dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                        ViewGroup parent = (ViewGroup) layout.getParent();
+                        if (parent != null)parent.removeView(layout);
+                    }
+                });
+
 
                 btnConfirmarSaida.setOnClickListener(new View.OnClickListener() {
                     @Override

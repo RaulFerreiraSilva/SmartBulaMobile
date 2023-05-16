@@ -12,6 +12,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -82,15 +83,15 @@ public class CameraFragment extends Fragment {
     private void retornarBula(RequestQueue queue) {
         SharedPreferences ler = getActivity().getApplicationContext()
                 .getSharedPreferences("usuario", Context.MODE_PRIVATE);
-        JSONObject bula = new JSONObject();
+        JSONObject response = new JSONObject();
         try {
-            bula.put("response", ler.getString("textoImg", ""));
+            response.put("", "dipirona");
         } catch (JSONException e){
             e.printStackTrace();
         }
-        String endpoint = "http://10.0.2.2:5000/api/Remedio";
+        String endpoint = "http://10.0.2.2:5000/api/Remedio/?response="+ response;
 
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, endpoint, bula, new Response.Listener<JSONObject>() {
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, endpoint, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
@@ -101,8 +102,15 @@ public class CameraFragment extends Fragment {
                     gravar.putString("bula", response.getString("bula"));
                     gravar.commit();
 
-                    Intent intent = new Intent(getActivity().getApplicationContext(), BulaActivity.class);
-                    startActivity(intent);
+                    Handler espera = new Handler();
+                    espera.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            Intent intent = new Intent(getActivity().getApplicationContext(), BulaActivity.class);
+                            startActivity(intent);
+                        }
+                    }, 3000);
                 }catch (JSONException ex){
                     ex.printStackTrace();
                 }
@@ -112,8 +120,11 @@ public class CameraFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
+                Log.d("ERRO", ">>>>>>>>>>>>>>" + error);
             }
-        });
+        }
+
+        );
         queue.add(request);
     }
 
