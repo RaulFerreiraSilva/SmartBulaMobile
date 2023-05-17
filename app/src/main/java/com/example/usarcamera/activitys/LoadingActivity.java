@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -13,7 +12,7 @@ import com.example.usarcamera.R;
 
 public class LoadingActivity extends AppCompatActivity {
 
-    private ImageView loading;
+    private ImageView img;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +23,8 @@ public class LoadingActivity extends AppCompatActivity {
 
         Handler handler = new Handler();
 
-        Glide.with(this).load(R.drawable.loading).into(loading);
+
+        Glide.with(this).load(R.drawable.loading).into(img);
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -35,7 +35,7 @@ public class LoadingActivity extends AppCompatActivity {
     }
 
     private void iniciarComponentes(){
-        loading = findViewById(R.id.img_loading);
+        img = findViewById(R.id.img_loading);
     }
 
     private void direcionarLogin(){

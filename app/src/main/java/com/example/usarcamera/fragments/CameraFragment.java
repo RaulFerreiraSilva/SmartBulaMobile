@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -19,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -67,6 +70,7 @@ public class CameraFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 resultFoto.launch(intent);
+
             }
         });
 
@@ -83,13 +87,15 @@ public class CameraFragment extends Fragment {
     private void retornarBula(RequestQueue queue) {
         SharedPreferences ler = getActivity().getApplicationContext()
                 .getSharedPreferences("usuario", Context.MODE_PRIVATE);
-        JSONObject response = new JSONObject();
+        JSONObject responser = new JSONObject();
         try {
-            response.put("", "dipirona");
+            responser.put("principioAtivo", "Dipirona");
+
+
         } catch (JSONException e){
             e.printStackTrace();
         }
-        String endpoint = "http://10.0.2.2:5000/api/Remedio/?response="+ response;
+        String endpoint = "http://10.0.2.2:5000/api/Remedio";
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, endpoint, null, new Response.Listener<JSONObject>() {
             @Override
@@ -121,10 +127,18 @@ public class CameraFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
                 Log.d("ERRO", ">>>>>>>>>>>>>>" + error);
+                Log.d("ERRO", ">>>>>>>>>>>>>>" + error.getMessage());
+                Log.d("ERRO", ">>>>>>>>>>>>>>" + error.getCause());
             }
-        }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
 
-        );
+                return headers;
+            }
+        };
         queue.add(request);
     }
 
@@ -135,9 +149,10 @@ public class CameraFragment extends Fragment {
                         Bundle extras = result.getData().getExtras();
                         Bitmap img = (Bitmap) extras.get("data");
 
-                        fotoRemedio.setRotation(90);
+                        fotoRemedio.setRotation(270);
 
                         fotoRemedio.setImageBitmap(img);
+
 
                         analisarImagem(img, "https://scanremedio.cognitiveservices.azure.com/computervision/imageanalysis:analyze?api-version=2023-02-01-preview&features=read"
                                 , "6c193a3b7d2747ae8fc02707a665fb7f");
@@ -167,8 +182,6 @@ public class CameraFragment extends Fragment {
             e.printStackTrace();
         }
 
-        //o Volley tem um TimeOut muito curto, então tive que estender o tempo para 20s pois assim
-        //consigo receber o retorno da API
         int timeout = 20000;
         RetryPolicy policy = new DefaultRetryPolicy(timeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);

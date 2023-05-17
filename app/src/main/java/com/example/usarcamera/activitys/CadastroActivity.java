@@ -44,22 +44,23 @@ public class CadastroActivity extends AppCompatActivity {
         clique(queue);
 
     }
-    private void clique(RequestQueue queue){
+
+    private void clique(RequestQueue queue) {
         btnCadastrar.setOnClickListener(View -> confirmarSenha(queue));
     }
 
     private void confirmarSenha(RequestQueue queue) {
 
-        if (editSenha.getText().toString().equals(editConfirmarSenha.getText().toString())){
+        if (editSenha.getText().toString().equals(editConfirmarSenha.getText().toString())) {
             cadastrarUsuario(queue);
-        } else{
+        } else {
             editSenha.setText("");
             editConfirmarSenha.setText("");
             Toast.makeText(this, "As senhas digitadas não são iguais, por favor, tente novamente!", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void cadastrarUsuario(RequestQueue queue){
+    private void cadastrarUsuario(RequestQueue queue) {
 
         Pessoa pessoa = new Pessoa(editNome.getText().toString(), editSobrenome.getText().toString(),
                 editNascimento.getText().toString(), editEmail.getText().toString(),
@@ -73,7 +74,7 @@ public class CadastroActivity extends AppCompatActivity {
             usuario.put("Email", pessoa.getEmail());
             usuario.put("Senha", pessoa.getSenha());
             Log.d("RESULTADO", ">>>>>>>>>>" + usuario);
-        } catch (JSONException e){
+        } catch (JSONException e) {
             Log.d("TAG", "cadastrarUsuario " + e.getMessage());
         }
 
@@ -81,7 +82,7 @@ public class CadastroActivity extends AppCompatActivity {
         RetryPolicy policy = new DefaultRetryPolicy(timeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
 
-        String endpoint = "http://10.0.2.2:5000/api/Usuario/Salvar/?usuario="+usuario;
+        String endpoint = "http://10.0.2.2:5000/api/Usuario/Salvar/?usuario=" + usuario;
         Log.d("USUARIO", ">>>>>>>>>>>>>>" + usuario);
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, endpoint, null, new Response.Listener<JSONObject>() {
             @Override
