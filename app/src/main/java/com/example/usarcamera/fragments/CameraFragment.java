@@ -131,13 +131,13 @@ public class CameraFragment extends Fragment {
                 Log.d("ERRO", ">>>>>>>>>>>>>>" + error.getCause());
             }
         }){
-            @Override
+            /*@Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
                 headers.put("Content-Type", "application/json");
 
                 return headers;
-            }
+            }*/
         };
         queue.add(request);
     }
