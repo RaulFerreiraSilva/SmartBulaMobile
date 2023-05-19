@@ -151,6 +151,16 @@
         <item name="android:background">@drawable/card_alergia</item>
     </style>
 
+    <style name="CardBula">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@drawable/card_bula</item>
+        <!--<item name="android:popupElevation">10dp</item>
+        <item name="android:elevation">10dp</item>-->
+        <item name="android:layout_marginVertical">100dp</item>
+        <item name="android:layout_marginHorizontal">5dp</item>
+    </style>
+
     <style name="CardBemVindo">
         <item name="android:layout_width">250dp</item>
         <item name="android:layout_height">70dp</item>

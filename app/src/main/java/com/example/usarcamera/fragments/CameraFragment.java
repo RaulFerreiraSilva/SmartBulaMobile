@@ -84,29 +84,27 @@ public class CameraFragment extends Fragment {
         return root;
     }
 
-    private void retornarBula(RequestQueue queue) {
+    /*private void retornarBula(RequestQueue queue) {
         SharedPreferences ler = getActivity().getApplicationContext()
                 .getSharedPreferences("usuario", Context.MODE_PRIVATE);
-        JSONObject responser = new JSONObject();
-        try {
-            responser.put("principioAtivo", "Dipirona");
 
+        String nomeRemedio = "Dipirona";
 
-        } catch (JSONException e){
-            e.printStackTrace();
-        }
-        String endpoint = "http://10.0.2.2:5000/api/Remedio";
+        String endpoint = "http://localhost:5000/api/Remedio?response="+nomeRemedio;
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, endpoint, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+
                 try {
-                    SharedPreferences salvar = getActivity().getApplicationContext()
+                    *//*SharedPreferences salvar = getActivity().getApplicationContext()
                             .getSharedPreferences("usuario", Context.MODE_PRIVATE);
 
                     SharedPreferences.Editor gravar = salvar.edit();
                     gravar.putString("bula", response.getString("bula"));
-                    gravar.commit();
+                    gravar.putString("resumoBula", response.getString("bula"));
+                    gravar.commit();*//*
+                    String bula = response.getString("bula");
 
                     Handler espera = new Handler();
                     espera.postDelayed(new Runnable() {
@@ -131,16 +129,16 @@ public class CameraFragment extends Fragment {
                 Log.d("ERRO", ">>>>>>>>>>>>>>" + error.getCause());
             }
         }){
-            /*@Override
+            *//*@Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
                 headers.put("Content-Type", "application/json");
 
                 return headers;
-            }*/
+            }*//*
         };
         queue.add(request);
-    }
+    }*/
 
     ActivityResultLauncher<Intent> resultFoto = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(), result -> {
@@ -188,7 +186,23 @@ public class CameraFragment extends Fragment {
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, endpoint, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+
                 try {
+                    JSONObject obj = response.getJSONObject("readResult");
+                    String text = obj.getString("content");
+                    if (!text.equals(null)){
+                        Log.d("RESULTADO", ">>>>>>>>>>>" + text);
+
+                    } else {
+                        Log.d("ERRO!", ">>>>>>>>>>" + "ERRO!");
+                    }
+                } catch (JSONException e) {
+                    Log.d("CATCH", "onResponse: " + e);
+                    Log.d("CATCH", "onResponse: " + e.getMessage());
+                    Log.d("CATCH", "onResponse: " + e.getCause());
+                }
+
+                /*try {
 
                     SharedPreferences salvar = getActivity().getApplicationContext().
                             getSharedPreferences("usuario", Context.MODE_PRIVATE);
@@ -197,11 +211,13 @@ public class CameraFragment extends Fragment {
                     gravar.putString("textoImg", response.getString("readResult"));
                     gravar.commit();
 
+
+
                     Log.d("TEXTO", ">>>>>>>>>>" + response.getString("content"));
 
                 } catch (JSONException e) {
                     Log.d("ERRO", "onResponse: " + e.getMessage());
-                }
+                }*/
             }
         }, new Response.ErrorListener() {
             @Override
