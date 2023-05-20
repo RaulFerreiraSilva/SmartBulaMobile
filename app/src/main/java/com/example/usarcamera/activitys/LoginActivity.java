@@ -53,9 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         btnLogar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //logarUsuario(queue);
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
+                logarUsuario(queue);
             }
         });
     }
@@ -93,6 +91,7 @@ public class LoginActivity extends AppCompatActivity {
                     SharedPreferences salvar = getSharedPreferences("usuario", Context.MODE_PRIVATE);
 
                     SharedPreferences.Editor gravar = salvar.edit();
+                    gravar.putString("id", response.getString("id_Usuario"));
                     gravar.putString("nome", response.getString("nome"));
                     gravar.putString("SobreNome", response.getString("sobreNome"));
                     gravar.putString("dataNasc", response.getString("dataNasc"));

@@ -66,6 +66,7 @@ Cadastre-se</string>
     <string name="txtSenhaCadastro">Senha</string>
     <string name="txtComfirmarSenhaCadastro">Confirme a Senha</string>
     <string name="btnCadastrar">Cadastrar</string>
+
     <!--BulaActivity-->
     <string name="txtBula">I - IDENTIFICAÇÃO DO MEDICAMENTO
  dipirona monoidratada
@@ -309,4 +310,68 @@ Cadastre-se</string>
  Indústria Brasileira
  SAC: 0800 280 2828
  Essa bula foi atualizada conforme Bula Padrão aprovada pela ANVISA em 01/08/2018.</string>
+ <string name="txtResumoBula">
+  Indicação
+ Para que serve?
+ Indicado para aliviar a dor e para baixar a febre.
+
+ Posologia
+ Como usar?
+ Adultos e adolescentes acima de 15 anos devem tomar 10 a 20 mL em dose única, 4 vezes ao dia.
+
+ Já as crianças que tomam dipirona infantil devem seguir o seguinte esquema:
+
+ Peso (Idade)	Dose
+ 5 a 8 kg (3 a 11 meses)	1,25 a 2,5 ml
+ 9 a 15 kg (1 a 3 anos)	2,5 a 5 ml
+ 16 a 23 kg (4 a 6 anos)	3,75 a 7,5 ml
+ 24 a 30 kg (7 a 9 anos)	5 a 10 ml
+ 31 a 45 kg (10 a 12 anos)	7,5 a 15 ml
+ 46 a 53 kg (13 a 14 anos)	8,75 a 17,5 ml
+ A dose deve ser administrada de uma vez ou divididas em 4 tomas durante o dia.
+
+ Efeitos Colaterais
+ Quais os males que pode me causar?
+ Os efeitos colaterais mais frequentes são alergia com coceira, ardor, vermelhidão, urticária, inchaço ou falta de ar, alterações no batimento cardíaco e nos valores do exame de sangue, podendo aparecer anemia.
+
+ Contraindicações
+ Quando não devo usar?
+ É contraindicado em crianças com menos de 3 meses ou pesando menos de 5 kg, mulheres grávidas ou que estejam a amamentar e pessoas com alergia a qualquer componente da fórmula.
+
+ Não deve ser usado caso exista alterações no funcionamento da medula óssea, problema respiratórios ou rinite alérgica, porfiria hepática e deficiência congênita da glicose-6-fosfato-desidrogenase.
+
+ Mecanismo de Ação
+ Como funciona?
+ A dipirona é uma substância analgésica que controla a dor e tem ainda propriedades antitérmicas, auxiliando no abaixamento da febre.
+
+ Os efeitos analgésico e antitérmico podem ser esperados em 30 a 60 minutos após a administração e geralmente persistem por aproximadamente 4 horas.
+
+ Advertências e Precauções
+ O que devo saber antes de usar?
+ Este remédio pode causar alterações no funcionamento das células do sistema imune e na produção de glóbulos vermelhos do sangue, sendo é importante estar atento a sintomas como sangramento, palidez, aparecimento de infecções ou febre persistente. Caso isto aconteça, é importante consultar o médico.
+
+ Superdosagem
+ O que fazer se alguém usar uma quantidade maior do que a indicada?
+ Caso se ingira dose superior à indicada, podem surgir sintomas como náuseas, vômito, dor abdominal, problemas de rins, vertigem, sonolência, convulsões e queda da pressão arterial, devendo-se ir no hospital com urgência.
+
+ Composição
+ Cada ml da solução oral contém:
+
+ Dipirona monoidratada ______________________ 52,703 mg
+
+ - Equivalente a 50 mg de dipirona
+
+ Veículo ________________________________________1 ml
+
+ (Excipientes: hietelose, metabissulfito de sódio, sorbato de potássio, benzoato de sódio, ácido cítrico, corante vermelho eritrosina 3, essência de framboesa, sorbitol, sacarina sódica, ciclamato de sódio e água purificada).
+
+ Laboratório
+ Germed Pharma Ltda.
+
+ - SAC: 0800 7476000
+
+ Dizeres legais:
+
+ Dipirona MS – 1.0583.0496 | Farm. Resp.: Dra. Maria Geisa P. de Lima e Silva
+ </string>
 </resources>

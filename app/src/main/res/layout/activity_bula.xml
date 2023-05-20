@@ -1,41 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
+    android:background="@color/cinza_claro"
     tools:context=".activitys.BulaActivity">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
         <LinearLayout
             android:id="@+id/headerBula"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
             android:orientation="horizontal"
             android:padding="5dp"
+            android:background="@drawable/header_footer_bula"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <Button
-                android:text="1"
-                android:layout_width="150dp"
-                android:layout_height="100dp" />
+            <ImageButton
+                android:id="@+id/btnVoltarBula"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_before"
+                android:background="@null"
+                android:layout_marginTop="2dp"/>
+
+            <ImageView
+                android:src="@drawable/img_logo_escrito"
+                android:layout_width="200dp"
+                android:layout_height="100dp"
+                android:layout_margin="2dp"/>
+
+            <ImageButton
+                android:id="@+id/btnFavoritarBula"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:layout_marginLeft="10dp"
+                android:background="@null"
+                android:src="@drawable/ic_fav"
+                android:tag="NoFav"/>
 
         </LinearLayout>
 
-        <View
-            android:id="@+id/viewBula"
-            style="@style/CardBula"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/headerBula" />
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/bodyBula"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fillViewport="false"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/footerBula"
+        android:paddingTop="145dp"
+        >
 
-        <ScrollView
+        <TextView
+            android:id="@+id/txtBula"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/txtResumoBula"
+            android:textSize="20sp"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:paddingBottom="10dp"
+            android:paddingHorizontal="12dp"/>
+
+
+
+    </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:id="@+id/footerBula"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/branco"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="289378273981729837192739173981783719827"/>
+
+    </LinearLayout>
+        <!--<ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_constraintStart_toStartOf="@id/viewBula"
@@ -54,7 +105,7 @@
                 android:maxLines="80"
                 android:ellipsize="end"/>
 
-        </ScrollView>
+        </ScrollView>-->
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
