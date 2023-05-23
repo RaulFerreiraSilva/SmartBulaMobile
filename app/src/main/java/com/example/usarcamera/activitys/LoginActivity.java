@@ -81,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
         RetryPolicy policy = new DefaultRetryPolicy(timeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
 
-        String endpoint = "http://localhost:5000/api/Usuario/Logar/?email=" + emailLogin.getText().toString() + "&password=" + senhaLogin.getText().toString();
+        String endpoint = "http://10.0.2.2:5000/api/Usuario/Logar/?email=" + emailLogin.getText().toString() + "&password=" + senhaLogin.getText().toString();
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, endpoint, null, new Response.Listener<JSONObject>() {
             @Override

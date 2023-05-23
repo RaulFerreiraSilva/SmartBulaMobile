@@ -101,7 +101,7 @@ public class CameraFragment extends Fragment {
                             .getSharedPreferences("usuario", Context.MODE_PRIVATE);
 
                     SharedPreferences.Editor gravar = salvar.edit();
-                    gravar.putString("idMed", response.getString("id_Medicamento"));
+                    gravar.putString("idMed", response.getString("idMedicamento"));
                     gravar.putString("bula", response.getString("bula"));
                     gravar.putString("resumoBula", response.getString("resumoBula"));
                     gravar.commit();

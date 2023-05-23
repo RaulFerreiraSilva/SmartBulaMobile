@@ -13,7 +13,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="5dp"
-            android:background="@drawable/header_footer_bula"
+            android:elevation="10dp"
+            android:background="@drawable/header_bula"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -22,6 +23,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:scaleType="centerCrop"
+                android:elevation="100dp"
                 android:src="@drawable/ic_before"
                 android:background="@null"
                 android:layout_marginTop="2dp"/>
@@ -32,14 +34,15 @@
                 android:layout_height="100dp"
                 android:layout_margin="2dp"/>
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/btnFavoritarBula"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
                 android:layout_marginLeft="10dp"
-                android:background="@null"
-                android:src="@drawable/ic_fav"
+                android:elevation="100dp"
+                android:background="#00FFFFFF"
+                app:srcCompat="@drawable/ic_senha_login"
                 android:tag="NoFav"/>
 
         </LinearLayout>
@@ -48,12 +51,12 @@
         android:id="@+id/bodyBula"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fillViewport="false"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/footerBula"
-        android:paddingTop="145dp"
-        >
+        app:layout_constraintBottom_toBottomOf="@id/footerBula"
+        android:paddingTop="165dp"
+        android:layout_marginBottom="20dp">
 
         <TextView
             android:id="@+id/txtBula"
@@ -61,9 +64,10 @@
             android:layout_height="wrap_content"
             android:text="@string/txtResumoBula"
             android:textSize="20sp"
+            android:layout_marginVertical="10dp"
             android:textAlignment="center"
             android:textColor="@color/black"
-            android:paddingBottom="10dp"
+            android:paddingBottom="180dp"
             android:paddingHorizontal="12dp"/>
 
 
@@ -74,38 +78,16 @@
         android:id="@+id/footerBula"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/branco"
+        android:background="@drawable/footer_bula"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
+
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="289378273981729837192739173981783719827"/>
-
-    </LinearLayout>
-        <!--<ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintStart_toStartOf="@id/viewBula"
-            app:layout_constraintEnd_toEndOf="@id/viewBula"
-            app:layout_constraintTop_toBottomOf="@id/viewBula"
-            app:layout_constraintBottom_toBottomOf="@id/viewBula"
-            android:layout_marginVertical="110dp"
-            android:elevation="5dp"
-            android:layout_marginHorizontal="5dp"
-            android:padding="3dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/txtBula"
-                android:maxLines="80"
-                android:ellipsize="end"/>
-
-        </ScrollView>-->
-
-
+            android:layout_height="wrap_content"
+            android:text="ugauaguguagugauga"/>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
