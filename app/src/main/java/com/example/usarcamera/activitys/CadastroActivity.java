@@ -20,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.usarcamera.R;
 import com.example.usarcamera.classes.Pessoa;
@@ -84,7 +85,25 @@ public class CadastroActivity extends AppCompatActivity {
 
         String endpoint = "http://10.0.2.2:5000/api/Usuario/Salvar/?usuario=" + usuario;
         Log.d("USUARIO", ">>>>>>>>>>>>>>" + usuario);
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, endpoint, null, new Response.Listener<JSONObject>() {
+
+        StringRequest request = new StringRequest(Request.Method.POST, endpoint, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if (!response.equals(null) && response.length() > 0){
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(CadastroActivity.this, "Usuario não cadastrado, favor tentar novamente!", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+        /*JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, endpoint, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
 
@@ -96,7 +115,7 @@ public class CadastroActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 Log.d("ERRO", ">>>>>>>>>>>>>> " + error);
             }
-        });
+        });*/
 
         queue.add(request);
     }

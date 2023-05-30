@@ -62,7 +62,6 @@
             android:id="@+id/txtBula"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/txtResumoBula"
             android:textSize="20sp"
             android:layout_marginVertical="10dp"
             android:textAlignment="center"

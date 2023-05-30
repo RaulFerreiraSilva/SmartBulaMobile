@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -36,13 +37,18 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.usarcamera.R;
 import com.example.usarcamera.activitys.BulaActivity;
+import com.example.usarcamera.classes.Remedio;
 import com.example.usarcamera.databinding.FragmentCameraBinding;
+import com.google.gson.JsonArray;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -53,6 +59,13 @@ public class CameraFragment extends Fragment {
 
     private AppCompatButton pesquisar;
 
+    private TextView bula;
+
+    private int referencia = R.drawable.foto_dipirona;
+
+    private String[] remediosCadastrados = {"dipirona"};
+
+
 
 
     @Override
@@ -61,64 +74,109 @@ public class CameraFragment extends Fragment {
         binding = FragmentCameraBinding.inflate(getLayoutInflater());
         View root = binding.getRoot();
 
+        View layout = inflater.inflate(R.layout.activity_bula, container, false);
+
         RequestQueue queue= Volley.newRequestQueue(getActivity().getApplicationContext());
-        fotoRemedio = root.findViewById(R.id.imgRemedio);
-        pesquisar = root.findViewById(R.id.btnPesquisar);
 
-        fotoRemedio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                resultFoto.launch(intent);
 
-            }
-        });
+        SharedPreferences ler = getActivity().getApplicationContext().getSharedPreferences(
+                "usuario", Context.MODE_PRIVATE);
 
-        pesquisar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                retornarBula(queue);
-            }
-        });
+        Bitmap fotinha = BitmapFactory.decodeResource(getResources(),
+                referencia);
+
+        iniciarComponentes(root, layout);
+        pesquisarBula(layout, queue, ler);
+        tirarFoto(fotinha);
+
+
+
+        fotoRemedio.setImageBitmap(fotinha);
+
+
 
         return root;
     }
 
-    private void retornarBula(RequestQueue queue) {
-        SharedPreferences ler = getActivity().getApplicationContext()
-                .getSharedPreferences("usuario", Context.MODE_PRIVATE);
+    private void tirarFoto(Bitmap fotinha) {
+        fotoRemedio.setOnClickListener(v -> {
 
-        String nomeRemedio = "Dipirona";
+                /*Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                resultFoto.launch(intent);*/
 
-        String endpoint = "http://10.0.2.2:5000/api/Remedio?response="+nomeRemedio;
+                analisarImagem(fotinha,
+                        "https://scanremedio.cognitiveservices.azure.com/computervision/imageanalysis:analyze?api-version=2023-02-01-preview&features=read",
+                        "6c193a3b7d2747ae8fc02707a665fb7f");
 
+
+        });
+    }
+
+    private void pesquisarBula(View layout, RequestQueue queue, SharedPreferences ler) {
+        pesquisar.setOnClickListener(v -> {
+
+                    retornarBula(queue, layout, ler);
+
+        });
+    }
+
+    private void iniciarComponentes(View root, View layout) {
+
+        bula = layout.findViewById(R.id.txtBula);
+        fotoRemedio = root.findViewById(R.id.imgRemedio);
+        pesquisar = root.findViewById(R.id.btnPesquisar);
+    }
+
+    private void retornarBula(RequestQueue queue, View layout, SharedPreferences ler) {
+
+
+        Log.d("NOMEREMEDIO", ">>>>>>>>>>>>>>>" + ler.getString("remedioEncontrado", ""));
+
+        String teste = "dipirona";
+
+        String endpoint = "http://10.0.2.2:5000/api/Remedio?response="+teste;
+                //ler.getString("remedioEncontrado", "");
+
+        List<Remedio> lista = new ArrayList<>();
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, endpoint, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                if (response != null && response.length() > 0){
+                    try {
+                        Remedio remedio = new Remedio(
+                                response.getInt("idMedicamento"),
+                                response.getString("bula"),
+                                response.getString("resumoBula"),
+                                response.getString("principioAtivo"));
 
-                try {
-                    SharedPreferences salvar = getActivity().getApplicationContext()
-                            .getSharedPreferences("usuario", Context.MODE_PRIVATE);
+                        lista.add(remedio);
 
-                    SharedPreferences.Editor gravar = salvar.edit();
-                    gravar.putString("idMed", response.getString("idMedicamento"));
-                    gravar.putString("bula", response.getString("bula"));
-                    gravar.putString("resumoBula", response.getString("resumoBula"));
-                    gravar.commit();
+                        SharedPreferences salvar = getActivity().getApplicationContext()
+                                .getSharedPreferences("usuario", Context.MODE_PRIVATE);
 
-                    Handler espera = new Handler();
-                    espera.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
+                        SharedPreferences.Editor gravar = salvar.edit();
+                        gravar.putString("idMed", response.getString("idMedicamento"));
+                        gravar.putString("bula", response.getString("bula"));
+                        gravar.putString("resumoBula", response.getString("resumoBula"));
+                        gravar.commit();
 
-                            Intent intent = new Intent(getActivity().getApplicationContext(), BulaActivity.class);
-                            startActivity(intent);
-                        }
-                    }, 3000);
-                }catch (JSONException ex){
-                    ex.printStackTrace();
+                        Handler espera = new Handler();
+                        espera.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                bula.setText(ler.getString("bula", ""));
+                                Intent intent = new Intent(getActivity().getApplicationContext(), BulaActivity.class);
+                                startActivity(intent);
+                            }
+                        }, 3000);
+                    }catch (JSONException ex){
+
+                        ex.printStackTrace();
+                    }
+                } else{
+                    Toast.makeText(getActivity().getApplicationContext(),
+                            "Remedio não encontrado", Toast.LENGTH_SHORT).show();
                 }
-
             }
         }, new Response.ErrorListener() {
             @Override
@@ -188,36 +246,30 @@ public class CameraFragment extends Fragment {
             public void onResponse(JSONObject response) {
 
                 try {
-                    JSONObject obj = response.getJSONObject("readResult");
-                    String text = obj.getString("content");
-                    if (!text.equals(null)){
-                        Log.d("RESULTADO", ">>>>>>>>>>>" + text);
+                    JSONArray retorno = response.getJSONObject("readResult").getJSONArray(
+                            "pages");
+                    JSONArray words = retorno.getJSONObject(0).getJSONArray("words");
 
-                    } else {
-                        Log.d("ERRO!", ">>>>>>>>>>" + "ERRO!");
+
+                    for (int i=0;i< words.length(); i++){
+                        JSONObject content = words.getJSONObject(i);
+                        String resultadoJSON = content.getString("content");
+
+                        for (String palavra : remediosCadastrados){
+                           if (resultadoJSON.equals(palavra)){
+                               Log.d("nomeRemedio", ">>>>>>>>>" + palavra);
+                                SharedPreferences salvar = getActivity().getApplicationContext()
+                                        .getSharedPreferences("usuario", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor gravar = salvar.edit();
+                                gravar.putString("remedioEncontrado", palavra);
+                                gravar.commit();
+                           }
+                        }
                     }
-                } catch (JSONException e) {
-                    Log.d("CATCH", "onResponse: " + e);
-                    Log.d("CATCH", "onResponse: " + e.getMessage());
-                    Log.d("CATCH", "onResponse: " + e.getCause());
+                }catch (JSONException e){
+                    e.printStackTrace();
                 }
 
-                /*try {
-
-                    SharedPreferences salvar = getActivity().getApplicationContext().
-                            getSharedPreferences("usuario", Context.MODE_PRIVATE);
-
-                    SharedPreferences.Editor gravar = salvar.edit();
-                    gravar.putString("textoImg", response.getString("readResult"));
-                    gravar.commit();
-
-
-
-                    Log.d("TEXTO", ">>>>>>>>>>" + response.getString("content"));
-
-                } catch (JSONException e) {
-                    Log.d("ERRO", "onResponse: " + e.getMessage());
-                }*/
             }
         }, new Response.ErrorListener() {
             @Override

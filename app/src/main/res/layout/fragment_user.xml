@@ -239,11 +239,6 @@
 
                 <androidx.appcompat.widget.AppCompatButton
                     style="@style/ButtonAlergia"
-                    android:text="@string/btnCadastrarAlergia"
-                    android:textStyle="bold"/>
-
-                <androidx.appcompat.widget.AppCompatButton
-                    style="@style/ButtonAlergia"
                     android:text="@string/btnMostrarAlergia"
                     android:textStyle="bold"/>
             </LinearLayout>

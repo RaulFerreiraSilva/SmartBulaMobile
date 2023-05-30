@@ -9,7 +9,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -35,6 +37,8 @@ public class FavoritoFragment extends Fragment {
 
     private ListView favoritos;
 
+    private TextView nome, principioAtivo;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -42,12 +46,14 @@ public class FavoritoFragment extends Fragment {
 
         View root = binding.getRoot();
 
+        View layoutLista = inflater.inflate(R.layout.list_item_favoritos, container, false);
+
         RequestQueue queue = Volley.newRequestQueue(getActivity().getApplicationContext());
 
         SharedPreferences ler = getActivity().getApplicationContext().getSharedPreferences(
                 "usuario", Context.MODE_PRIVATE);
 
-        iniciarComponentes(root);
+        iniciarComponentes(root, layoutLista);
 
         listarFavoritos(queue, ler);
 
@@ -64,7 +70,6 @@ public class FavoritoFragment extends Fragment {
                 endpoint, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-
                 for (int i=0;i< response.length();i++){
                     try {
                         JSONObject retorno = response.getJSONObject(i);
@@ -73,17 +78,20 @@ public class FavoritoFragment extends Fragment {
                                 "resumoBula"), retorno.getString(
                                 "principioAtivo"));
                         lista.add(remedin);
+
+
                     } catch (JSONException ex){
                         ex.printStackTrace();
                     }
 
                 }
 
+
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                error.printStackTrace();
             }
         });
 
@@ -91,7 +99,9 @@ public class FavoritoFragment extends Fragment {
     }
 
 
-    private void iniciarComponentes(View root){
+    private void iniciarComponentes(View root, View lista){
         favoritos = root.findViewById(R.id.listViewFavorito);
+        nome = lista.findViewById(R.id.txtNomeRemedio);
+        principioAtivo = lista.findViewById(R.id.txtPrincipioAtivo);
     }
 }

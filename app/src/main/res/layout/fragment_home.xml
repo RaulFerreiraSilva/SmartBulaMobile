@@ -59,7 +59,7 @@
         <ImageView
             android:id="@+id/ic_alergia"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:src="@drawable/ic_alergia"
             app:layout_constraintStart_toStartOf="@id/layout_medium"
             app:layout_constraintTop_toTopOf="@id/layout_medium"
@@ -69,7 +69,7 @@
         <TextView
             android:id="@+id/txtExplicativo"
             android:layout_width="130sp"
-            android:layout_height="130sp"
+            android:layout_height="wrap_content"
             android:text="@string/txtExplicativo"
             android:textAlignment="center"
             android:textSize="17sp"
@@ -77,7 +77,21 @@
             app:layout_constraintStart_toStartOf="@id/ic_alergia"
             app:layout_constraintTop_toBottomOf="@id/ic_alergia"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:id="@+id/txtMostrarAlergias"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txtMostrar"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:textStyle="bold|italic"
+            app:layout_constraintStart_toStartOf="@id/txtExplicativo"
+            app:layout_constraintTop_toBottomOf="@id/txtExplicativo"
+            app:layout_constraintEnd_toEndOf="@id/txtExplicativo"
+            android:layout_marginTop="10dp"/>
+
 
 
         <LinearLayout

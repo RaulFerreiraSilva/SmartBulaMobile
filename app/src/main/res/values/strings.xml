@@ -8,9 +8,10 @@
 
     <!--FragmentHome-->
     <string name="bem_vindo">Olá Pessoa</string>
-    <string name="txtExplicativo">Obtenha resultados personalizados de acordo com suas alergias</string>
+    <string name="txtExplicativo">Veja quais as opções de remédios cadastrados em nosso banco, para conseguir adicionar suas possíveis alergias!</string>
     <string name="txtNote">Anotações Rápidas</string>
     <string name="txtTutorial">Rever Tutorial</string>
+    <string name="txtMostrar">Clique aqui!</string>
     <string name="txtTituloDialog">Realmente deseja sair?</string>
     <string name="txtMensagemDialog">Você está prestes a sair do usuário, caso queira entrar
 novamente, será necessário realizar o login! Deseja continuar?</string>
@@ -310,7 +311,7 @@ Cadastre-se</string>
  Indústria Brasileira
  SAC: 0800 280 2828
  Essa bula foi atualizada conforme Bula Padrão aprovada pela ANVISA em 01/08/2018.</string>
- <string name="txtResumoBula">
+    <string name="txtResumoBula">
   Indicação
  Para que serve?
  Indicado para aliviar a dor e para baixar a febre.
@@ -374,4 +375,9 @@ Cadastre-se</string>
 
  Dipirona MS – 1.0583.0496 | Farm. Resp.: Dra. Maria Geisa P. de Lima e Silva
  </string>
+
+ <string-array name="alergia">
+  <item>Dipirona</item>
+  <item>Clonazepam</item>
+ </string-array>
 </resources>

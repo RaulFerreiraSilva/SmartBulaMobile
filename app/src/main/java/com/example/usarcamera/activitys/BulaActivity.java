@@ -59,6 +59,7 @@ public class BulaActivity extends AppCompatActivity {
                     favorito.setImageResource(R.drawable.ic_senha_login);
                     favorito.setTag("NoFav");
                     Log.d("JAFAV", ">>>>>>>>" + favorito.getTag().toString());
+                    bulaFavoritada(queue);
                 }
             }catch (Exception e){
                 Log.d("ERRO", ">>>>>>>>>>" + e);
