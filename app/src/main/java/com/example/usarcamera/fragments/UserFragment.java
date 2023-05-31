@@ -1,9 +1,11 @@
 package com.example.usarcamera.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -25,6 +27,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.usarcamera.R;
+import com.example.usarcamera.activitys.AlergiaActivity;
 import com.example.usarcamera.databinding.FragmentUserBinding;
 
 import org.json.JSONException;
@@ -39,6 +42,8 @@ public class UserFragment extends Fragment {
 
     private TextView alterarSenha;
 
+    private AppCompatButton mostrarAlergia;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,16 +52,7 @@ public class UserFragment extends Fragment {
 
         View root = binding.getRoot();
 
-        nome = root.findViewById(R.id.editNomeUser);
-        sobreNome = root.findViewById(R.id.editSobreNomeUser);
-        email = root.findViewById(R.id.editEmailUser);
-        dataNascimento = root.findViewById(R.id.editDataNascimentoUser);
-        senhaAtual = root.findViewById(R.id.editSenhaAtual);
-        senhaNova = root.findViewById(R.id.editSenhaNova);
-        confirmarSenha = root.findViewById(R.id.editConfirmarSenha);
-        alterarSenha = root.findViewById(R.id.txtAcaoAlterarSenha);
-
-        //iniciarComponentes(root);
+        iniciarComponentes(root);
 
         SharedPreferences ler = getActivity().getApplicationContext().getSharedPreferences(
                 "usuario", Context.MODE_PRIVATE);
@@ -65,14 +61,18 @@ public class UserFragment extends Fragment {
 
         RequestQueue queue = Volley.newRequestQueue(getActivity().getApplicationContext());
 
-        alterarSenha.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                verficarSenha(queue, ler);
-            }
-        });
+        verficarSenha(queue, ler);
+
+        alergiaUsuario();
 
         return root;
+    }
+
+    private void alergiaUsuario() {
+        mostrarAlergia.setOnClickListener(v->{
+            Intent intent = new Intent(getActivity().getApplicationContext(), ListaAlergia.class);
+            startActivity(intent);
+        });
     }
 
     private void passarDados(SharedPreferences ler) {
@@ -88,22 +88,33 @@ public class UserFragment extends Fragment {
     }
 
     private void verficarSenha(RequestQueue queue, SharedPreferences ler) {
-
-        if (senhaAtual.getText().toString().equals(ler.getString("senha", ""))){
-            if (senhaNova.getText().toString().equals(confirmarSenha.getText().toString())){
-                editarSenha(queue);
+        alterarSenha.setOnClickListener(v -> {
+            if (senhaAtual.getText().toString().equals(ler.getString("senha", ""))){
+                if (senhaNova.getText().toString().equals(confirmarSenha.getText().toString())){
+                    editarSenha(queue);
+                } else {
+                    Toast.makeText(getActivity().getApplicationContext(), "Os campos de nova" +
+                            " senha não coincidem, favor tente novamente!", Toast.LENGTH_SHORT).show();
+                }
             } else {
-                Toast.makeText(getActivity().getApplicationContext(), "Os campos de nova" +
-                        " senha não coincidem, favor tente novamente!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity().getApplicationContext(), "Senha atual incorreta" +
+                        ", favor tente novamente!", Toast.LENGTH_SHORT).show();
             }
-        } else {
-            Toast.makeText(getActivity().getApplicationContext(), "Senha atual incorreta" +
-                    ", favor tente novamente!", Toast.LENGTH_SHORT).show();
-        }
+        });
+
     }
 
     private void iniciarComponentes(View root) {
 
+        nome = root.findViewById(R.id.editNomeUser);
+        sobreNome = root.findViewById(R.id.editSobreNomeUser);
+        email = root.findViewById(R.id.editEmailUser);
+        dataNascimento = root.findViewById(R.id.editDataNascimentoUser);
+        senhaAtual = root.findViewById(R.id.editSenhaAtual);
+        senhaNova = root.findViewById(R.id.editSenhaNova);
+        confirmarSenha = root.findViewById(R.id.editConfirmarSenha);
+        alterarSenha = root.findViewById(R.id.txtAcaoAlterarSenha);
+        mostrarAlergia = root.findViewById(R.id.btnMostrarAlergiaUsuario);
     }
 
     private void editarSenha(RequestQueue queue) {

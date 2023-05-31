@@ -15,6 +15,9 @@
         android:theme="@style/Theme.UsarCamera"
         tools:targetApi="31">
         <activity
+            android:name=".ListaAlergia"
+            android:exported="false" />
+        <activity
             android:name=".activitys.AlergiaActivity"
             android:exported="true" />
         <activity

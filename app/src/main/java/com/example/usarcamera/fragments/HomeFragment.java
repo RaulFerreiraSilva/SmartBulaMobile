@@ -33,6 +33,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.usarcamera.R;
 import com.example.usarcamera.activitys.AlergiaActivity;
 import com.example.usarcamera.activitys.LoginActivity;
+import com.example.usarcamera.classes.Alergia;
 import com.example.usarcamera.databinding.FragmentHomeBinding;
 
 import org.json.JSONArray;
@@ -40,6 +41,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class HomeFragment extends Fragment {
 
@@ -60,69 +62,29 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(getLayoutInflater());
         View root = binding.getRoot();
 
-        RequestQueue queue = Volley.newRequestQueue(getActivity().getApplicationContext());
-
         View layout = inflater.inflate(R.layout.dialog, container, false);
-        View alergia = inflater.inflate(R.layout.activity_alergia, container, false);
 
-        iniciarCompontes(root, layout, alergia);
+        iniciarCompontes(root, layout);
 
         SharedPreferences ler = getActivity().getApplicationContext().getSharedPreferences("usuario", Context.MODE_PRIVATE);
 
         deslogar(root, layout);
         mudarBemVindo(ler);
-        listarAlergias(queue);
+        abrirTelaAlergia();
         mudarBemVindo(ler);
         return root;
     }
 
-    private void abrirTela (){
-        mostrarAlergia.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity().getApplicationContext(), AlergiaActivity.class);
-            startActivity(intent);
-        });
-    }
+    /*private void listarAlergias(RequestQueue queue, View alergiaView){
 
-    private void listarAlergias(RequestQueue queue){
-        ArrayList<String> valores = new ArrayList<>();
-        ArrayAdapter<String> adaptador = new ArrayAdapter<>(getActivity().getApplicationContext(),
-                android.R.layout.simple_list_item_1, valores);
-        listaDeAlergias.setAdapter(adaptador);
 
         String endpoint = "http://10.0.2.2:5000/api/Alergia/Listar";
 
-        String[] remediosCadastrados = {"dipirona"};
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.POST, endpoint, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                if (response != null && response.length() > 0){
-                    try {
-                        for (int i=0; i < response.length(); i++){
-                                JSONObject lista = response.getJSONObject(i);
-                                String valor = lista.getString("tipo_Alergia");
-                                valores.add(valor);
-                            Log.d("TAG", ">>>>>>>>>" + valor);
-
-                            /*JSONObject lista = response.getJSONObject(i);
-                            int id = lista.getInt("id_Alergia");
-                            String tipoAlergia = lista.getString("tipo_Alergia");
-                            Log.d("ID", ">>>>>>>>>>>>>>>" + id);
-                            Log.d("TIPOALERGIA", ">>>>>>>>>>>>>>>" + tipoAlergia);
-                            for (String palavra : remediosCadastrados){
-                                if (tipoAlergia.equals(palavra)){
-                                    Log.d("PALAVRA", ">>>>>>>>>>" + palavra);
-                                    valores.add(palavra);
-                                }
-                            }*/
-
-                        }
-                        adaptador.notifyDataSetChanged();
-                    }catch (JSONException exc){
-                        exc.printStackTrace();
-                    }
-                }   else {
-                    Toast.makeText(getActivity().getApplicationContext(), "Por favor, tente novamente!", Toast.LENGTH_SHORT).show();
+                if (response != null && response.length() > 0) {
                 }
                 abrirTela();
             }
@@ -133,7 +95,7 @@ public class HomeFragment extends Fragment {
             }
         });
         queue.add(request);
-    }
+    }*/
 
     private void abrirTelaAlergia() {
         mostrarAlergia.setOnClickListener(v ->{
@@ -206,7 +168,7 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    private void iniciarCompontes(View root, View layout, View alergia) {
+    private void iniciarCompontes(View root, View layout) {
         tituloAlertDialog = layout.findViewById(R.id.tituloDialog);
         nomePessoa = root.findViewById(R.id.bem_vindo);
         capsulaSair = root.findViewById(R.id.img_sair);
@@ -214,7 +176,6 @@ public class HomeFragment extends Fragment {
         mensagemAlertDialog = layout.findViewById(R.id.mensagemDialog);
         btnConfirmarSaida = layout.findViewById(R.id.btnConfirmar);
         btnCancelarSaida = layout.findViewById(R.id.btnCancelar);
-        listaDeAlergias = alergia.findViewById(R.id.alergias);
     }
 
     private void mudarBemVindo(SharedPreferences ler) {

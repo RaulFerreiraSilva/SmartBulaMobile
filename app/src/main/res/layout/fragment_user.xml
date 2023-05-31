@@ -220,28 +220,13 @@
                 android:textSize="20sp"
                 android:textAlignment="center"/>
 
-            <EditText
-                android:id="@+id/editAlergia"
-                android:background="@drawable/edit_text_user"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginStart="22dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginTop="10dp"
-                android:inputType="text"
-                android:padding="10dp"
-                android:hint="@string/editAlergia"/>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
                 <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnMostrarAlergiaUsuario"
                     style="@style/ButtonAlergia"
                     android:text="@string/btnMostrarAlergia"
-                    android:textStyle="bold"/>
-            </LinearLayout>
+                    android:textStyle="bold"
+                    android:layout_gravity="center_horizontal"/>
+
         </LinearLayout>
 
 

@@ -48,7 +48,7 @@ novamente, será necessário realizar o login! Deseja continuar?</string>
     <string name="editAlergia">Digite o nome do medicamento</string>
     <string name="btnCadastrarAlergia">Cadastrar</string>
     <string name="btnMostrarAlergia">Mostrar</string>
-    <string name="txtExplicativoAlergia">Caso você possua alergia a algum tipo de medicamento, informe abaixo para obter resultados de pesquisas personalizados.</string>
+    <string name="txtExplicativoAlergia">Clique abaixo para vizualizar as opções de remédios que você possui alergia.</string>
 
     <!--LoginActivity-->
     <string name="editEmailLogin">Digite o email</string>
