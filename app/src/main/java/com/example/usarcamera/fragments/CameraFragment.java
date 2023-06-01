@@ -12,15 +12,18 @@ import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -55,9 +58,11 @@ import java.util.Map;
 public class CameraFragment extends Fragment {
 
     private FragmentCameraBinding binding;
-    private ImageButton fotoRemedio;
+    private ImageButton fotoRemedio, pesquisarPorFala;
 
     private AppCompatButton pesquisar;
+
+    private EditText pesquisarPorTexto;
 
     private TextView bula;
 
@@ -89,13 +94,34 @@ public class CameraFragment extends Fragment {
         pesquisarBula(layout, queue, ler);
         tirarFoto(fotinha);
 
-
+        pesquisarPorFala(root);
 
         fotoRemedio.setImageBitmap(fotinha);
 
-
+        pesquisarPorFala.setOnClickListener(v -> {
+            pesquisarPorFala(root);
+        });
 
         return root;
+    }
+
+    public void pesquisarPorFala(View root) {
+
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE);
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Fale Agora!");
+        Log.d("INTENT", ">>>>>>>>>>>>>>" + intent);
+        startActivityForResult(intent, 88);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 88 && resultCode == Activity.RESULT_OK){
+            Log.d("RESULT", ">>>>>>>>>>>>>" + data);
+            pesquisarPorTexto.setText(data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).get(0));
+        }
     }
 
     private void tirarFoto(Bitmap fotinha) {
@@ -125,6 +151,8 @@ public class CameraFragment extends Fragment {
         bula = layout.findViewById(R.id.txtBula);
         fotoRemedio = root.findViewById(R.id.imgRemedio);
         pesquisar = root.findViewById(R.id.btnPesquisar);
+        pesquisarPorTexto = root.findViewById(R.id.edit_search);
+        pesquisarPorFala = root.findViewById(R.id.btnFalar);
     }
 
     private void retornarBula(RequestQueue queue, View layout, SharedPreferences ler) {
@@ -158,6 +186,9 @@ public class CameraFragment extends Fragment {
                         gravar.putString("idMed", response.getString("idMedicamento"));
                         gravar.putString("bula", response.getString("bula"));
                         gravar.putString("resumoBula", response.getString("resumoBula"));
+                        gravar.putString("contraIndicacao", response.getString("contraIndicacao"));
+                        gravar.putString("recomendadoPara", response.getString("recomendadoPara"));
+
                         gravar.commit();
 
                         Handler espera = new Handler();

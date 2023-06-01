@@ -43,14 +43,16 @@
             app:layout_constraintTop_toBottomOf="@id/layout_header_camera"
             />
 
-        <ImageView
+        <ImageButton
+            android:id="@+id/btnFalar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_lupa"
+            android:src="@drawable/ic_mic"
+            android:background= "@null"
             app:layout_constraintEnd_toEndOf="@id/edit_search"
             app:layout_constraintTop_toTopOf="@id/edit_search"
             android:layout_marginTop="15dp"
-            android:layout_marginStart="15dp"/>
+            android:layout_marginEnd="25dp"/>
 
         <View
             android:id="@+id/view_camera"

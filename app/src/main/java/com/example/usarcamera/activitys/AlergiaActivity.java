@@ -2,6 +2,7 @@ package com.example.usarcamera.activitys;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -105,19 +106,15 @@ public class AlergiaActivity extends AppCompatActivity {
 
     private void selecionarAlergia(RequestQueue queue, List<String> lista) {
 
-        alergiasListV.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        alergiasListV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    String dados = lista.get(position);
-                    if (dados != null){
-                        confirmarAcao(dados, queue);
-                    }
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                Toast.makeText(AlergiaActivity.this, "Nenhum item selecionado!", Toast.LENGTH_SHORT).show();
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String dados = lista.get(position);
+                if (dados != null){
+                    salvarRemedioAlergia(dados, queue);
+                    Log.d("ALERGIA", ">>>>>>>>>>" + "if");
+                    //confirmarAcao(dados, queue);
+                }
             }
         });
     }
@@ -126,16 +123,19 @@ public class AlergiaActivity extends AppCompatActivity {
 
         SharedPreferences ler = getSharedPreferences("usuario", Context.MODE_PRIVATE);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-        LayoutInflater inflater = getLayoutInflater();
+        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext(), R.style.AlertDialogTheme);
+        View layout = LayoutInflater.from(getApplicationContext()).inflate(R.layout.dialog, (ConstraintLayout)
+        findViewById(R.id.layoutDialogContainer));
 
-        View layout = inflater.inflate(R.layout.dialog, null);
+
+
+
+        builder.setView(layout);
+
         tituloAlertDialogAlergia = layout.findViewById(R.id.tituloDialog);
         mensagemAlertDialogAlergia = layout.findViewById(R.id.mensagemDialog);
         btnConfirmarAlergia = layout.findViewById(R.id.btnConfirmar);
         btnCancelarAlergia = layout.findViewById(R.id.btnCancelar);
-
-        builder.setView(layout);
 
         tituloAlertDialogAlergia.setText("ATENÇÃO!");
         mensagemAlertDialogAlergia.setText("Você está prestes a marcar que possui alergia a " +
@@ -145,7 +145,7 @@ public class AlergiaActivity extends AppCompatActivity {
 
         final AlertDialog dialog = builder.create();
 
-        dialog.show();
+
         dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialog) {

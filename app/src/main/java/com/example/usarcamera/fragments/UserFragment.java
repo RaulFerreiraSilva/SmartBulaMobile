@@ -28,6 +28,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.usarcamera.R;
 import com.example.usarcamera.activitys.AlergiaActivity;
+import com.example.usarcamera.activitys.ListaAlergia;
 import com.example.usarcamera.databinding.FragmentUserBinding;
 
 import org.json.JSONException;

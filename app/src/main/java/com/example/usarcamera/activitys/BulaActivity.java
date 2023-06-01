@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -33,11 +34,25 @@ public class BulaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bula);
 
+        SharedPreferences ler = getSharedPreferences("usuario", Context.MODE_PRIVATE);
+
         RequestQueue queue = Volley.newRequestQueue(this);
 
         iniciarComponentes();
+        pegarTexto(ler);
         queroFavoritar(queue);
+
         voltar();
+
+    }
+
+    private void pegarTexto(SharedPreferences ler) {
+
+        bula.setText(ler.getString("resumoBula", ""));
+
+        String txtFormatado = Html.fromHtml(bula.getText().toString()).toString();
+
+        bula.setText(txtFormatado);
 
     }
 
@@ -80,8 +95,7 @@ public class BulaActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
 
-                bula.setText(ler.getString("resumoBula", ""));
-                Log.d("RETORNO", ">>>>>>>>" + response);
+
 
             }
         }, new Response.ErrorListener() {
