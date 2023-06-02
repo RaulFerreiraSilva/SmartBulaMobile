@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,16 +22,11 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.usarcamera.R;
-import com.example.usarcamera.activitys.AlergiaActivity;
-import com.example.usarcamera.activitys.ListaAlergia;
+import com.example.usarcamera.activitys.ListaAlergiaUsuario;
 import com.example.usarcamera.databinding.FragmentUserBinding;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class UserFragment extends Fragment {
 
@@ -71,7 +65,7 @@ public class UserFragment extends Fragment {
 
     private void alergiaUsuario() {
         mostrarAlergia.setOnClickListener(v->{
-            Intent intent = new Intent(getActivity().getApplicationContext(), ListaAlergia.class);
+            Intent intent = new Intent(getActivity().getApplicationContext(), ListaAlergiaUsuario.class);
             startActivity(intent);
         });
     }

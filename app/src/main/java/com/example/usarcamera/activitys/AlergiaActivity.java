@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +42,7 @@ public class AlergiaActivity extends AppCompatActivity {
 
     private TextView tituloAlertDialogAlergia, mensagemAlertDialogAlergia;
 
+    private ImageButton voltar;
     private AppCompatButton btnConfirmarAlergia, btnCancelarAlergia;
 
     private ListView alergiasListV;
@@ -57,11 +59,18 @@ public class AlergiaActivity extends AppCompatActivity {
 
         iniciarComponentes();
         mostrarRemedios(queue);
+        fecharTela();
 
     }
 
+    private void fecharTela() {
+        voltar.setOnClickListener(v -> {
+            onBackPressed();
+        });
+    }
+
     private void mostrarRemedios(RequestQueue queue) {
-        List<String> lista = new ArrayList<>();
+        List<Alergia> lista = new ArrayList<>();
 
         String endpoint = "http://10.0.2.2:5000/api/Alergia/Listar";
 
@@ -71,9 +80,13 @@ public class AlergiaActivity extends AppCompatActivity {
                 if (response != null && response.length() > 0){
                     for (int i = 0; i < response.length(); i++){
                         try {
-                            String valor = response.getString(i);
-                            lista.add(valor);
                             JSONObject resposta = response.getJSONObject(i);
+
+                            Alergia alergia = new Alergia(resposta.getInt("id_Alergia"),
+                                    resposta.getString("tipo_Alergia"));
+
+                            lista.add(alergia);
+
 
                             SharedPreferences salvar = getSharedPreferences("usuario", Context.MODE_PRIVATE);
                             SharedPreferences.Editor gravar = salvar.edit();
@@ -85,7 +98,7 @@ public class AlergiaActivity extends AppCompatActivity {
                             exc.printStackTrace();
                         }
                     }
-                    ArrayAdapter<String> adaptador = new ArrayAdapter<String>(
+                    ArrayAdapter<Alergia> adaptador = new ArrayAdapter<Alergia>(
                             AlergiaActivity.this, //Contexto
                             android.R.layout.simple_list_item_1, //Layout padrão
                             lista); //Lista com os valores
@@ -104,14 +117,16 @@ public class AlergiaActivity extends AppCompatActivity {
         queue.add(request);
     }
 
-    private void selecionarAlergia(RequestQueue queue, List<String> lista) {
+    private void selecionarAlergia(RequestQueue queue, List<Alergia> lista) {
 
         alergiasListV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String dados = lista.get(position);
-                if (dados != null){
-                    salvarRemedioAlergia(dados, queue);
+                Alergia alergia = lista.get(position);
+                int idAlergia = alergia.getId_Alergia();
+                String nomeAlergia = alergia.getTipo_Alergia();
+                if (alergia != null){
+                    salvarRemedioAlergia(nomeAlergia, idAlergia, queue);
                     Log.d("ALERGIA", ">>>>>>>>>>" + "if");
                     //confirmarAcao(dados, queue);
                 }
@@ -119,7 +134,7 @@ public class AlergiaActivity extends AppCompatActivity {
         });
     }
 
-    private void confirmarAcao(String dados, RequestQueue queue) {
+    private void confirmarAcao(String nomeAlergia, int id, RequestQueue queue) {
 
         SharedPreferences ler = getSharedPreferences("usuario", Context.MODE_PRIVATE);
 
@@ -159,7 +174,7 @@ public class AlergiaActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                salvarRemedioAlergia(dados, queue);
+                salvarRemedioAlergia(nomeAlergia, id, queue);
 
                 dialog.dismiss();
 
@@ -183,12 +198,12 @@ public class AlergiaActivity extends AppCompatActivity {
 
     }
 
-    private void salvarRemedioAlergia(String nomeRemedio, RequestQueue queue) {
+    private void salvarRemedioAlergia(String nomeRemedio, int id, RequestQueue queue) {
 
         SharedPreferences ler = getSharedPreferences("usuario", Context.MODE_PRIVATE);
 
         String endpoint = "http://10.0.2.2:5000/api/Alergia/AlergiaUsuario/?id_Usuario=" +
-                ler.getString("id", "") + "&tipoAlergia=" + ler.getString("tipo_Alergia", "");
+                id + "&tipoAlergia=" + ler.getString("tipo_Alergia", "");
 
         StringRequest request = new StringRequest(Request.Method.POST, endpoint, new Response.Listener<String>() {
             @Override
@@ -207,6 +222,7 @@ public class AlergiaActivity extends AppCompatActivity {
 
     private void iniciarComponentes() {
         alergiasListV = findViewById(R.id.alergias);
+        voltar = findViewById(R.id.btnVoltarAlergia);
 
 
     }

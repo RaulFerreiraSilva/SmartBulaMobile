@@ -26,9 +26,9 @@
             android:layout_height="wrap_content"
             android:text="Aqui você pode ver quais remédios temos disponíveis para você marcar que tem alergia!"
             android:textColor="@color/black"
-            android:textSize="40sp"
+            android:textSize="30sp"
             android:textAlignment="center"
-            android:layout_marginVertical="10dp"/>
+            android:layout_marginVertical="50dp"/>
     </LinearLayout>
     <ListView
         android:id="@+id/alergias"

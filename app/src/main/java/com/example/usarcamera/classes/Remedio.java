@@ -1,5 +1,7 @@
 package com.example.usarcamera.classes;
 
+import androidx.annotation.NonNull;
+
 public class Remedio {
     private int id;
     private String bula, resumoBula, principioAtivo;
@@ -13,6 +15,12 @@ public class Remedio {
 
     public int getId() {
         return id;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Princípio-Ativo: " + principioAtivo;
     }
 
     public void setId(int id) {

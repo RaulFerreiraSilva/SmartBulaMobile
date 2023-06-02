@@ -1,11 +1,17 @@
 package com.example.usarcamera.activitys;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
+import android.util.Log;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.example.usarcamera.R;
 import com.example.usarcamera.databinding.ActivityMainBinding;
@@ -20,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +35,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         getSupportActionBar().hide();
+
+
+
+
+
 
         replaceFragment(new HomeFragment());
         binding.btnNav.setBackground(null);
@@ -42,6 +55,10 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
     }
+
+
+
+
 
     private void replaceFragment(Fragment fragment){
         FragmentManager manager = getSupportFragmentManager();

@@ -52,13 +52,14 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 
 public class CameraFragment extends Fragment {
 
     private FragmentCameraBinding binding;
-    private ImageButton fotoRemedio, pesquisarPorFala;
+    private ImageButton fotoRemedio, btnPesquisarFala;
 
     private AppCompatButton pesquisar;
 
@@ -93,34 +94,37 @@ public class CameraFragment extends Fragment {
         iniciarComponentes(root, layout);
         pesquisarBula(layout, queue, ler);
         tirarFoto(fotinha);
-
-        pesquisarPorFala(root);
-
+        abrirMicrofone();
         fotoRemedio.setImageBitmap(fotinha);
 
-        pesquisarPorFala.setOnClickListener(v -> {
-            pesquisarPorFala(root);
-        });
+
 
         return root;
     }
 
-    public void pesquisarPorFala(View root) {
+    private void abrirMicrofone(){
+        btnPesquisarFala.setOnClickListener(v ->{
+            analisarFala();
+        });
+    }
 
+    private void analisarFala() {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE);
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Fale Agora!");
-        Log.d("INTENT", ">>>>>>>>>>>>>>" + intent);
-        startActivityForResult(intent, 88);
+        intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS, 5);
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Fale agora!");
+        startActivityForResult(intent, 111);
+        Log.d("ANALISARFALA", ">>>>>>>>>>>" + intent);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 88 && resultCode == Activity.RESULT_OK){
-            Log.d("RESULT", ">>>>>>>>>>>>>" + data);
-            pesquisarPorTexto.setText(data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).get(0));
+        Log.d("ANTESDOIF", ">>>>>>>>>>>>>>" + data);
+        if (requestCode == 111 && resultCode == getActivity().RESULT_OK){
+            pesquisarPorTexto.setText(data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).
+                    get(0));
+            Log.d("DEPOISDOIF", ">>>>>>>>>>>>" + data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).get(0));
         }
     }
 
@@ -152,7 +156,7 @@ public class CameraFragment extends Fragment {
         fotoRemedio = root.findViewById(R.id.imgRemedio);
         pesquisar = root.findViewById(R.id.btnPesquisar);
         pesquisarPorTexto = root.findViewById(R.id.edit_search);
-        pesquisarPorFala = root.findViewById(R.id.btnFalar);
+       btnPesquisarFala = root.findViewById(R.id.btnFalar);
     }
 
     private void retornarBula(RequestQueue queue, View layout, SharedPreferences ler) {
