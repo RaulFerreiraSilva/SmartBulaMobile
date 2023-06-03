@@ -1,13 +1,16 @@
 package com.example.usarcamera.activitys;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,9 +28,11 @@ import org.json.JSONObject;
 
 public class BulaActivity extends AppCompatActivity {
 
-    private TextView bula;
-    private ImageButton voltarTela;
+    private TextView bula, opcaoBula, opcaoResumo;
+    private ImageButton voltarTela, aumentarFonte, diminuirFonte;
     private ImageView favorito;
+
+    private SwitchCompat alternarTexto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,20 +44,67 @@ public class BulaActivity extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(this);
 
         iniciarComponentes();
-        pegarTexto(ler);
         queroFavoritar(queue);
+        aumentarFonte();
+        diminuirFonte();
+        mudarEstadoSwitch(ler);
+
+
 
         voltar();
 
     }
 
-    private void pegarTexto(SharedPreferences ler) {
+    private void mudarEstadoSwitch(SharedPreferences ler) {
+        alternarTexto.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                float elevation = 0f;
+                float realElevatiom = 100f;
+                float densidade = getResources().getDisplayMetrics().density;
+                float elevationUpper = realElevatiom * densidade;
+                if (isChecked){
+                    bula.setText(ler.getString("resumoBula", ""));
 
-        bula.setText(ler.getString("resumoBula", ""));
+                    String txtFormatado = Html.fromHtml(bula.getText().toString()).toString();
 
-        String txtFormatado = Html.fromHtml(bula.getText().toString()).toString();
+                    bula.setText(txtFormatado);
 
-        bula.setText(txtFormatado);
+                    opcaoBula.setElevation(elevation);
+                    opcaoBula.setVisibility(View.INVISIBLE);
+                    opcaoResumo.setElevation(elevationUpper);
+                    opcaoResumo.setVisibility(View.VISIBLE);
+                } else {
+                    bula.setText(ler.getString("bula", ""));
+
+                    String txtFormatado = Html.fromHtml(bula.getText().toString()).toString();
+
+                    bula.setText(txtFormatado);
+
+                    opcaoResumo.setElevation(elevation);
+                    opcaoResumo.setVisibility(View.INVISIBLE);
+                    opcaoBula.setElevation(elevationUpper);
+                    opcaoBula.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+    }
+
+    private void diminuirFonte() {
+        diminuirFonte.setOnClickListener(v -> {
+            float tamanhoAtual = bula.getTextSize();
+            float tamanhoNovo = tamanhoAtual - 3;
+            bula.setTextSize(TypedValue.COMPLEX_UNIT_SP, tamanhoNovo);
+        });
+
+    }
+
+    private void aumentarFonte() {
+        aumentarFonte.setOnClickListener(v ->{
+            float tamanhoAtual = bula.getTextSize();
+            float tamanhoNovo = tamanhoAtual + 3;
+            bula.setTextSize(TypedValue.COMPLEX_UNIT_SP, tamanhoNovo);
+        });
 
     }
 
@@ -95,7 +147,7 @@ public class BulaActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
 
-
+                Log.d("TAG", ">>>>>>>>" +response);
 
             }
         }, new Response.ErrorListener() {
@@ -114,6 +166,11 @@ public class BulaActivity extends AppCompatActivity {
         voltarTela = findViewById(R.id.btnVoltarBula);
         favorito = findViewById(R.id.btnFavoritarBula);
         bula = findViewById(R.id.txtBula);
+        aumentarFonte = findViewById(R.id.btnAumentarFonte);
+        diminuirFonte = findViewById(R.id.btnDiminuirFonte);
+        alternarTexto = findViewById(R.id.swtichBula);
+        opcaoBula = findViewById(R.id.txtOpcaoBula);
+        opcaoResumo = findViewById(R.id.txtOpcaoResumo);
     }
 
 

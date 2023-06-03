@@ -74,7 +74,7 @@ public class AlergiaActivity extends AppCompatActivity {
 
         String endpoint = "http://10.0.2.2:5000/api/Alergia/Listar";
 
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.POST, endpoint, null, new Response.Listener<JSONArray>() {
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, endpoint, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 if (response != null && response.length() > 0){
@@ -203,7 +203,7 @@ public class AlergiaActivity extends AppCompatActivity {
         SharedPreferences ler = getSharedPreferences("usuario", Context.MODE_PRIVATE);
 
         String endpoint = "http://10.0.2.2:5000/api/Alergia/AlergiaUsuario/?id_Usuario=" +
-                id + "&tipoAlergia=" + ler.getString("tipo_Alergia", "");
+                ler.getString("id", "") + "&id_Alergia=" + id;
 
         StringRequest request = new StringRequest(Request.Method.POST, endpoint, new Response.Listener<String>() {
             @Override

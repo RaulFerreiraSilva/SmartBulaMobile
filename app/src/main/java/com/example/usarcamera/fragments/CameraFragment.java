@@ -66,8 +66,7 @@ public class CameraFragment extends Fragment {
     private EditText pesquisarPorTexto;
 
     private TextView bula;
-
-    private int referencia = R.drawable.foto_dipirona;
+    
 
     private String[] remediosCadastrados = {"dipirona"};
 
@@ -88,14 +87,14 @@ public class CameraFragment extends Fragment {
         SharedPreferences ler = getActivity().getApplicationContext().getSharedPreferences(
                 "usuario", Context.MODE_PRIVATE);
 
-        Bitmap fotinha = BitmapFactory.decodeResource(getResources(),
-                referencia);
+        /*Bitmap fotinha = BitmapFactory.decodeResource(getResources(),
+                referencia);*/
 
         iniciarComponentes(root, layout);
-        pesquisarBula(layout, queue, ler);
-        tirarFoto(fotinha);
+        pesquisarBula(queue, ler);
+        tirarFoto();
         abrirMicrofone();
-        fotoRemedio.setImageBitmap(fotinha);
+        //fotoRemedio.setImageBitmap(fotinha);
 
 
 
@@ -128,24 +127,20 @@ public class CameraFragment extends Fragment {
         }
     }
 
-    private void tirarFoto(Bitmap fotinha) {
+    private void tirarFoto() {
         fotoRemedio.setOnClickListener(v -> {
 
-                /*Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                resultFoto.launch(intent);*/
-
-                analisarImagem(fotinha,
-                        "https://scanremedio.cognitiveservices.azure.com/computervision/imageanalysis:analyze?api-version=2023-02-01-preview&features=read",
-                        "6c193a3b7d2747ae8fc02707a665fb7f");
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                resultFoto.launch(intent);
 
 
         });
     }
 
-    private void pesquisarBula(View layout, RequestQueue queue, SharedPreferences ler) {
+    private void pesquisarBula(RequestQueue queue, SharedPreferences ler) {
         pesquisar.setOnClickListener(v -> {
 
-                    retornarBula(queue, layout, ler);
+                    retornarBula(queue, ler);
 
         });
     }
@@ -159,15 +154,13 @@ public class CameraFragment extends Fragment {
        btnPesquisarFala = root.findViewById(R.id.btnFalar);
     }
 
-    private void retornarBula(RequestQueue queue, View layout, SharedPreferences ler) {
-
+    private void retornarBula(RequestQueue queue, SharedPreferences ler) {
 
         Log.d("NOMEREMEDIO", ">>>>>>>>>>>>>>>" + ler.getString("remedioEncontrado", ""));
 
-        String teste = "dipirona";
 
-        String endpoint = "http://10.0.2.2:5000/api/Remedio?response="+teste;
-                //ler.getString("remedioEncontrado", "");
+        String endpoint = "http://10.0.2.2:5000/api/Remedio?response="+
+                ler.getString("remedioEncontrado", "");
 
         List<Remedio> lista = new ArrayList<>();
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, endpoint, null, new Response.Listener<JSONObject>() {
@@ -293,11 +286,7 @@ public class CameraFragment extends Fragment {
                         for (String palavra : remediosCadastrados){
                            if (resultadoJSON.equals(palavra)){
                                Log.d("nomeRemedio", ">>>>>>>>>" + palavra);
-                                SharedPreferences salvar = getActivity().getApplicationContext()
-                                        .getSharedPreferences("usuario", Context.MODE_PRIVATE);
-                                SharedPreferences.Editor gravar = salvar.edit();
-                                gravar.putString("remedioEncontrado", palavra);
-                                gravar.commit();
+
                            }
                         }
                     }

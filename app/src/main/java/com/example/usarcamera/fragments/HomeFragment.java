@@ -71,7 +71,6 @@ public class HomeFragment extends Fragment {
         deslogar(root, layout);
         mudarBemVindo(ler);
         abrirTelaAlergia();
-        mudarBemVindo(ler);
         return root;
     }
 

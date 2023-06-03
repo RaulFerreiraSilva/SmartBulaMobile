@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -77,7 +78,7 @@ public class FavoritoFragment extends Fragment {
 
         List<Remedio> lista = new ArrayList<>();
 
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.POST,
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET,
                 endpoint, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -104,6 +105,7 @@ public class FavoritoFragment extends Fragment {
                         android.R.layout.simple_list_item_1, //Layout padrão
                         lista); //Lista com os valores
                 favoritos.setAdapter(adaptador);
+                //verificarFavorito(adaptador, favoritos);
                 verFavorito(queue, lista, ler);
             }
         }, new Response.ErrorListener() {
@@ -116,6 +118,14 @@ public class FavoritoFragment extends Fragment {
         queue.add(request);
     }
 
+    /*private void verificarFavorito(ArrayAdapter<Remedio> adaptador, ListView favoritos) {
+
+        if (icFavorito.getTag().toString().equals("NoFav")){
+            adaptador.clear();
+            adaptador.notifyDataSetChanged();
+        }
+    }*/
+
     private void verFavorito(RequestQueue queue, List<Remedio> lista, SharedPreferences ler) {
         favoritos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -127,7 +137,7 @@ public class FavoritoFragment extends Fragment {
                 if (remedin != null){
                     mostrarBulaFavorita(queue, ler, principioAtivo);
                     Log.d("ALERGIA", ">>>>>>>>>>" + "if");
-                    //confirmarAcao(dados, queue);
+
                 }
             }
         });
