@@ -1,20 +1,31 @@
 package com.example.usarcamera.fragments;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.provider.MediaStore;
+import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,20 +39,37 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.usarcamera.R;
+import com.example.usarcamera.activitys.BulaActivity;
+import com.example.usarcamera.classes.Remedio;
 import com.example.usarcamera.databinding.FragmentCameraBinding;
+import com.google.gson.JsonArray;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 
 public class CameraFragment extends Fragment {
 
     private FragmentCameraBinding binding;
-    private ImageButton fotoRemedio;
+    private ImageButton fotoRemedio, btnPesquisarFala;
+
+    private AppCompatButton pesquisar;
+
+    private EditText pesquisarPorTexto;
+
+    private TextView bula;
+    
+
+    private String[] remediosCadastrados = {"dipirona"};
+
 
 
 
@@ -51,17 +79,151 @@ public class CameraFragment extends Fragment {
         binding = FragmentCameraBinding.inflate(getLayoutInflater());
         View root = binding.getRoot();
 
-        fotoRemedio = root.findViewById(R.id.imgRemedio);
+        View layout = inflater.inflate(R.layout.activity_bula, container, false);
 
-        fotoRemedio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                resultFoto.launch(intent);
-            }
-        });
+        RequestQueue queue= Volley.newRequestQueue(getActivity().getApplicationContext());
+
+
+        SharedPreferences ler = getActivity().getApplicationContext().getSharedPreferences(
+                "usuario", Context.MODE_PRIVATE);
+
+        /*Bitmap fotinha = BitmapFactory.decodeResource(getResources(),
+                referencia);*/
+
+        iniciarComponentes(root, layout);
+        pesquisarBula(queue, ler);
+        tirarFoto();
+        abrirMicrofone();
+        //fotoRemedio.setImageBitmap(fotinha);
+
+
 
         return root;
+    }
+
+    private void abrirMicrofone(){
+        btnPesquisarFala.setOnClickListener(v ->{
+            analisarFala();
+        });
+    }
+
+    private void analisarFala() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS, 5);
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Fale agora!");
+        startActivityForResult(intent, 111);
+        Log.d("ANALISARFALA", ">>>>>>>>>>>" + intent);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d("ANTESDOIF", ">>>>>>>>>>>>>>" + data);
+        if (requestCode == 111 && resultCode == getActivity().RESULT_OK){
+            pesquisarPorTexto.setText(data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).
+                    get(0));
+            Log.d("DEPOISDOIF", ">>>>>>>>>>>>" + data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).get(0));
+        }
+    }
+
+    private void tirarFoto() {
+        fotoRemedio.setOnClickListener(v -> {
+
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                resultFoto.launch(intent);
+
+
+        });
+    }
+
+    private void pesquisarBula(RequestQueue queue, SharedPreferences ler) {
+        pesquisar.setOnClickListener(v -> {
+
+                    retornarBula(queue, ler);
+
+        });
+    }
+
+    private void iniciarComponentes(View root, View layout) {
+
+        bula = layout.findViewById(R.id.txtBula);
+        fotoRemedio = root.findViewById(R.id.imgRemedio);
+        pesquisar = root.findViewById(R.id.btnPesquisar);
+        pesquisarPorTexto = root.findViewById(R.id.edit_search);
+       btnPesquisarFala = root.findViewById(R.id.btnFalar);
+    }
+
+    private void retornarBula(RequestQueue queue, SharedPreferences ler) {
+
+        Log.d("NOMEREMEDIO", ">>>>>>>>>>>>>>>" + ler.getString("remedioEncontrado", ""));
+
+
+        String endpoint = "http://10.0.2.2:5000/api/Remedio?response="+
+                ler.getString("remedioEncontrado", "");
+
+        List<Remedio> lista = new ArrayList<>();
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, endpoint, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                if (response != null && response.length() > 0){
+                    try {
+                        Remedio remedio = new Remedio(
+                                response.getInt("idMedicamento"),
+                                response.getString("bula"),
+                                response.getString("resumoBula"),
+                                response.getString("principioAtivo"));
+
+                        lista.add(remedio);
+
+                        SharedPreferences salvar = getActivity().getApplicationContext()
+                                .getSharedPreferences("usuario", Context.MODE_PRIVATE);
+
+                        SharedPreferences.Editor gravar = salvar.edit();
+                        gravar.putString("idMed", response.getString("idMedicamento"));
+                        gravar.putString("bula", response.getString("bula"));
+                        gravar.putString("resumoBula", response.getString("resumoBula"));
+                        gravar.putString("contraIndicacao", response.getString("contraIndicacao"));
+                        gravar.putString("recomendadoPara", response.getString("recomendadoPara"));
+
+                        gravar.commit();
+
+                        Handler espera = new Handler();
+                        espera.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                bula.setText(ler.getString("bula", ""));
+                                Intent intent = new Intent(getActivity().getApplicationContext(), BulaActivity.class);
+                                startActivity(intent);
+                            }
+                        }, 3000);
+                    }catch (JSONException ex){
+
+                        ex.printStackTrace();
+                    }
+                } else{
+                    Toast.makeText(getActivity().getApplicationContext(),
+                            "Remedio não encontrado", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                Log.d("ERRO", ">>>>>>>>>>>>>>" + error);
+                Log.d("ERRO", ">>>>>>>>>>>>>>" + error.getMessage());
+                Log.d("ERRO", ">>>>>>>>>>>>>>" + error.getCause());
+            }
+        }){
+            /*@Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+
+                return headers;
+            }*/
+        };
+        queue.add(request);
     }
 
     ActivityResultLauncher<Intent> resultFoto = registerForActivityResult(
@@ -71,9 +233,10 @@ public class CameraFragment extends Fragment {
                         Bundle extras = result.getData().getExtras();
                         Bitmap img = (Bitmap) extras.get("data");
 
-                        fotoRemedio.setRotation(90);
+                        fotoRemedio.setRotation(270);
 
                         fotoRemedio.setImageBitmap(img);
+
 
                         analisarImagem(img, "https://scanremedio.cognitiveservices.azure.com/computervision/imageanalysis:analyze?api-version=2023-02-01-preview&features=read"
                                 , "6c193a3b7d2747ae8fc02707a665fb7f");
@@ -103,32 +266,34 @@ public class CameraFragment extends Fragment {
             e.printStackTrace();
         }
 
-        //o Volley tem um TimeOut muito curto, então tive que estender o tempo para 20s pois assim
-        //consigo receber o retorno da API
         int timeout = 20000;
         RetryPolicy policy = new DefaultRetryPolicy(timeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, endpoint, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.d("APP_CUSTOM_VISION", ">>>>>>>>>>>> " + response.toString());
 
-                //o retorno por enquanto está sendo trazido ao front por um setText, porém depois
-                //o retorno irá vir por meio da bula do remédio
                 try {
-                    JSONObject obj = response.getJSONObject("readResult");
-                    String text = obj.getString("content");
-                    if (!text.equals(null)){
-                        Intent intent = new Intent(getActivity().getApplicationContext(), BulaFragment.class);
-                        startActivity(intent);
-                        Log.d("SUCESSO", ">>>>>>>>>>>" + text);
+                    JSONArray retorno = response.getJSONObject("readResult").getJSONArray(
+                            "pages");
+                    JSONArray words = retorno.getJSONObject(0).getJSONArray("words");
 
-                    } else {
-                        Toast.makeText(getActivity(), "Erro", Toast.LENGTH_SHORT).show();;
+
+                    for (int i=0;i< words.length(); i++){
+                        JSONObject content = words.getJSONObject(i);
+                        String resultadoJSON = content.getString("content");
+
+                        for (String palavra : remediosCadastrados){
+                           if (resultadoJSON.equals(palavra)){
+                               Log.d("nomeRemedio", ">>>>>>>>>" + palavra);
+
+                           }
+                        }
                     }
-                } catch (JSONException e) {
-                    Log.d("ERRO", "onResponse: " + e.getMessage());
+                }catch (JSONException e){
+                    e.printStackTrace();
                 }
+
             }
         }, new Response.ErrorListener() {
             @Override

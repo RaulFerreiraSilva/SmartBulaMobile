@@ -58,15 +58,14 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void iniciarComponentes(){
+    private void iniciarComponentes() {
         txtCadastrar = findViewById(R.id.txtCadastro);
         btnLogar = findViewById(R.id.btnLogar);
         senhaLogin = findViewById(R.id.editSenhaLogin);
         emailLogin = findViewById(R.id.editEmailLogin);
     }
 
-    private void mudarTela(){
-        iniciarComponentes();
+    private void mudarTela() {
         txtCadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,35 +75,33 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void logarUsuario(RequestQueue queue){
+    private void logarUsuario(RequestQueue queue) {
 
         int timeout = 20000;
         RetryPolicy policy = new DefaultRetryPolicy(timeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
 
-        String endpoint = "http://10.0.2.2:5000/api/Usuario/Logar/?userName="+emailLogin.getText().toString()+"&password="+senhaLogin.getText().toString();
+        String endpoint = "http://10.0.2.2:5000/api/Usuario/Logar/?email=" + emailLogin.getText().toString() + "&password=" + senhaLogin.getText().toString();
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, endpoint, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
 
-                    String nome = response.getString("nome");
+                    SharedPreferences salvar = getSharedPreferences("usuario", Context.MODE_PRIVATE);
 
+                    SharedPreferences.Editor gravar = salvar.edit();
+                    gravar.putString("id", response.getString("id_Usuario"));
+                    gravar.putString("nome", response.getString("nome"));
+                    gravar.putString("SobreNome", response.getString("sobreNome"));
+                    gravar.putString("dataNasc", response.getString("dataNasc"));
+                    gravar.putString("email", response.getString("email"));
+                    gravar.putString("senha", response.getString("senha"));
+                    gravar.commit();
 
-                      SharedPreferences salvar = getSharedPreferences("usuario", Context.MODE_PRIVATE);
+                    Log.d("NOME", ">>>>>>>>" + response.getString("nome"));
 
-                      SharedPreferences.Editor gravar = salvar.edit();
-                      gravar.putString("nome", nome);
-                      gravar.putString("SobreNome", response.getString("sobreNome"));
-                      gravar.putString("dataNasc", response.getString("dataNasc"));
-                      gravar.putString("email", response.getString("email"));
-                      gravar.putString("senha", response.getString("senha"));
-                      gravar.commit();
-
-                    Log.d("NOME", ">>>>>>>>" + nome);
-
-                } catch (JSONException e){
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
 

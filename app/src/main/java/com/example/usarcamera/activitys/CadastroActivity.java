@@ -20,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.usarcamera.R;
 import com.example.usarcamera.classes.Pessoa;
@@ -41,21 +42,30 @@ public class CadastroActivity extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(this);
         //editNascimento.addTextChangedListener(new Mascara());
 
-        btnCadastrar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                cadastrarUsuario(queue);
-            }
-        });
+        clique(queue);
 
     }
 
-    private void cadastrarUsuario(RequestQueue queue){
+    private void clique(RequestQueue queue) {
+        btnCadastrar.setOnClickListener(View -> confirmarSenha(queue));
+    }
+
+    private void confirmarSenha(RequestQueue queue) {
+
+        if (editSenha.getText().toString().equals(editConfirmarSenha.getText().toString())) {
+            cadastrarUsuario(queue);
+        } else {
+            editSenha.setText("");
+            editConfirmarSenha.setText("");
+            Toast.makeText(this, "As senhas digitadas não são iguais, por favor, tente novamente!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void cadastrarUsuario(RequestQueue queue) {
 
         Pessoa pessoa = new Pessoa(editNome.getText().toString(), editSobrenome.getText().toString(),
-                editSenha.getText().toString(), editEmail.getText().toString(),
-                editNascimento.getText().toString());
+                editNascimento.getText().toString(), editEmail.getText().toString(),
+                editSenha.getText().toString());
 
         JSONObject usuario = new JSONObject();
         try {
@@ -65,7 +75,7 @@ public class CadastroActivity extends AppCompatActivity {
             usuario.put("Email", pessoa.getEmail());
             usuario.put("Senha", pessoa.getSenha());
             Log.d("RESULTADO", ">>>>>>>>>>" + usuario);
-        } catch (JSONException e){
+        } catch (JSONException e) {
             Log.d("TAG", "cadastrarUsuario " + e.getMessage());
         }
 
@@ -73,9 +83,27 @@ public class CadastroActivity extends AppCompatActivity {
         RetryPolicy policy = new DefaultRetryPolicy(timeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
 
-        String endpoint = "http://10.0.2.2:5000/api/Usuario/Salvar/?usuario="+usuario;
+        String endpoint = "http://10.0.2.2:5000/api/Usuario/Salvar/?usuario=" + usuario;
         Log.d("USUARIO", ">>>>>>>>>>>>>>" + usuario);
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, endpoint, null, new Response.Listener<JSONObject>() {
+
+        StringRequest request = new StringRequest(Request.Method.POST, endpoint, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if (!response.equals(null) && response.length() > 0){
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(CadastroActivity.this, "Usuario não cadastrado, favor tentar novamente!", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+        /*JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, endpoint, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
 
@@ -87,7 +115,7 @@ public class CadastroActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 Log.d("ERRO", ">>>>>>>>>>>>>> " + error);
             }
-        });
+        });*/
 
         queue.add(request);
     }

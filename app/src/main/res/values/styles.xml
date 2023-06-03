@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="AlertDialogTheme">
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+    </style>
+
     <style name="ImgCapsula">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">80dp</item>
@@ -67,6 +71,14 @@
         <item name="android:textColor">@color/black</item>
         <item name="android:textStyle">bold</item>
         <item name="android:layout_marginTop">20dp</item>
+    </style>
+
+    <style name="ButtonDiminuirAumentar">
+        <item name="background">@drawable/btn_aumentar_diminuir_bula</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="elevation">100dp</item>
     </style>
 
     <style name="ButtonAlterar">
@@ -143,9 +155,19 @@
 
     <style name="CardAlergia">
         <item name="android:layout_width">180dp</item>
-        <item name="android:layout_height">280dp</item>
+        <item name="android:layout_height">350dp</item>
         <item name="android:background">@drawable/card_alergia</item>
     </style>
+
+    <!--<style name="CardBula">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@drawable/card_bula</item>
+        &lt;!&ndash;<item name="android:popupElevation">10dp</item>
+        <item name="android:elevation">10dp</item>&ndash;&gt;
+        <item name="android:layout_marginVertical">100dp</item>
+        <item name="android:layout_marginHorizontal">5dp</item>
+    </style>-->
 
     <style name="CardBemVindo">
         <item name="android:layout_width">250dp</item>
