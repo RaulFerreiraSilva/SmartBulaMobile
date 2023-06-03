@@ -42,7 +42,7 @@
                 android:layout_marginLeft="10dp"
                 android:elevation="100dp"
                 android:background="#00FFFFFF"
-                app:srcCompat="@drawable/ic_senha_login"
+                app:srcCompat="@drawable/ic_nofav"
                 android:tag="NoFav"/>
 
         </LinearLayout>

@@ -160,7 +160,7 @@ public class CameraFragment extends Fragment {
 
 
         String endpoint = "http://10.0.2.2:5000/api/Remedio?response="+
-                ler.getString("remedioEncontrado", "");
+                pesquisarPorTexto.getText().toString();
 
         List<Remedio> lista = new ArrayList<>();
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, endpoint, null, new Response.Listener<JSONObject>() {
@@ -286,7 +286,7 @@ public class CameraFragment extends Fragment {
                         for (String palavra : remediosCadastrados){
                            if (resultadoJSON.equals(palavra)){
                                Log.d("nomeRemedio", ">>>>>>>>>" + palavra);
-
+                                pesquisarPorTexto.setText(palavra);
                            }
                         }
                     }
