@@ -23,6 +23,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -42,6 +43,7 @@ import com.example.usarcamera.R;
 import com.example.usarcamera.activitys.BulaActivity;
 import com.example.usarcamera.classes.Remedio;
 import com.example.usarcamera.databinding.FragmentCameraBinding;
+import com.example.usarcamera.databinding.FragmentHistoricoBinding;
 import com.google.gson.JsonArray;
 
 import org.json.JSONArray;
@@ -59,6 +61,7 @@ import java.util.Map;
 public class CameraFragment extends Fragment {
 
     private FragmentCameraBinding binding;
+
     private ImageButton fotoRemedio, btnPesquisarFala;
 
     private AppCompatButton pesquisar;
@@ -81,50 +84,46 @@ public class CameraFragment extends Fragment {
 
         View layout = inflater.inflate(R.layout.activity_bula, container, false);
 
+
         RequestQueue queue= Volley.newRequestQueue(getActivity().getApplicationContext());
 
 
         SharedPreferences ler = getActivity().getApplicationContext().getSharedPreferences(
                 "usuario", Context.MODE_PRIVATE);
 
-        /*Bitmap fotinha = BitmapFactory.decodeResource(getResources(),
-                referencia);*/
 
         iniciarComponentes(root, layout);
         pesquisarBula(queue, ler);
         tirarFoto();
-        abrirMicrofone();
-        //fotoRemedio.setImageBitmap(fotinha);
-
+        analisarFala(queue, ler);
 
 
         return root;
     }
 
-    private void abrirMicrofone(){
-        btnPesquisarFala.setOnClickListener(v ->{
-            analisarFala();
+
+
+    private void analisarFala(RequestQueue queue, SharedPreferences ler) {
+        btnPesquisarFala.setOnClickListener(v->{
+
+            Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+            intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Fale agora!");
+            getActivity().startActivityForResult(intent, 111);
+            Log.d("ANALISARFALA", ">>>>>>>>>>>" + intent);
+
+            Handler tempo = new Handler();
+            tempo.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    String nome = ler.getString("nomeRemedio", "");
+                    retornoDaFala(queue, ler, nome);
+                }
+            }, 9000);
+
         });
-    }
 
-    private void analisarFala() {
-        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS, 5);
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Fale agora!");
-        startActivityForResult(intent, 111);
-        Log.d("ANALISARFALA", ">>>>>>>>>>>" + intent);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Log.d("ANTESDOIF", ">>>>>>>>>>>>>>" + data);
-        if (requestCode == 111 && resultCode == getActivity().RESULT_OK){
-            pesquisarPorTexto.setText(data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).
-                    get(0));
-            Log.d("DEPOISDOIF", ">>>>>>>>>>>>" + data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).get(0));
-        }
     }
 
     private void tirarFoto() {
@@ -140,9 +139,15 @@ public class CameraFragment extends Fragment {
     private void pesquisarBula(RequestQueue queue, SharedPreferences ler) {
         pesquisar.setOnClickListener(v -> {
 
-                    retornarBula(queue, ler);
+            retornarBula(queue, ler);
 
         });
+    }
+
+    private void retornoDaFala(RequestQueue queue, SharedPreferences ler, String nome){
+        pesquisarPorTexto.setText(nome);
+
+        Log.d("CAMPOPREENCHIDO", ">>>>>>>>>>" + pesquisarPorTexto.getText().toString());
     }
 
     private void iniciarComponentes(View root, View layout) {
@@ -156,13 +161,9 @@ public class CameraFragment extends Fragment {
 
     private void retornarBula(RequestQueue queue, SharedPreferences ler) {
 
-        Log.d("NOMEREMEDIO", ">>>>>>>>>>>>>>>" + ler.getString("remedioEncontrado", ""));
-
-
-        String endpoint = "http://10.0.2.2:5000/api/Remedio?response="+
+        String endpoint = "http://localhost:5000/api/Remedio?response="+
                 pesquisarPorTexto.getText().toString();
 
-        List<Remedio> lista = new ArrayList<>();
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, endpoint, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -174,7 +175,6 @@ public class CameraFragment extends Fragment {
                                 response.getString("resumoBula"),
                                 response.getString("principioAtivo"));
 
-                        lista.add(remedio);
 
                         SharedPreferences salvar = getActivity().getApplicationContext()
                                 .getSharedPreferences("usuario", Context.MODE_PRIVATE);
@@ -205,6 +205,11 @@ public class CameraFragment extends Fragment {
                     Toast.makeText(getActivity().getApplicationContext(),
                             "Remedio não encontrado", Toast.LENGTH_SHORT).show();
                 }
+                /*ArrayAdapter<Remedio> adaptador = new ArrayAdapter<Remedio>(
+                        historico.getContext(), //Contexto
+                        android.R.layout.simple_list_item_1, //Layout padrão
+                        lista); //Lista com os valores
+                bdg.listViewHistorico.setAdapter(adaptador);*/
             }
         }, new Response.ErrorListener() {
             @Override
@@ -214,15 +219,7 @@ public class CameraFragment extends Fragment {
                 Log.d("ERRO", ">>>>>>>>>>>>>>" + error.getMessage());
                 Log.d("ERRO", ">>>>>>>>>>>>>>" + error.getCause());
             }
-        }){
-            /*@Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("Content-Type", "application/json");
-
-                return headers;
-            }*/
-        };
+        });
         queue.add(request);
     }
 

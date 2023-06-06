@@ -28,6 +28,11 @@ import com.example.usarcamera.classes.Pessoa;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 public class CadastroActivity extends AppCompatActivity {
 
     private EditText editNascimento, editNome, editSobrenome, editEmail, editSenha, editConfirmarSenha;
@@ -40,31 +45,46 @@ public class CadastroActivity extends AppCompatActivity {
 
         iniciarComponentes();
         RequestQueue queue = Volley.newRequestQueue(this);
-        //editNascimento.addTextChangedListener(new Mascara());
+
 
         clique(queue);
 
     }
 
     private void clique(RequestQueue queue) {
-        btnCadastrar.setOnClickListener(View -> confirmarSenha(queue));
+        btnCadastrar.setOnClickListener(v -> verficaSenhaInverteOrdem(queue));
     }
 
-    private void confirmarSenha(RequestQueue queue) {
 
-        if (editSenha.getText().toString().equals(editConfirmarSenha.getText().toString())) {
-            cadastrarUsuario(queue);
-        } else {
-            editSenha.setText("");
-            editConfirmarSenha.setText("");
-            Toast.makeText(this, "As senhas digitadas não são iguais, por favor, tente novamente!", Toast.LENGTH_SHORT).show();
+    private void verficaSenhaInverteOrdem(RequestQueue queue) {
+
+        String dataPadrao = editNascimento.getText().toString();
+
+        SimpleDateFormat formatoEntrada = new SimpleDateFormat("ddmmyyyy");
+        SimpleDateFormat formatoSaida = new SimpleDateFormat("yyyy-MM-dd");
+
+        try {
+            Date data = formatoEntrada.parse(dataPadrao);
+            String dataFormatada = formatoSaida.format(data);
+
+            Log.d("DATA", ">>>>>>>>>>>>>>" + dataFormatada);
+
+            if (editSenha.getText().toString().equals(editConfirmarSenha.getText().toString())) {
+                cadastrarUsuario(queue, dataFormatada);
+            } else {
+                editSenha.setText("");
+                editConfirmarSenha.setText("");
+                Toast.makeText(getApplicationContext(), "As senhas digitadas não são iguais, por favor, tente novamente!", Toast.LENGTH_SHORT).show();
+            }
+        } catch (ParseException exc){
+            exc.printStackTrace();
         }
     }
 
-    private void cadastrarUsuario(RequestQueue queue) {
+    private void cadastrarUsuario(RequestQueue queue, String dataFormata) {
 
         Pessoa pessoa = new Pessoa(editNome.getText().toString(), editSobrenome.getText().toString(),
-                editNascimento.getText().toString(), editEmail.getText().toString(),
+                dataFormata, editEmail.getText().toString(),
                 editSenha.getText().toString());
 
         JSONObject usuario = new JSONObject();
@@ -83,7 +103,7 @@ public class CadastroActivity extends AppCompatActivity {
         RetryPolicy policy = new DefaultRetryPolicy(timeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
 
-        String endpoint = "http://10.0.2.2:5000/api/Usuario/Salvar/?usuario=" + usuario;
+        String endpoint = "http://localhost:5000/api/Usuario/Salvar/?usuario=" + usuario;
         Log.d("USUARIO", ">>>>>>>>>>>>>>" + usuario);
 
         StringRequest request = new StringRequest(Request.Method.POST, endpoint, new Response.Listener<String>() {
@@ -103,58 +123,9 @@ public class CadastroActivity extends AppCompatActivity {
                 error.printStackTrace();
             }
         });
-        /*JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, endpoint, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-
-                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(intent);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("ERRO", ">>>>>>>>>>>>>> " + error);
-            }
-        });*/
 
         queue.add(request);
     }
-
-    /*private class Mascara implements TextWatcher{
-
-        private boolean formatando;
-
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (formatando){
-                formatando = false;
-                return;
-            }
-
-            String dtNascimento = s.toString().replaceAll("[^\\d]", "");
-
-            if (dtNascimento.length() == 8) {
-                dtNascimento = dtNascimento.substring(0, 2) + "-" + dtNascimento.substring(2, 4) + "-" +
-                        dtNascimento.substring(4, 8) + "-";
-            }
-
-            formatando = true;
-            editNascimento.setText(dtNascimento);
-            editNascimento.setSelection(editNascimento.getText().length());
-        }
-
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-
-        }
-    }*/
 
     private void iniciarComponentes() {
         editNascimento = findViewById(R.id.editDataCadastro);

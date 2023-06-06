@@ -6,6 +6,7 @@ import androidx.appcompat.widget.SwitchCompat;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.text.Html;
 import android.util.Log;
 import android.util.TypedValue;
@@ -29,7 +30,7 @@ import org.json.JSONObject;
 public class BulaActivity extends AppCompatActivity {
 
     private TextView bula, opcaoBula, opcaoResumo;
-    private ImageButton voltarTela, aumentarFonte, diminuirFonte;
+    private ImageButton voltarTela, aumentarFonte, diminuirFonte, leituraBula;
     private ImageView favorito;
 
     private SwitchCompat alternarTexto;
@@ -45,8 +46,7 @@ public class BulaActivity extends AppCompatActivity {
 
         iniciarComponentes();
         queroFavoritar(queue);
-        aumentarFonte();
-        diminuirFonte();
+        aumentarDiminuirFonte();
         mudarEstadoSwitch(ler);
 
 
@@ -90,19 +90,16 @@ public class BulaActivity extends AppCompatActivity {
         });
     }
 
-    private void diminuirFonte() {
-        diminuirFonte.setOnClickListener(v -> {
+    private void aumentarDiminuirFonte() {
+        aumentarFonte.setOnClickListener(v ->{
             float tamanhoAtual = bula.getTextSize();
-            float tamanhoNovo = tamanhoAtual - 3;
+            float tamanhoNovo = tamanhoAtual + 2;
             bula.setTextSize(TypedValue.COMPLEX_UNIT_SP, tamanhoNovo);
         });
 
-    }
-
-    private void aumentarFonte() {
-        aumentarFonte.setOnClickListener(v ->{
-            float tamanhoAtual = bula.getTextSize();
-            float tamanhoNovo = tamanhoAtual + 3;
+        diminuirFonte.setOnClickListener(v ->{
+            float tamanhoNormal = bula.getTextSize();
+            float tamanhoNovo = tamanhoNormal--;
             bula.setTextSize(TypedValue.COMPLEX_UNIT_SP, tamanhoNovo);
         });
 
@@ -123,7 +120,7 @@ public class BulaActivity extends AppCompatActivity {
                     Log.d("FAVORITEI", ">>>>>>>>>>>>>>" + favorito.getTag().toString());
                     bulaFavoritada(queue);
                 } else {
-                    favorito.setImageResource(R.drawable.ic_senha_login);
+                    favorito.setImageResource(R.drawable.ic_nofav);
                     favorito.setTag("NoFav");
                     Log.d("JAFAV", ">>>>>>>>" + favorito.getTag().toString());
                     bulaFavoritada(queue);
@@ -138,7 +135,7 @@ public class BulaActivity extends AppCompatActivity {
 
     private void bulaFavoritada(RequestQueue queue) {
         SharedPreferences ler = getSharedPreferences("usuario", Context.MODE_PRIVATE);
-        String endpoint = "http://10.0.2.2:5000/api/Usuario/Favoritar/?id_Usuario=" +
+        String endpoint = "http://localhost:5000/api/Usuario/Favoritar/?id_Usuario=" +
                 ler.getString("id", "") + "&id_Medicamento=" +
                 ler.getString("idMed", "");
 

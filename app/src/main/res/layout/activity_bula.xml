@@ -61,7 +61,7 @@
 
     <TextView
         android:id="@+id/txtOpcaoBula"
-        android:layout_width="50sp"
+        android:layout_width="60sp"
         android:layout_height="50sp"
         android:text="Bula"
         android:textColor="@color/branco"
@@ -71,6 +71,7 @@
         android:textSize="18sp"
         android:layout_marginLeft="25dp"
         android:layout_marginTop="20dp"
+        android:padding="2sp"
         app:layout_constraintStart_toStartOf="@id/swtichBula"
         app:layout_constraintTop_toTopOf="@id/swtichBula"
         app:layout_constraintBottom_toBottomOf="@id/swtichBula"/>
@@ -106,10 +107,12 @@
             android:id="@+id/txtBula"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="@string/txtTeste"
             android:textSize="20sp"
             android:layout_marginVertical="10dp"
             android:textAlignment="center"
             android:textColor="@color/black"
+            android:paddingTop="190dp"
             android:paddingBottom="180dp"
             android:paddingHorizontal="12dp"/>
 

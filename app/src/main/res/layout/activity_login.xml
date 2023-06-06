@@ -46,7 +46,8 @@
         app:layout_constraintTop_toBottomOf="@id/img_enfermeiro"
         android:hint="@string/editEmailLogin"
         android:textColor="@color/black"
-        android:textSize="22sp"/>
+        android:textSize="22sp"
+        android:inputType="textEmailAddress"/>
 
     <ImageView
         style="@style/IconLogin"
@@ -64,15 +65,18 @@
         app:layout_constraintTop_toBottomOf="@id/editEmailLogin"
         android:hint="@string/editSenhaLogin"
         android:textColor="@color/black"
-        android:textSize="22sp"/>
+        android:textSize="22sp"
+        android:inputType="numberPassword"/>
 
     <ImageView
+        android:id="@+id/mostrarSenha"
         style="@style/IconLogin"
         android:src="@drawable/ic_senha_login"
         app:layout_constraintEnd_toEndOf="@id/editSenhaLogin"
         app:layout_constraintBottom_toBottomOf="@id/editSenhaLogin"
         android:layout_marginBottom="5dp"
-        android:layout_marginEnd="10dp"/>
+        android:layout_marginEnd="10dp"
+        android:tag="SemVer"/>
 
     <CheckBox
         android:id="@+id/checkGravarDados"
@@ -103,12 +107,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/txtCadastro"
-        android:textSize="25sp"
+        android:textSize="21sp"
         android:textColor="@color/black"
         android:textStyle="italic"
         android:textAlignment="textEnd"
-        android:layout_marginHorizontal="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="25dp"
         android:layout_marginVertical="20dp"
+        android:paddingHorizontal="30dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnLogar"/>
 

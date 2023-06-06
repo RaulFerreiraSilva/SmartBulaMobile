@@ -122,8 +122,8 @@ public class UserFragment extends Fragment {
                 "usuario", Context.MODE_PRIVATE);
 
 
-        //http://localhost:29346/api/Usuario/Editar/?email=banana@gmail.com&senha=123456789
-        String endpoint = "http://10.0.2.2:5000/api/Usuario/Editar/?email="+ler.getString("email", "")
+
+        String endpoint = "http://localhost:5000/api/Usuario/Editar/?email="+ler.getString("email", "")
                 +"&senha="+ler.getString("senha", "")+"&senhaNova="+senhaNova.getText().toString();
 
         Log.d("endpoint", ">>>>>>>>>" + endpoint);

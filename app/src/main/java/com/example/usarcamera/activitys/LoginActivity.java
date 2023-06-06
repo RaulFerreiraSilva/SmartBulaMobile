@@ -8,10 +8,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +38,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private TextView txtCadastrar;
 
+    private ImageView verSenha;
+
     private EditText emailLogin, senhaLogin;
     private AppCompatButton btnLogar;
 
@@ -44,9 +48,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        getSupportActionBar().hide();
+
 
         iniciarComponentes();
+        mostrarSenha();
         RequestQueue queue = Volley.newRequestQueue(this);
         mudarTela();
 
@@ -54,8 +59,30 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 logarUsuario(queue);
+
             }
         });
+    }
+
+    private void mostrarSenha() {
+        verSenha.setOnClickListener(v ->{
+            try {
+                if (verSenha.getTag().toString().equals("SemVer")) {
+                    verSenha.setImageResource(R.drawable.ic_senha_login2);
+                    verSenha.setTag("Publico");
+                    Log.d("Vejo", ">>>>>>>>>>>>>>" + verSenha.getTag().toString());
+                    senhaLogin.setInputType(InputType.TYPE_CLASS_NUMBER);
+                } else {
+                    verSenha.setImageResource(R.drawable.ic_senha_login);
+                    verSenha.setTag("SemVer");
+                    Log.d("NaoVejo", ">>>>>>>>" + verSenha.getTag().toString());
+                    senhaLogin.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+                }
+            }catch (Exception e){
+                Log.d("ERRO", ">>>>>>>>>>" + e);
+            }
+        });
+
     }
 
     private void iniciarComponentes() {
@@ -63,6 +90,7 @@ public class LoginActivity extends AppCompatActivity {
         btnLogar = findViewById(R.id.btnLogar);
         senhaLogin = findViewById(R.id.editSenhaLogin);
         emailLogin = findViewById(R.id.editEmailLogin);
+        verSenha = findViewById(R.id.mostrarSenha);
     }
 
     private void mudarTela() {
@@ -81,7 +109,7 @@ public class LoginActivity extends AppCompatActivity {
         RetryPolicy policy = new DefaultRetryPolicy(timeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
 
-        String endpoint = "http://10.0.2.2:5000/api/Usuario/Logar/?email=" + emailLogin.getText().toString() + "&password=" + senhaLogin.getText().toString();
+        String endpoint = "http://localhost:5000/api/Usuario/Logar/?email=" + emailLogin.getText().toString() + "&password=" + senhaLogin.getText().toString();
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, endpoint, null, new Response.Listener<JSONObject>() {
             @Override

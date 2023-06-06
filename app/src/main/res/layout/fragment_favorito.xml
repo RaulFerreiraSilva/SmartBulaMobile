@@ -30,23 +30,15 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:layout_width="170sp"
+                    android:layout_width="200sp"
                     android:layout_height="wrap_content"
                     android:text="@string/txtTituloFavorito"
-                    android:layout_marginLeft="50dp"
+                    android:layout_marginLeft="40dp"
                     android:textColor="@color/black"
-                    android:textSize="40sp" />
+                    android:layout_marginTop="20dp"
+                    android:textSize="40sp"
+                    android:padding="5dp"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/txtExplicativoFavorito"
-                    android:textSize="20sp"
-                    android:textColor="@color/black"
-                    android:textAlignment="center"
-                    android:textStyle="italic"
-                    android:layout_marginRight="20dp"
-                    android:paddingRight="50dp"/>
             </LinearLayout>
 
 

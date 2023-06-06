@@ -73,7 +73,7 @@ public class FavoritoFragment extends Fragment {
     }
 
     private void listarFavoritos(RequestQueue queue, View root, SharedPreferences ler) {
-        String endpoint = "http://10.0.2.2:5000/api/Usuario/ListaFavoritar/" +
+        String endpoint = "http://localhost:5000/api/Usuario/ListaFavoritar/" +
                 "?id_Usuario="+ler.getString("id", "");
 
         List<Remedio> lista = new ArrayList<>();

@@ -15,7 +15,7 @@
             android:id="@+id/frame_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="65dp"
             android:background="@color/branco"
             app:layout_constraintBottom_toTopOf="parent" />
 
@@ -24,6 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="1dp"
+            app:elevation="100dp"
             android:background="@color/branco"
             android:backgroundTint="@color/cinza_esverdeado"
             android:elevation="10dp"

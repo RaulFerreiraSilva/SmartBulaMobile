@@ -74,28 +74,6 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
-    /*private void listarAlergias(RequestQueue queue, View alergiaView){
-
-
-        String endpoint = "http://10.0.2.2:5000/api/Alergia/Listar";
-
-
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.POST, endpoint, null, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                if (response != null && response.length() > 0) {
-                }
-                abrirTela();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-            }
-        });
-        queue.add(request);
-    }*/
-
     private void abrirTelaAlergia() {
         mostrarAlergia.setOnClickListener(v ->{
             Intent intent = new Intent(getActivity().getApplicationContext(), AlergiaActivity.class);
@@ -107,7 +85,6 @@ public class HomeFragment extends Fragment {
         capsulaSair.setOnClickListener(v ->{
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(root.getContext());
-                    //R.style.AlertDialogTheme);
 
                     builder.setView(layout);
 

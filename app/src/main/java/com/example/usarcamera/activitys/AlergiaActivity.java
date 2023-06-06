@@ -202,7 +202,7 @@ public class AlergiaActivity extends AppCompatActivity {
 
         SharedPreferences ler = getSharedPreferences("usuario", Context.MODE_PRIVATE);
 
-        String endpoint = "http://10.0.2.2:5000/api/Alergia/AlergiaUsuario/?id_Usuario=" +
+        String endpoint = "http://localhost:5000/api/Alergia/AlergiaUsuario/?id_Usuario=" +
                 ler.getString("id", "") + "&id_Alergia=" + id;
 
         StringRequest request = new StringRequest(Request.Method.POST, endpoint, new Response.Listener<String>() {

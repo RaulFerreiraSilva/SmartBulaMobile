@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="windowActionBar">false</item>
+    </style>
+
     <style name="AlertDialogTheme">
         <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
     </style>
@@ -9,8 +13,8 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">80dp</item>
         <item name="android:src">@drawable/ic_mini_logo</item>
-        <item name="android:layout_margin">10dp</item>
-        <item name="android:padding">4.5dp</item>
+        <item name="android:layout_margin">8dp</item>
+        <item name="android:padding">3.5dp</item>
     </style>
 
     <style name="ImgBefore">
@@ -30,7 +34,8 @@
         <item name="android:layout_marginTop">50dp</item>
         <item name="android:layout_marginLeft">10dp</item>
         <item name="android:layout_marginRight">10dp</item>
-        <item name="android:padding">5dp</item>
+        <item name="android:paddingVertical">5dp</item>
+        <item name="android:paddingHorizontal">20dp</item>
         <item name="android:inputType">text</item>
     </style>
 
@@ -40,8 +45,8 @@
         <item name="android:background">@drawable/edit_login</item>
         <item name="android:layout_marginTop">30dp</item>
         <item name="android:layout_marginHorizontal">40dp</item>
-        <item name="android:padding">11dp</item>
-        <item name="android:inputType">textEmailAddress</item>
+        <item name="android:paddingVertical">11dp</item>
+        <item name="android:paddingHorizontal">20dp</item>
     </style>
 
     <style name="IconLogin">
@@ -61,6 +66,7 @@
         <item name="android:layout_height">350dp</item>
         <item name="android:background">@drawable/card_user</item>
         <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_marginBottom">20dp</item>
     </style>
 
     <style name="TextAlterar">
@@ -109,8 +115,6 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:background">@drawable/background</item>
-        <item name="android:paddingBottom">20dp</item>
-        <item name="android:layout_marginBottom">60dp</item>
     </style>
 
     <style name="LayoutWhite">
@@ -126,7 +130,8 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/edit_text</item>
         <item name="android:layout_margin">40dp</item>
-        <item name="android:padding">15dp</item>
+        <item name="android:paddingVertical">10dp</item>
+        <item name="android:paddingHorizontal">20dp</item>
     </style>
 
     <style name="ButtonPesquisar">
@@ -159,33 +164,10 @@
         <item name="android:background">@drawable/card_alergia</item>
     </style>
 
-    <!--<style name="CardBula">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:background">@drawable/card_bula</item>
-        &lt;!&ndash;<item name="android:popupElevation">10dp</item>
-        <item name="android:elevation">10dp</item>&ndash;&gt;
-        <item name="android:layout_marginVertical">100dp</item>
-        <item name="android:layout_marginHorizontal">5dp</item>
-    </style>-->
-
     <style name="CardBemVindo">
         <item name="android:layout_width">250dp</item>
         <item name="android:layout_height">70dp</item>
-        <item name="android:layout_margin">15dp</item>
-        <item name="android:paddingTop">40dp</item>
-        <item name="android:paddingBottom">40dp</item>
         <item name="android:background">@drawable/card_bem_vindo</item>
-    </style>
-
-    <style name="CardNote">
-        <item name="android:layout_width">175dp</item>
-        <item name="android:layout_height">275dp</item>
-        <item name="android:layout_marginTop">20dp</item>
-        <item name="android:layout_marginLeft">35dp</item>
-        <item name="android:layout_marginRight">5dp</item>
-        <item name="android:padding">5dp</item>
-        <item name="android:background">@drawable/card_note</item>
     </style>
 
 </resources>
