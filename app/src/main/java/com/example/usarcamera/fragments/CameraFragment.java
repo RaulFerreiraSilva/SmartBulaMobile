@@ -1,12 +1,15 @@
 package com.example.usarcamera.fragments;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -41,6 +44,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.usarcamera.R;
 import com.example.usarcamera.activitys.BulaActivity;
+import com.example.usarcamera.activitys.LoginActivity;
 import com.example.usarcamera.classes.Remedio;
 import com.example.usarcamera.databinding.FragmentCameraBinding;
 import com.example.usarcamera.databinding.FragmentHistoricoBinding;
@@ -68,7 +72,9 @@ public class CameraFragment extends Fragment {
 
     private EditText pesquisarPorTexto;
 
-    private TextView bula;
+    private TextView tituloAlertDialogCamera, mensagemAlertDialogCamera;
+
+    private AppCompatButton btnConfirmar, btnCancelar;
     
 
     private String[] remediosCadastrados = {"dipirona"};
@@ -82,7 +88,9 @@ public class CameraFragment extends Fragment {
         binding = FragmentCameraBinding.inflate(getLayoutInflater());
         View root = binding.getRoot();
 
-        View layout = inflater.inflate(R.layout.activity_bula, container, false);
+        View layout = inflater.inflate(R.layout.dialog, container, false);
+
+
 
 
         RequestQueue queue= Volley.newRequestQueue(getActivity().getApplicationContext());
@@ -91,17 +99,68 @@ public class CameraFragment extends Fragment {
         SharedPreferences ler = getActivity().getApplicationContext().getSharedPreferences(
                 "usuario", Context.MODE_PRIVATE);
 
-
         iniciarComponentes(root, layout);
         pesquisarBula(queue, ler);
         tirarFoto();
         analisarFala(queue, ler);
 
-
         return root;
     }
 
+    private void deslogar(View root, View layout, RequestQueue queue, SharedPreferences ler) {
+        pesquisar.setOnClickListener(v ->{
 
+            AlertDialog.Builder builder = new AlertDialog.Builder(root.getContext());
+
+            builder.setView(layout);
+
+            String principioAtivo = ler.getString("principioAtivo", "");
+
+            tituloAlertDialogCamera.setText("Cuidado!");
+            mensagemAlertDialogCamera.setText("Você marcou que possui alergia a" + principioAtivo +
+                    " e está prestes a consulta a bula deste remédio, prossiga ciente deste fato!");
+            btnConfirmar.setText(R.string.btnConfirmarSaida);
+            btnCancelar.setText(R.string.btnCancelarSaida);
+
+            final AlertDialog dialog = builder.create();
+
+            dialog.show();
+            dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialog) {
+                    ViewGroup parent = (ViewGroup) layout.getParent();
+                    if (parent != null)parent.removeView(layout);
+                }
+            });
+
+
+            btnConfirmar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    retornarBula(queue, ler);
+                }
+            });
+
+            btnCancelar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.cancel();
+                    ViewGroup parent = (ViewGroup) layout.getParent();
+                    if (parent != null) {
+                        parent.removeView(layout);
+                    }
+                }
+            });
+            if (dialog.getWindow() != null){dialog.getWindow().setBackgroundDrawable(
+                    new ColorDrawable(0));}
+
+
+
+
+
+
+        });
+    }
 
     private void analisarFala(RequestQueue queue, SharedPreferences ler) {
         btnPesquisarFala.setOnClickListener(v->{
@@ -131,8 +190,6 @@ public class CameraFragment extends Fragment {
 
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 resultFoto.launch(intent);
-
-
         });
     }
 
@@ -140,7 +197,6 @@ public class CameraFragment extends Fragment {
         pesquisar.setOnClickListener(v -> {
 
             retornarBula(queue, ler);
-
         });
     }
 
@@ -151,17 +207,20 @@ public class CameraFragment extends Fragment {
     }
 
     private void iniciarComponentes(View root, View layout) {
-
-        bula = layout.findViewById(R.id.txtBula);
         fotoRemedio = root.findViewById(R.id.imgRemedio);
         pesquisar = root.findViewById(R.id.btnPesquisar);
         pesquisarPorTexto = root.findViewById(R.id.edit_search);
-       btnPesquisarFala = root.findViewById(R.id.btnFalar);
+        btnPesquisarFala = root.findViewById(R.id.btnFalar);
+
+        tituloAlertDialogCamera = layout.findViewById(R.id.tituloDialog);
+        mensagemAlertDialogCamera = layout.findViewById(R.id.mensagemDialog);
+        btnConfirmar = layout.findViewById(R.id.btnConfirmar);
+        btnCancelar = layout.findViewById(R.id.btnCancelar);
     }
 
     private void retornarBula(RequestQueue queue, SharedPreferences ler) {
 
-        String endpoint = "http://localhost:5000/api/Remedio?response="+
+        String endpoint = "http://10.0.2.2:5000/api/Remedio?response="+
                 pesquisarPorTexto.getText().toString();
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, endpoint, null, new Response.Listener<JSONObject>() {
@@ -183,6 +242,7 @@ public class CameraFragment extends Fragment {
                         gravar.putString("idMed", response.getString("idMedicamento"));
                         gravar.putString("bula", response.getString("bula"));
                         gravar.putString("resumoBula", response.getString("resumoBula"));
+                        gravar.putString("principioAtivo", response.getString("principioAtivo"));
                         gravar.putString("contraIndicacao", response.getString("contraIndicacao"));
                         gravar.putString("recomendadoPara", response.getString("recomendadoPara"));
 
@@ -192,7 +252,6 @@ public class CameraFragment extends Fragment {
                         espera.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                bula.setText(ler.getString("bula", ""));
                                 Intent intent = new Intent(getActivity().getApplicationContext(), BulaActivity.class);
                                 startActivity(intent);
                             }
@@ -205,11 +264,6 @@ public class CameraFragment extends Fragment {
                     Toast.makeText(getActivity().getApplicationContext(),
                             "Remedio não encontrado", Toast.LENGTH_SHORT).show();
                 }
-                /*ArrayAdapter<Remedio> adaptador = new ArrayAdapter<Remedio>(
-                        historico.getContext(), //Contexto
-                        android.R.layout.simple_list_item_1, //Layout padrão
-                        lista); //Lista com os valores
-                bdg.listViewHistorico.setAdapter(adaptador);*/
             }
         }, new Response.ErrorListener() {
             @Override

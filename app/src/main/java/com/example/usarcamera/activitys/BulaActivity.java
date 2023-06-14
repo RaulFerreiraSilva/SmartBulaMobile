@@ -21,16 +21,22 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.usarcamera.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BulaActivity extends AppCompatActivity {
 
     private TextView bula, opcaoBula, opcaoResumo;
-    private ImageButton voltarTela, aumentarFonte, diminuirFonte, leituraBula;
+    private ImageButton voltarTela, aumentarFonte, diminuirFonte;
     private ImageView favorito;
 
     private SwitchCompat alternarTexto;
@@ -45,14 +51,66 @@ public class BulaActivity extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(this);
 
         iniciarComponentes();
+        colocarTexto(ler);
+        verificarFavorito(queue, ler);
         queroFavoritar(queue);
         aumentarDiminuirFonte();
         mudarEstadoSwitch(ler);
-
-
-
         voltar();
 
+    }
+
+    private void verificarFavorito(RequestQueue queue, SharedPreferences ler) {
+        String endpoint = "http://10.0.2.2:5000/api/Usuario/ListaFavoritar/" +
+                "?id_Usuario="+ler.getString("id", "");
+
+        String nomeRemedioAtual = ler.getString("principioAtivo", "");
+
+        List<String> principiosAtivos = new ArrayList<>();
+        Log.d("PRIMEIRO_PASSSO", ">>>>>>>>>>>" + "cheguei aqui");
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, endpoint, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                if (response != null && response.length() > 0){
+                    for (int i = 0; i < response.length(); i++){
+                        Log.d("FOR_SEGUNDO_PASSO", ">>>>>>>>>>>" + "cheguei aqui");
+                        try {
+                            JSONObject retorno = response.getJSONObject(i);
+                            principiosAtivos.add(retorno.getString("principioAtivo"));
+
+                            for (String principios : principiosAtivos){
+                                Log.d("FOREACH_TERCEIRO_PASSO", ">>>>>>>>>>>" + "cheguei aqui");
+
+                                if (principios.equals(nomeRemedioAtual)){
+
+                                    Log.d("IF_QUARTO_PASSO", ">>>>>>>>>>>" + "cheguei aqui");
+                                    favorito.setImageResource(R.drawable.ic_favoritado);
+                                    favorito.setTag("YesFav");
+                                }
+                            }
+                        }catch (JSONException exc){
+
+                            exc.printStackTrace();
+                        }
+                    }
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
+        queue.add(request);
+    }
+
+    private void colocarTexto(SharedPreferences ler) {
+        bula.setText(ler.getString("bula", ""));
+
+        String txtPadraoFormatado = Html.fromHtml(bula.getText().toString()).toString();
+
+        bula.setText(txtPadraoFormatado);
     }
 
     private void mudarEstadoSwitch(SharedPreferences ler) {
@@ -94,13 +152,13 @@ public class BulaActivity extends AppCompatActivity {
         aumentarFonte.setOnClickListener(v ->{
             float tamanhoAtual = bula.getTextSize();
             float tamanhoNovo = tamanhoAtual + 2;
-            bula.setTextSize(TypedValue.COMPLEX_UNIT_SP, tamanhoNovo);
+            bula.setTextSize(TypedValue.COMPLEX_UNIT_PX, tamanhoNovo);
         });
 
         diminuirFonte.setOnClickListener(v ->{
-            float tamanhoNormal = bula.getTextSize();
-            float tamanhoNovo = tamanhoNormal--;
-            bula.setTextSize(TypedValue.COMPLEX_UNIT_SP, tamanhoNovo);
+            float tamanhoAtual = bula.getTextSize();
+            float tamanhoNovo = tamanhoAtual - 2;
+            bula.setTextSize(TypedValue.COMPLEX_UNIT_PX, tamanhoNovo);
         });
 
     }
@@ -135,7 +193,7 @@ public class BulaActivity extends AppCompatActivity {
 
     private void bulaFavoritada(RequestQueue queue) {
         SharedPreferences ler = getSharedPreferences("usuario", Context.MODE_PRIVATE);
-        String endpoint = "http://localhost:5000/api/Usuario/Favoritar/?id_Usuario=" +
+        String endpoint = "http://10.0.2.2:5000/api/Usuario/Favoritar/?id_Usuario=" +
                 ler.getString("id", "") + "&id_Medicamento=" +
                 ler.getString("idMed", "");
 
@@ -144,7 +202,7 @@ public class BulaActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
 
-                Log.d("TAG", ">>>>>>>>" +response);
+                Log.d("TAG", ">>>>>>>>" +response.toString());
 
             }
         }, new Response.ErrorListener() {

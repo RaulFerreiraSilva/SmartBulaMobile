@@ -18,6 +18,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.usarcamera.R;
 import com.example.usarcamera.classes.Alergia;
+import com.example.usarcamera.classes.Pessoa;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,10 +48,10 @@ public class ListaAlergiaUsuario extends AppCompatActivity {
     private void mostrarAlergias(RequestQueue queue, SharedPreferences ler) {
         List<Alergia> lista = new ArrayList<>();
 
-        String endpoint = "http://localhost:5000/api/Alergia/ListarAlergiaUsuario/?usuarioId" +
+        String endpoint = "http://10.0.2.2:5000/api/Alergia/ListarAlergiaUsuario/?usuarioId=" +
                 ler.getString("id", "");
 
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.POST, endpoint, null,
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, endpoint, null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {

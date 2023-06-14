@@ -145,10 +145,10 @@ public class HomeFragment extends Fragment {
     }
 
     private void iniciarCompontes(View root, View layout) {
-        tituloAlertDialog = layout.findViewById(R.id.tituloDialog);
         nomePessoa = root.findViewById(R.id.bem_vindo);
         capsulaSair = root.findViewById(R.id.img_sair);
         mostrarAlergia = root.findViewById(R.id.txtMostrarAlergias);
+        tituloAlertDialog = layout.findViewById(R.id.tituloDialog);
         mensagemAlertDialog = layout.findViewById(R.id.mensagemDialog);
         btnConfirmarSaida = layout.findViewById(R.id.btnConfirmar);
         btnCancelarSaida = layout.findViewById(R.id.btnCancelar);
