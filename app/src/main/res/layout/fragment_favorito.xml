@@ -10,39 +10,18 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         style="@style/LayoutWhite">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:id="@+id/ic_before_historico"
-                style="@style/ImgBefore" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:layout_marginTop="40dp"
-                android:orientation="vertical">
-
                 <TextView
-                    android:layout_width="200sp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/txtTituloFavorito"
-                    android:layout_marginLeft="40dp"
                     android:textColor="@color/black"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="40dp"
+                    android:textAlignment="center"
                     android:textSize="40sp"
-                    android:padding="5dp"/>
-
-            </LinearLayout>
-
-
-        </LinearLayout>
+                    android:padding="5dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
 
         <ListView
             android:id="@+id/listViewFavorito"

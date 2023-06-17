@@ -51,8 +51,18 @@ public class CadastroActivity extends AppCompatActivity {
 
     }
 
+    private void verificaCamposVazios(RequestQueue queue){
+        if (editNascimento.getText().toString().isEmpty() && editNome.getText().toString().isEmpty()
+                && editSobrenome.getText().toString().isEmpty() && editEmail.getText().toString().isEmpty()
+                && editSenha.getText().toString().isEmpty() && editConfirmarSenha.getText().toString().isEmpty()){
+            Toast.makeText(this, "Campos Não Preenchidos, favor Preenche-los", Toast.LENGTH_SHORT).show();
+        } else {
+            verficaSenhaInverteOrdem(queue);
+        }
+    }
+
     private void clique(RequestQueue queue) {
-        btnCadastrar.setOnClickListener(v -> verficaSenhaInverteOrdem(queue));
+        btnCadastrar.setOnClickListener(v -> verificaCamposVazios(queue));
     }
 
 
@@ -99,6 +109,7 @@ public class CadastroActivity extends AppCompatActivity {
             Log.d("TAG", "cadastrarUsuario " + e.getMessage());
         }
 
+        //mudando tempo de espera de requisição do Volley
         int timeout = 20000;
         RetryPolicy policy = new DefaultRetryPolicy(timeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);

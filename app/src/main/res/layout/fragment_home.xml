@@ -140,9 +140,11 @@
             android:paddingBottom="10dp"/>
 
         <ImageButton
+            android:id="@+id/btnAbrirTutorialNovamente"
             android:layout_width="160dp"
             android:layout_height="260dp"
             android:src="@drawable/img_home"
+            android:scaleType="centerCrop"
             android:backgroundTint="@color/branco"
             android:layout_marginTop="12dp"
             android:layout_marginLeft="10dp"

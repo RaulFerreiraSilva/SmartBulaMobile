@@ -148,7 +148,8 @@ public class BulaActivity extends AppCompatActivity {
         });
     }
 
-    private void aumentarDiminuirFonte() {
+    private void aumentarDiminuirFonte()
+    {
         aumentarFonte.setOnClickListener(v ->{
             float tamanhoAtual = bula.getTextSize();
             float tamanhoNovo = tamanhoAtual + 2;
@@ -169,6 +170,9 @@ public class BulaActivity extends AppCompatActivity {
         });
     }
 
+    /*este método além de salvar o remédio como favorito, consegue tirar ele de favorito, pois o
+    else acaba chamando novamente o método e na lógica da API, caso eu mande um remédio favoritado
+    ele irá dar um DELETE naquela opção e portanto tirar dos favoritos*/
     private void queroFavoritar(RequestQueue queue) {
         favorito.setOnClickListener(view -> {
             try {

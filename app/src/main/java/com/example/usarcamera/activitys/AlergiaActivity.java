@@ -63,6 +63,7 @@ public class AlergiaActivity extends AppCompatActivity {
 
     }
 
+
     private void fecharTela() {
         voltar.setOnClickListener(v -> {
             onBackPressed();
@@ -77,6 +78,7 @@ public class AlergiaActivity extends AppCompatActivity {
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, endpoint, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
+                //aqui passei este if para tratar um erro que estava dando de voltar uma resposta nula.
                 if (response != null && response.length() > 0){
                     for (int i = 0; i < response.length(); i++){
                         try {
@@ -86,7 +88,6 @@ public class AlergiaActivity extends AppCompatActivity {
                                     resposta.getString("tipo_Alergia"));
 
                             lista.add(alergia);
-
 
                             SharedPreferences salvar = getSharedPreferences("usuario", Context.MODE_PRIVATE);
                             SharedPreferences.Editor gravar = salvar.edit();
@@ -118,87 +119,24 @@ public class AlergiaActivity extends AppCompatActivity {
     }
 
     private void selecionarAlergia(RequestQueue queue, List<Alergia> lista) {
-
         alergiasListV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //estou pegando a opção do listView para poder salvar a alergia ao remédio correto
                 Alergia alergia = lista.get(position);
                 int idAlergia = alergia.getId_Alergia();
                 String nomeAlergia = alergia.getTipo_Alergia();
                 if (alergia != null){
-                    salvarRemedioAlergia(nomeAlergia, idAlergia, queue);
+                    //valido o item que foi clicado esta me retornando os seus valores e ai sim salvo no banco de dados
+                    salvarRemedioAlergia(idAlergia, queue);
                     Log.d("ALERGIA", ">>>>>>>>>>" + "if");
-                    //confirmarAcao(dados, queue);
                 }
             }
         });
     }
 
-    private void confirmarAcao(String nomeAlergia, int id, RequestQueue queue) {
 
-        SharedPreferences ler = getSharedPreferences("usuario", Context.MODE_PRIVATE);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext(), R.style.AlertDialogTheme);
-        View layout = LayoutInflater.from(getApplicationContext()).inflate(R.layout.dialog, (ConstraintLayout)
-        findViewById(R.id.layoutDialogContainer));
-
-
-
-
-        builder.setView(layout);
-
-        tituloAlertDialogAlergia = layout.findViewById(R.id.tituloDialog);
-        mensagemAlertDialogAlergia = layout.findViewById(R.id.mensagemDialog);
-        btnConfirmarAlergia = layout.findViewById(R.id.btnConfirmar);
-        btnCancelarAlergia = layout.findViewById(R.id.btnCancelar);
-
-        tituloAlertDialogAlergia.setText("ATENÇÃO!");
-        mensagemAlertDialogAlergia.setText("Você está prestes a marcar que possui alergia a " +
-               ler.getString("tipo_Alergia", "") + ", uma vez marcado, não poderá ser desfeito!");
-        btnConfirmarAlergia.setText("Confirmar");
-        btnCancelarAlergia.setText("Voltar");
-
-        final AlertDialog dialog = builder.create();
-
-
-        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                ViewGroup parent = (ViewGroup) layout.getParent();
-                if (parent != null)parent.removeView(layout);
-            }
-        });
-
-
-        btnConfirmarAlergia.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                salvarRemedioAlergia(nomeAlergia, id, queue);
-
-                dialog.dismiss();
-
-            }
-        });
-
-        btnCancelarAlergia.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.cancel();
-                ViewGroup parent = (ViewGroup) layout.getParent();
-                if (parent != null) {
-                    parent.removeView(layout);
-                }
-            }
-        });
-        if (dialog.getWindow() != null){dialog.getWindow().setBackgroundDrawable(
-                new ColorDrawable(0));}
-
-
-
-    }
-
-    private void salvarRemedioAlergia(String nomeRemedio, int id, RequestQueue queue) {
+    private void salvarRemedioAlergia( int id, RequestQueue queue) {
 
         SharedPreferences ler = getSharedPreferences("usuario", Context.MODE_PRIVATE);
 
@@ -223,7 +161,5 @@ public class AlergiaActivity extends AppCompatActivity {
     private void iniciarComponentes() {
         alergiasListV = findViewById(R.id.alergias);
         voltar = findViewById(R.id.btnVoltarAlergia);
-
-
     }
 }

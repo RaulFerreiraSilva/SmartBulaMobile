@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -33,6 +34,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.usarcamera.R;
 import com.example.usarcamera.activitys.AlergiaActivity;
 import com.example.usarcamera.activitys.LoginActivity;
+import com.example.usarcamera.activitys.TutorialActivity;
 import com.example.usarcamera.classes.Alergia;
 import com.example.usarcamera.databinding.FragmentHomeBinding;
 
@@ -47,7 +49,7 @@ public class HomeFragment extends Fragment {
 
     private TextView nomePessoa;
 
-    private ListView listaDeAlergias;
+    private ImageButton verTutorial;
 
     private TextView tituloAlertDialog, mensagemAlertDialog, mostrarAlergia;
 
@@ -71,7 +73,15 @@ public class HomeFragment extends Fragment {
         deslogar(root, layout);
         mudarBemVindo(ler);
         abrirTelaAlergia();
+        abrirTelaTutorial();
         return root;
+    }
+
+    private void abrirTelaTutorial() {
+        verTutorial.setOnClickListener(v->{
+            Intent intent = new Intent(getActivity().getApplicationContext(), TutorialActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void abrirTelaAlergia() {
@@ -152,6 +162,7 @@ public class HomeFragment extends Fragment {
         mensagemAlertDialog = layout.findViewById(R.id.mensagemDialog);
         btnConfirmarSaida = layout.findViewById(R.id.btnConfirmar);
         btnCancelarSaida = layout.findViewById(R.id.btnCancelar);
+        verTutorial = root.findViewById(R.id.btnAbrirTutorialNovamente);
     }
 
     private void mudarBemVindo(SharedPreferences ler) {

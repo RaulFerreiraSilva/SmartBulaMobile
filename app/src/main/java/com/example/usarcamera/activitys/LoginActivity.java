@@ -27,6 +27,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.usarcamera.R;
+import com.example.usarcamera.classes.NotificationHelper;
 import com.example.usarcamera.classes.Pessoa;
 import com.google.gson.JsonArray;
 
@@ -55,10 +56,17 @@ public class LoginActivity extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(this);
         mudarTela();
 
+        NotificationHelper.scheduleDailyNotification(this);
+
         btnLogar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                logarUsuario(queue);
+                if (emailLogin.getText().toString().isEmpty() && senhaLogin.getText().toString().isEmpty()){
+                    Toast.makeText(LoginActivity.this, "Preencha os campos para realizar o login!", Toast.LENGTH_SHORT).show();
+                } else {
+                    logarUsuario(queue);
+                }
+
 
             }
         });
@@ -114,34 +122,38 @@ public class LoginActivity extends AppCompatActivity {
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, endpoint, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                try {
+                if (response != null && response.length() > 0){
+                    try {
 
-                    SharedPreferences salvar = getSharedPreferences("usuario", Context.MODE_PRIVATE);
+                        SharedPreferences salvar = getSharedPreferences("usuario", Context.MODE_PRIVATE);
 
-                    SharedPreferences.Editor gravar = salvar.edit();
-                    gravar.putString("id", response.getString("id_Usuario"));
-                    gravar.putString("nome", response.getString("nome"));
-                    gravar.putString("SobreNome", response.getString("sobreNome"));
-                    gravar.putString("dataNasc", response.getString("dataNasc"));
-                    gravar.putString("email", response.getString("email"));
-                    gravar.putString("senha", response.getString("senha"));
-                    gravar.commit();
+                        SharedPreferences.Editor gravar = salvar.edit();
+                        gravar.putString("id", response.getString("id_Usuario"));
+                        gravar.putString("nome", response.getString("nome"));
+                        gravar.putString("SobreNome", response.getString("sobreNome"));
+                        gravar.putString("dataNasc", response.getString("dataNasc"));
+                        gravar.putString("email", response.getString("email"));
+                        gravar.putString("senha", response.getString("senha"));
+                        gravar.commit();
 
-                    Log.d("NOME", ">>>>>>>>" + response.getString("nome"));
+                        Log.d("NOME", ">>>>>>>>" + response.getString("nome"));
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                Handler tempo = new Handler();
-                tempo.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        startActivity(intent);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                }, 3000);
 
+                    Handler tempo = new Handler();
+                    tempo.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(intent);
+                        }
+                    }, 3000);
+                }else {
+                    Toast.makeText(LoginActivity.this, "Erro ao tentar logar seu usuário, favor tentar novamente!", Toast.LENGTH_SHORT).show();
+                }
+                
             }
         }, new Response.ErrorListener() {
             @Override

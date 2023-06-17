@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
+        //alternar fragments
         replaceFragment(new HomeFragment());
         binding.btnNav.setBackground(null);
         binding.btnNav.setOnItemSelectedListener(item -> {
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
+    //método para realizar pesquisa por voz
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

@@ -43,6 +43,13 @@ public class ListaAlergiaUsuario extends AppCompatActivity {
 
         iniciarComponentes();
         mostrarAlergias(queue, ler);
+        voltar();
+    }
+
+    private void voltar() {
+        btnVoltarAlergiaUser.setOnClickListener(v -> {
+            onBackPressed();
+        });
     }
 
     private void mostrarAlergias(RequestQueue queue, SharedPreferences ler) {

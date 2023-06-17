@@ -10,7 +10,7 @@
     <string name="bem_vindo">Olá Pessoa</string>
     <string name="txtExplicativo">Veja quais as opções de remédios cadastrados em nosso banco, para conseguir adicionar suas possíveis alergias!</string>
     <string name="txtNote">Anotações Rápidas</string>
-    <string name="txtTutorial">Rever Tutorial</string>
+    <string name="txtTutorial">Tutorial</string>
     <string name="txtMostrar">Clique aqui!</string>
     <string name="txtTituloDialog">Realmente deseja sair?</string>
     <string name="txtMensagemDialog">Você está prestes a sair do usuário, caso queira entrar
@@ -69,5 +69,5 @@ Cadastre-se</string>
     <string name="btnCadastrar">Cadastrar</string>
 
     <!--Alergia-->
- <string name="txtExplicativoAlergiaUser">Aqui estão listados os remédios que você possui alergia!</string>
+    <string name="txtExplicativoAlergiaUser">Aqui estão listados os remédios que você possui alergia!</string>
 </resources>

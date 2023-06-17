@@ -24,7 +24,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="1dp"
-            app:elevation="100dp"
             android:background="@color/branco"
             android:backgroundTint="@color/cinza_esverdeado"
             android:elevation="10dp"
