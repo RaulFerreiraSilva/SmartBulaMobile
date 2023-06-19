@@ -18,16 +18,16 @@ import com.example.usarcamera.R;
 import java.util.Calendar;
 
 public class NotificationHelper {
-    private static final String CHANNEL_ID = "limite_consumo_channel";
-    private static final int NOTIFICATION_ID = 1;
-    private static final int DAILY_NOTIFICATION_HOUR = 21;
-    private static final int DAILY_NOTIFICATION_MINUTE = 56;
+    private static final String channel_id = "limite_consumo_channel";
+    private static final int notification_id = 1;
+    private static final int daily_notification_hour = 21;
+    private static final int daily_notification_minute = 56;
 
     @SuppressLint("MissingPermission")
     public static void showNotification(Context context, String message) {
         createNotificationChannel(context);
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channel_id)
                 .setSmallIcon(R.drawable.ic_ok)
                 .setContentTitle("Ei, psiu ;)")
                 .setContentText(message)
@@ -36,7 +36,7 @@ public class NotificationHelper {
                 .setAutoCancel(true);
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-        notificationManager.notify(NOTIFICATION_ID, builder.build());
+        notificationManager.notify(notification_id, builder.build());
     }
 
     private static void createNotificationChannel(Context context) {
@@ -44,7 +44,7 @@ public class NotificationHelper {
             CharSequence name = "Dica importante";
             String description = "Evite tomar remédios sem a indicação de um médico!";
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            NotificationChannel channel = new NotificationChannel(channel_id, name, importance);
             channel.setDescription(description);
             NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
@@ -59,8 +59,8 @@ public class NotificationHelper {
 
     public static void scheduleDailyNotification(Context context) {
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, DAILY_NOTIFICATION_HOUR);
-        calendar.set(Calendar.MINUTE, DAILY_NOTIFICATION_MINUTE);
+        calendar.set(Calendar.HOUR_OF_DAY, daily_notification_hour);
+        calendar.set(Calendar.MINUTE, daily_notification_minute);
         calendar.set(Calendar.SECOND, 0);
 
         long notificationTime = calendar.getTimeInMillis();

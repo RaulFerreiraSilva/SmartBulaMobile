@@ -14,10 +14,10 @@ import com.example.usarcamera.R;
 
 public class TutorialActivity extends AppCompatActivity {
 
-    ImageSwitcher switcher;
-    AppCompatButton anterior, proximo, sairTutorial;
-    int posicao = 0;
-    int[] img = {R.drawable.tela_home, R.drawable.tela_alergia, R.drawable.tela_historico,
+    private ImageSwitcher switcher;
+    private AppCompatButton anterior, proximo, sairTutorial;
+    private int posicao = 0;
+    private int[] img = {R.drawable.tela_home, R.drawable.tela_alergia, R.drawable.tela_historico,
             R.drawable.tela_user, R.drawable.tela_user2, R.drawable.tela_listar,
             R.drawable.tela_camera, R.drawable.tela_bula, R.drawable.tela_bula_resumo,
             R.drawable.tela_favorito};
