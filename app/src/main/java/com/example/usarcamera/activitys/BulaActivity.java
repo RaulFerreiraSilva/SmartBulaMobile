@@ -6,6 +6,7 @@ import androidx.appcompat.widget.SwitchCompat;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.text.Html;
 import android.util.Log;
 import android.util.TypedValue;
@@ -20,11 +21,17 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.usarcamera.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BulaActivity extends AppCompatActivity {
 
@@ -44,15 +51,66 @@ public class BulaActivity extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(this);
 
         iniciarComponentes();
+        colocarTexto(ler);
+        verificarFavorito(queue, ler);
         queroFavoritar(queue);
-        aumentarFonte();
-        diminuirFonte();
+        aumentarDiminuirFonte();
         mudarEstadoSwitch(ler);
-
-
-
         voltar();
 
+    }
+
+    private void verificarFavorito(RequestQueue queue, SharedPreferences ler) {
+        String endpoint = "http://10.0.2.2:5000/api/Usuario/ListaFavoritar/" +
+                "?id_Usuario="+ler.getString("id", "");
+
+        String nomeRemedioAtual = ler.getString("principioAtivo", "");
+
+        List<String> principiosAtivos = new ArrayList<>();
+        Log.d("PRIMEIRO_PASSSO", ">>>>>>>>>>>" + "cheguei aqui");
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, endpoint, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                if (response != null && response.length() > 0){
+                    for (int i = 0; i < response.length(); i++){
+                        Log.d("FOR_SEGUNDO_PASSO", ">>>>>>>>>>>" + "cheguei aqui");
+                        try {
+                            JSONObject retorno = response.getJSONObject(i);
+                            principiosAtivos.add(retorno.getString("principioAtivo"));
+
+                            for (String principios : principiosAtivos){
+                                Log.d("FOREACH_TERCEIRO_PASSO", ">>>>>>>>>>>" + "cheguei aqui");
+
+                                if (principios.equals(nomeRemedioAtual)){
+
+                                    Log.d("IF_QUARTO_PASSO", ">>>>>>>>>>>" + "cheguei aqui");
+                                    favorito.setImageResource(R.drawable.ic_favoritado);
+                                    favorito.setTag("YesFav");
+                                }
+                            }
+                        }catch (JSONException exc){
+
+                            exc.printStackTrace();
+                        }
+                    }
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
+        queue.add(request);
+    }
+
+    private void colocarTexto(SharedPreferences ler) {
+        bula.setText(ler.getString("bula", ""));
+
+        String txtPadraoFormatado = Html.fromHtml(bula.getText().toString()).toString();
+
+        bula.setText(txtPadraoFormatado);
     }
 
     private void mudarEstadoSwitch(SharedPreferences ler) {
@@ -90,20 +148,18 @@ public class BulaActivity extends AppCompatActivity {
         });
     }
 
-    private void diminuirFonte() {
-        diminuirFonte.setOnClickListener(v -> {
-            float tamanhoAtual = bula.getTextSize();
-            float tamanhoNovo = tamanhoAtual - 3;
-            bula.setTextSize(TypedValue.COMPLEX_UNIT_SP, tamanhoNovo);
-        });
-
-    }
-
-    private void aumentarFonte() {
+    private void aumentarDiminuirFonte()
+    {
         aumentarFonte.setOnClickListener(v ->{
             float tamanhoAtual = bula.getTextSize();
-            float tamanhoNovo = tamanhoAtual + 3;
-            bula.setTextSize(TypedValue.COMPLEX_UNIT_SP, tamanhoNovo);
+            float tamanhoNovo = tamanhoAtual + 2;
+            bula.setTextSize(TypedValue.COMPLEX_UNIT_PX, tamanhoNovo);
+        });
+
+        diminuirFonte.setOnClickListener(v ->{
+            float tamanhoAtual = bula.getTextSize();
+            float tamanhoNovo = tamanhoAtual - 2;
+            bula.setTextSize(TypedValue.COMPLEX_UNIT_PX, tamanhoNovo);
         });
 
     }
@@ -114,6 +170,9 @@ public class BulaActivity extends AppCompatActivity {
         });
     }
 
+    /*este método além de salvar o remédio como favorito, consegue tirar ele de favorito, pois o
+    else acaba chamando novamente o método e na lógica da API, caso eu mande um remédio favoritado
+    ele irá dar um DELETE naquela opção e portanto tirar dos favoritos*/
     private void queroFavoritar(RequestQueue queue) {
         favorito.setOnClickListener(view -> {
             try {
@@ -123,7 +182,7 @@ public class BulaActivity extends AppCompatActivity {
                     Log.d("FAVORITEI", ">>>>>>>>>>>>>>" + favorito.getTag().toString());
                     bulaFavoritada(queue);
                 } else {
-                    favorito.setImageResource(R.drawable.ic_senha_login);
+                    favorito.setImageResource(R.drawable.ic_nofav);
                     favorito.setTag("NoFav");
                     Log.d("JAFAV", ">>>>>>>>" + favorito.getTag().toString());
                     bulaFavoritada(queue);
@@ -147,7 +206,7 @@ public class BulaActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
 
-                Log.d("TAG", ">>>>>>>>" +response);
+                Log.d("TAG", ">>>>>>>>" +response.toString());
 
             }
         }, new Response.ErrorListener() {

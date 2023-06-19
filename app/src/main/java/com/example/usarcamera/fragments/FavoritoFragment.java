@@ -118,14 +118,6 @@ public class FavoritoFragment extends Fragment {
         queue.add(request);
     }
 
-    /*private void verificarFavorito(ArrayAdapter<Remedio> adaptador, ListView favoritos) {
-
-        if (icFavorito.getTag().toString().equals("NoFav")){
-            adaptador.clear();
-            adaptador.notifyDataSetChanged();
-        }
-    }*/
-
     private void verFavorito(RequestQueue queue, List<Remedio> lista, SharedPreferences ler) {
         favoritos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -136,8 +128,6 @@ public class FavoritoFragment extends Fragment {
 
                 if (remedin != null){
                     mostrarBulaFavorita(queue, ler, principioAtivo);
-                    Log.d("ALERGIA", ">>>>>>>>>>" + "if");
-
                 }
             }
         });

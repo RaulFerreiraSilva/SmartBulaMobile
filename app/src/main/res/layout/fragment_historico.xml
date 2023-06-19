@@ -9,36 +9,26 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout style="@style/LayoutWhite">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/ic_before_historico"
-                style="@style/ImgBefore" />
 
             <TextView
-                android:layout_width="170sp"
+                android:layout_width="200sp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
                 android:layout_marginTop="60dp"
                 android:text="@string/txtTituloHistorico"
                 android:textColor="@color/black"
-                android:textSize="40sp" />
+                android:textSize="40sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
 
-            <!--<ImageView style="@style/ImgClose"/>-->
-        </LinearLayout>
 
          <ListView
              android:id="@+id/listViewHistorico"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              android:layout_marginTop="200dp"
-             tools:listitem="@layout/list_item"
              />
 
 

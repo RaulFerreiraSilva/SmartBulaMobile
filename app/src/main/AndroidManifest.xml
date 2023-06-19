@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
@@ -16,23 +18,32 @@
         android:theme="@style/Theme.UsarCamera"
         tools:targetApi="31">
         <activity
-            android:name=".activitys.ListaAlergiaUsuario"
+            android:name=".activitys.TutorialActivity"
             android:exported="false" />
         <activity
+            android:name=".activitys.ListaAlergiaUsuario"
+            android:exported="false"
+            android:theme="@style/AppTheme" />
+        <activity
             android:name=".activitys.AlergiaActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activitys.BulaActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activitys.CadastroActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activitys.LoginActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activitys.LoadingActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -41,7 +52,16 @@
         </activity>
         <activity
             android:name=".activitys.MainActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/AppTheme" />
+        <receiver
+            android:name=".classes.NotificationHelper$NotificationBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

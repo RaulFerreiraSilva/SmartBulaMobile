@@ -1,18 +1,17 @@
 package com.example.usarcamera.fragments;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
@@ -25,7 +24,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,13 +34,13 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.usarcamera.R;
 import com.example.usarcamera.activitys.BulaActivity;
 import com.example.usarcamera.classes.Remedio;
 import com.example.usarcamera.databinding.FragmentCameraBinding;
-import com.google.gson.JsonArray;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -59,19 +57,18 @@ import java.util.Map;
 public class CameraFragment extends Fragment {
 
     private FragmentCameraBinding binding;
+
     private ImageButton fotoRemedio, btnPesquisarFala;
 
     private AppCompatButton pesquisar;
 
     private EditText pesquisarPorTexto;
 
-    private TextView bula;
-    
+    private TextView tituloAlertDialogCamera, mensagemAlertDialogCamera;
+
+    private AppCompatButton btnConfirmar, btnCancelar;
 
     private String[] remediosCadastrados = {"dipirona"};
-
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -79,52 +76,100 @@ public class CameraFragment extends Fragment {
         binding = FragmentCameraBinding.inflate(getLayoutInflater());
         View root = binding.getRoot();
 
-        View layout = inflater.inflate(R.layout.activity_bula, container, false);
+        View layout = inflater.inflate(R.layout.dialog, container, false);
 
         RequestQueue queue= Volley.newRequestQueue(getActivity().getApplicationContext());
-
 
         SharedPreferences ler = getActivity().getApplicationContext().getSharedPreferences(
                 "usuario", Context.MODE_PRIVATE);
 
-        /*Bitmap fotinha = BitmapFactory.decodeResource(getResources(),
-                referencia);*/
-
         iniciarComponentes(root, layout);
-        pesquisarBula(queue, ler);
+        pesquisar(queue, ler, root, layout);
         tirarFoto();
-        abrirMicrofone();
-        //fotoRemedio.setImageBitmap(fotinha);
-
-
+        analisarFala(ler);
 
         return root;
     }
 
-    private void abrirMicrofone(){
-        btnPesquisarFala.setOnClickListener(v ->{
-            analisarFala();
+    private void confirmarConsulta(View root, View layout, RequestQueue queue) {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(root.getContext());
+
+            builder.setView(layout);
+
+            String principioAtivo = pesquisarPorTexto.getText().toString();
+
+            tituloAlertDialogCamera.setText("Cuidado!");
+            mensagemAlertDialogCamera.setText("Você marcou que possui alergia a " + principioAtivo +
+                    " e está prestes a consulta a bula deste remédio, prossiga ciente deste fato!");
+            btnConfirmar.setText("Sim");
+            btnCancelar.setText("Não");
+
+            ViewGroup parent = (ViewGroup) layout.getParent();
+            if (parent != null)parent.removeView(layout);
+
+            final AlertDialog dialog = builder.create();
+
+            dialog.show();
+            dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialog) {
+                    ViewGroup parent = (ViewGroup) layout.getParent();
+                    if (parent != null)parent.removeView(layout);
+                }
+            });
+
+
+            btnConfirmar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    retornarBula(queue);
+                }
+            });
+
+            btnCancelar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.cancel();
+                    ViewGroup parent = (ViewGroup) layout.getParent();
+                    if (parent != null) {
+                        parent.removeView(layout);
+                    }
+                }
+            });
+            if (dialog.getWindow() != null){dialog.getWindow().setBackgroundDrawable(
+                    new ColorDrawable(0));}
+
+
+
+
+
+
+
+    }
+
+
+    private void analisarFala(SharedPreferences ler) {
+        btnPesquisarFala.setOnClickListener(v->{
+
+            Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+            intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Fale agora!");
+            getActivity().startActivityForResult(intent, 111);
+            Log.d("ANALISARFALA", ">>>>>>>>>>>" + intent);
+
+            Handler tempo = new Handler();
+            tempo.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    String nome = ler.getString("nomeRemedio", "");
+                    retornoDaFala(nome);
+                }
+            }, 9000);
+
         });
-    }
 
-    private void analisarFala() {
-        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS, 5);
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Fale agora!");
-        startActivityForResult(intent, 111);
-        Log.d("ANALISARFALA", ">>>>>>>>>>>" + intent);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Log.d("ANTESDOIF", ">>>>>>>>>>>>>>" + data);
-        if (requestCode == 111 && resultCode == getActivity().RESULT_OK){
-            pesquisarPorTexto.setText(data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).
-                    get(0));
-            Log.d("DEPOISDOIF", ">>>>>>>>>>>>" + data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).get(0));
-        }
     }
 
     private void tirarFoto() {
@@ -132,37 +177,88 @@ public class CameraFragment extends Fragment {
 
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 resultFoto.launch(intent);
-
-
         });
     }
 
-    private void pesquisarBula(RequestQueue queue, SharedPreferences ler) {
+    private void pesquisar(RequestQueue queue, SharedPreferences ler, View root, View layout) {
         pesquisar.setOnClickListener(v -> {
 
-                    retornarBula(queue, ler);
-
+            verificaAlergia(queue, ler, root, layout);
         });
+    }
+
+    private void verificaAlergia(RequestQueue queue, SharedPreferences ler, View root, View layout) {
+
+        List<String> lista = new ArrayList<>();
+
+        String endpoint = "http://10.0.2.2:5000/api/Alergia/ListarAlergiaUsuario/?usuarioId=" +
+                ler.getString("id", "");
+
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, endpoint, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        if (response != null && response.length() > 0){
+                            for (int i = 0; i < response.length(); i++){
+                                try {
+                                    JSONObject resposta = response.getJSONObject(i);
+
+                                    lista.add(resposta.getString("tipo_Alergia"));
+
+                                    String remedio = pesquisarPorTexto.getText().toString();
+
+                                    for (String alergiaRemedio : lista){
+                                        Log.d("ALERGIAS", ">>>>>>>>>>" + alergiaRemedio);
+                                        if (alergiaRemedio.equals(remedio)){
+                                            Log.d("TEM ALERGIA", ">>>>>>>>>" + "TEM ALERGIA");
+                                            confirmarConsulta(root, layout, queue);
+                                        }else{
+                                            Log.d("else", ">>>>>>>>>>" + alergiaRemedio);
+                                            retornarBula(queue);
+                                        }
+                                        break;
+                                    }
+
+                                } catch (JSONException exc){
+                                    exc.printStackTrace();
+                                }
+                            }
+                        }
+                        Log.d("RESPONSE", ">>>>>>>>>" + response);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+        queue.add(request);
+    }
+
+    private void retornoDaFala(String nome){
+        pesquisarPorTexto.setText(nome);
+
+        Log.d("CAMPOPREENCHIDO", ">>>>>>>>>>" + pesquisarPorTexto.getText().toString());
     }
 
     private void iniciarComponentes(View root, View layout) {
-
-        bula = layout.findViewById(R.id.txtBula);
         fotoRemedio = root.findViewById(R.id.imgRemedio);
         pesquisar = root.findViewById(R.id.btnPesquisar);
         pesquisarPorTexto = root.findViewById(R.id.edit_search);
-       btnPesquisarFala = root.findViewById(R.id.btnFalar);
+        btnPesquisarFala = root.findViewById(R.id.btnFalar);
+
+        //componentes inflados de um arquivo xml
+        tituloAlertDialogCamera = layout.findViewById(R.id.tituloDialog);
+        mensagemAlertDialogCamera = layout.findViewById(R.id.mensagemDialog);
+        btnConfirmar = layout.findViewById(R.id.btnConfirmar);
+        btnCancelar = layout.findViewById(R.id.btnCancelar);
     }
 
-    private void retornarBula(RequestQueue queue, SharedPreferences ler) {
-
-        Log.d("NOMEREMEDIO", ">>>>>>>>>>>>>>>" + ler.getString("remedioEncontrado", ""));
-
+    private void retornarBula(RequestQueue queue) {
 
         String endpoint = "http://10.0.2.2:5000/api/Remedio?response="+
                 pesquisarPorTexto.getText().toString();
 
-        List<Remedio> lista = new ArrayList<>();
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, endpoint, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -174,8 +270,6 @@ public class CameraFragment extends Fragment {
                                 response.getString("resumoBula"),
                                 response.getString("principioAtivo"));
 
-                        lista.add(remedio);
-
                         SharedPreferences salvar = getActivity().getApplicationContext()
                                 .getSharedPreferences("usuario", Context.MODE_PRIVATE);
 
@@ -183,20 +277,22 @@ public class CameraFragment extends Fragment {
                         gravar.putString("idMed", response.getString("idMedicamento"));
                         gravar.putString("bula", response.getString("bula"));
                         gravar.putString("resumoBula", response.getString("resumoBula"));
+                        gravar.putString("principioAtivo", response.getString("principioAtivo"));
                         gravar.putString("contraIndicacao", response.getString("contraIndicacao"));
                         gravar.putString("recomendadoPara", response.getString("recomendadoPara"));
 
                         gravar.commit();
 
+                        pesquisarPorTexto.setText("");
+
                         Handler espera = new Handler();
                         espera.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                bula.setText(ler.getString("bula", ""));
                                 Intent intent = new Intent(getActivity().getApplicationContext(), BulaActivity.class);
                                 startActivity(intent);
                             }
-                        }, 3000);
+                        }, 2000);
                     }catch (JSONException ex){
 
                         ex.printStackTrace();
@@ -210,19 +306,10 @@ public class CameraFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
-                Log.d("ERRO", ">>>>>>>>>>>>>>" + error);
-                Log.d("ERRO", ">>>>>>>>>>>>>>" + error.getMessage());
-                Log.d("ERRO", ">>>>>>>>>>>>>>" + error.getCause());
+                Toast.makeText(getActivity().getApplicationContext(), "Remedio não encontrado, verifique o nome e tente novamente!", Toast.LENGTH_SHORT).show();
+                pesquisarPorTexto.setText("");
             }
-        }){
-            /*@Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("Content-Type", "application/json");
-
-                return headers;
-            }*/
-        };
+        });
         queue.add(request);
     }
 

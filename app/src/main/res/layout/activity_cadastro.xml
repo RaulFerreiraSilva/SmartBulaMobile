@@ -26,7 +26,7 @@
         <View
             android:id="@+id/viewCadastro"
             android:layout_width="match_parent"
-            android:layout_height="520dp"
+            android:layout_height="480dp"
             android:background="@drawable/card_cadastro"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -41,8 +41,8 @@
             app:layout_constraintStart_toStartOf="@id/viewCadastro"
             app:layout_constraintEnd_toEndOf="@id/viewCadastro"
             app:layout_constraintTop_toTopOf="@id/viewCadastro"
-            android:layout_marginTop="40dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:padding="5dp"
             android:layout_marginHorizontal="30dp"
             android:orientation="horizontal">
             
@@ -50,16 +50,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/txtNomeCadastro"
-                android:textSize="30sp"
+                android:textSize="25sp"
                 android:textColor="@color/black"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/txtSobrenomeCadastro"
-                android:textSize="30sp"
+                android:textSize="25sp"
                 android:textColor="@color/black"
-                android:layout_marginStart="120dp"/>
+                android:layout_marginStart="100dp"/>
         </LinearLayout>
 
 
@@ -77,19 +77,22 @@
             <EditText
                 android:id="@+id/editNomeCadastro"
                 android:background="@drawable/edit_text_user"
-                android:layout_width="180dp"
+                android:layout_width="150dp"
                 android:layout_height="50dp"
-                android:layout_marginVertical="10dp"
-                android:inputType="text"/>
+                android:paddingHorizontal="20dp"
+                android:inputType="text"
+                android:digits="abcdefghijklmnopqrstuvwyxz"/>
 
             <EditText
                 android:id="@+id/editSobrenomeCadastro"
                 android:background="@drawable/edit_text_user"
-                android:layout_width="230dp"
+                android:layout_width="180dp"
                 android:layout_height="50dp"
-                android:layout_marginVertical="10dp"
+                android:paddingHorizontal="20dp"
                 android:layout_marginHorizontal="25dp"
-                android:inputType="text"/>
+                android:inputType="text"
+                android:digits="abcdefghijklmnopqrstuvwyxz"/>
+
         </LinearLayout>
 
         <LinearLayout
@@ -106,9 +109,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/txtNascimentoCadastro"
-                    android:textSize="30sp"
+                    android:textSize="25sp"
+                    android:layout_gravity="center"
                     android:textColor="@color/black"
-                    android:layout_margin="10dp"/>
+                    android:layout_margin="10dp" />
 
                 <EditText
                     android:id="@+id/editDataCadastro"
@@ -116,7 +120,9 @@
                     android:layout_width="230dp"
                     android:layout_height="50dp"
                     android:inputType="date"
-                    android:digits="0123456789-"
+                    android:textAlignment="center"
+                    android:digits="0123456789"
+                    android:layout_marginHorizontal="60dp"
                     android:hint="00-00-0000"
                     android:maxLength="10"
                     android:paddingHorizontal="20dp"
@@ -126,7 +132,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/txtEmailCadastro"
-                    android:textSize="30sp"
+                    android:textSize="25sp"
                     android:textColor="@color/black"
                     android:layout_margin="10dp"/>
 
@@ -135,6 +141,7 @@
                     android:background="@drawable/edit_text_user"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
+                    android:paddingHorizontal="20dp"
                     android:inputType="textEmailAddress"/>
         </LinearLayout>
 
@@ -153,18 +160,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/txtSenhaCadastro"
-                android:textSize="30sp"
+                android:textSize="25sp"
                 android:textColor="@color/black"
-                android:layout_marginTop="10dp"
                 android:layout_marginHorizontal="10dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/txtComfirmarSenhaCadastro"
-                android:textSize="30sp"
+                android:textSize="25sp"
                 android:textColor="@color/black"
-                android:layout_marginTop="10dp"
                 android:layout_marginStart="90dp"/>
         </LinearLayout>
         
@@ -182,17 +187,21 @@
             <EditText
                 android:id="@+id/editSenhaCadastro"
                 android:background="@drawable/edit_text_user"
-                android:layout_width="200dp"
+                android:layout_width="150dp"
                 android:layout_height="50dp"
-                android:inputType="numberPassword"/>
+                android:paddingHorizontal="20dp"
+                android:inputType="numberPassword"
+                android:digits="1234567890"/>
 
             <EditText
                 android:id="@+id/editConfirmarSenhaCadastro"
                 android:background="@drawable/edit_text_user"
-                android:layout_width="200dp"
+                android:layout_width="150dp"
                 android:layout_height="50dp" 
-                android:layout_marginStart="20dp"
-                android:inputType="numberPassword"/>
+                android:layout_marginStart="40dp"
+                android:paddingHorizontal="20dp"
+                android:inputType="numberPassword"
+                android:digits="1234567890"/>
         </LinearLayout>
         
         <androidx.appcompat.widget.AppCompatButton

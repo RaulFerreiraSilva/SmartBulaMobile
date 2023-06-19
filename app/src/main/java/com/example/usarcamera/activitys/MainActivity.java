@@ -6,26 +6,32 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.util.Log;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.usarcamera.R;
 import com.example.usarcamera.databinding.ActivityMainBinding;
+import com.example.usarcamera.databinding.FragmentCameraBinding;
 import com.example.usarcamera.fragments.CameraFragment;
 import com.example.usarcamera.fragments.FavoritoFragment;
 import com.example.usarcamera.fragments.HistoricoFragment;
 import com.example.usarcamera.fragments.HomeFragment;
 import com.example.usarcamera.fragments.UserFragment;
 
+import java.util.ArrayList;
+
 
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
-
+    private FragmentCameraBinding bdg;
 
 
     @Override
@@ -34,13 +40,9 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        getSupportActionBar().hide();
 
 
-
-
-
-
+        //alternar fragments
         replaceFragment(new HomeFragment());
         binding.btnNav.setBackground(null);
         binding.btnNav.setOnItemSelectedListener(item -> {
@@ -56,9 +58,27 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    //método para realizar pesquisa por voz
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d("TESTE", ">>>>>>>>>>> PRIMEIRO PASSO");
+        if (requestCode == 111){
+            Log.d("TESTE", ">>>>>>>>>>>> SEGUNDO PASSO");
+            if (resultCode == RESULT_OK){
+                Log.d("TESTE", ">>>>>>>> TERCEIRO PASSO");
+                ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 
-
-
+                for (String r : result){
+                    Log.d("TESTE", ">>>>>>>>>>>>>" + r);
+                    SharedPreferences salvar = getSharedPreferences("usuario", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor gravar = salvar.edit();
+                    gravar.putString("nomeRemedio", r);
+                    gravar.commit();
+                }
+            }
+        }
+    }
 
     private void replaceFragment(Fragment fragment){
         FragmentManager manager = getSupportFragmentManager();

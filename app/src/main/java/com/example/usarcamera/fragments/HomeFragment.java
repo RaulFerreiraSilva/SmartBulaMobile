@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -33,6 +34,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.usarcamera.R;
 import com.example.usarcamera.activitys.AlergiaActivity;
 import com.example.usarcamera.activitys.LoginActivity;
+import com.example.usarcamera.activitys.TutorialActivity;
 import com.example.usarcamera.classes.Alergia;
 import com.example.usarcamera.databinding.FragmentHomeBinding;
 
@@ -47,7 +49,7 @@ public class HomeFragment extends Fragment {
 
     private TextView nomePessoa;
 
-    private ListView listaDeAlergias;
+    private ImageButton verTutorial;
 
     private TextView tituloAlertDialog, mensagemAlertDialog, mostrarAlergia;
 
@@ -71,30 +73,16 @@ public class HomeFragment extends Fragment {
         deslogar(root, layout);
         mudarBemVindo(ler);
         abrirTelaAlergia();
+        abrirTelaTutorial();
         return root;
     }
 
-    /*private void listarAlergias(RequestQueue queue, View alergiaView){
-
-
-        String endpoint = "http://10.0.2.2:5000/api/Alergia/Listar";
-
-
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.POST, endpoint, null, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                if (response != null && response.length() > 0) {
-                }
-                abrirTela();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-            }
+    private void abrirTelaTutorial() {
+        verTutorial.setOnClickListener(v->{
+            Intent intent = new Intent(getActivity().getApplicationContext(), TutorialActivity.class);
+            startActivity(intent);
         });
-        queue.add(request);
-    }*/
+    }
 
     private void abrirTelaAlergia() {
         mostrarAlergia.setOnClickListener(v ->{
@@ -107,7 +95,6 @@ public class HomeFragment extends Fragment {
         capsulaSair.setOnClickListener(v ->{
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(root.getContext());
-                    //R.style.AlertDialogTheme);
 
                     builder.setView(layout);
 
@@ -168,13 +155,14 @@ public class HomeFragment extends Fragment {
     }
 
     private void iniciarCompontes(View root, View layout) {
-        tituloAlertDialog = layout.findViewById(R.id.tituloDialog);
         nomePessoa = root.findViewById(R.id.bem_vindo);
         capsulaSair = root.findViewById(R.id.img_sair);
         mostrarAlergia = root.findViewById(R.id.txtMostrarAlergias);
+        tituloAlertDialog = layout.findViewById(R.id.tituloDialog);
         mensagemAlertDialog = layout.findViewById(R.id.mensagemDialog);
         btnConfirmarSaida = layout.findViewById(R.id.btnConfirmar);
         btnCancelarSaida = layout.findViewById(R.id.btnCancelar);
+        verTutorial = root.findViewById(R.id.btnAbrirTutorialNovamente);
     }
 
     private void mudarBemVindo(SharedPreferences ler) {

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/fragLoading"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -25,7 +24,11 @@
                 style="@style/ImgCapsula"/>
 
             <View
-                style="@style/CardBemVindo">
+                style="@style/CardBemVindo"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="20dp"
+                android:paddingTop="40dp"
+                android:paddingBottom="40dp">
             </View>
         </LinearLayout>
 
@@ -102,10 +105,6 @@
             app:layout_constraintTop_toBottomOf="@id/layout_header"
             android:orientation="vertical">
 
-            <View
-                style="@style/CardNote"
-                />
-
         </LinearLayout>
 
         <ImageView
@@ -136,14 +135,16 @@
             app:layout_constraintStart_toStartOf="@id/layout_note"
             app:layout_constraintTop_toBottomOf="@id/layout_note"
             android:layout_marginTop="20dp"
-            android:layout_marginLeft="35dp"
+            android:layout_marginLeft="5dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"/>
 
         <ImageButton
+            android:id="@+id/btnAbrirTutorialNovamente"
             android:layout_width="160dp"
             android:layout_height="260dp"
             android:src="@drawable/img_home"
+            android:scaleType="centerCrop"
             android:backgroundTint="@color/branco"
             android:layout_marginTop="12dp"
             android:layout_marginLeft="10dp"
@@ -178,9 +179,10 @@
             android:layout_height="250dp"
             android:src="@drawable/img_home"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="20dp"
-            android:layout_marginLeft="20dp"/>
+            android:padding="10dp"/>
 
 
        <!--<LinearLayout

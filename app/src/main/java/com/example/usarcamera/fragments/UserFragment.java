@@ -28,6 +28,10 @@ import com.example.usarcamera.R;
 import com.example.usarcamera.activitys.ListaAlergiaUsuario;
 import com.example.usarcamera.databinding.FragmentUserBinding;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class UserFragment extends Fragment {
 
     private FragmentUserBinding binding;
@@ -54,6 +58,8 @@ public class UserFragment extends Fragment {
 
         passarDados(ler);
 
+
+
         RequestQueue queue = Volley.newRequestQueue(getActivity().getApplicationContext());
 
         verficarSenha(queue, ler);
@@ -61,6 +67,21 @@ public class UserFragment extends Fragment {
         alergiaUsuario();
 
         return root;
+    }
+
+    private void formatarData(SharedPreferences ler) {
+        String NascSemFormat = ler.getString("dataNasc", "");
+        SimpleDateFormat entrada = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        SimpleDateFormat saida = new SimpleDateFormat("dd/MM/yyyy");
+
+        try {
+            Date data = entrada.parse(NascSemFormat);
+            String resultado = saida.format(data);
+            dataNascimento.setText(resultado);
+        }catch (ParseException exc){
+            Log.d("CATCH", ">>>>>>>>>>>>" + exc);
+        }
+        
     }
 
     private void alergiaUsuario() {
@@ -74,19 +95,31 @@ public class UserFragment extends Fragment {
         nome.setText(ler.getString("nome", ""));
         sobreNome.setText(ler.getString("SobreNome", ""));
         email.setText(ler.getString("email", ""));
-        dataNascimento.setText(ler.getString("dataNasc", ""));
 
-        nome.setFocusable(false);
-        sobreNome.setFocusable(false);
-        email.setFocusable(false);
-        dataNascimento.setFocusable(false);
+        formatarData(ler);
+        desativarCliqueNosCampos();
+    }
+
+    private void desativarCliqueNosCampos() {
+         nome.setFocusable(false);
+         nome.setClickable(false);
+         nome.setLongClickable(false);
+         sobreNome.setFocusable(false);
+         sobreNome.setClickable(false);
+         sobreNome.setLongClickable(false);
+         email.setFocusable(false);
+         email.setClickable(false);
+         email.setLongClickable(false);
+         dataNascimento.setFocusable(false);
+         dataNascimento.setClickable(false);
+         dataNascimento.setLongClickable(false);
     }
 
     private void verficarSenha(RequestQueue queue, SharedPreferences ler) {
         alterarSenha.setOnClickListener(v -> {
             if (senhaAtual.getText().toString().equals(ler.getString("senha", ""))){
                 if (senhaNova.getText().toString().equals(confirmarSenha.getText().toString())){
-                    editarSenha(queue);
+                    editarSenha(queue, ler);
                 } else {
                     Toast.makeText(getActivity().getApplicationContext(), "Os campos de nova" +
                             " senha não coincidem, favor tente novamente!", Toast.LENGTH_SHORT).show();
@@ -112,21 +145,15 @@ public class UserFragment extends Fragment {
         mostrarAlergia = root.findViewById(R.id.btnMostrarAlergiaUsuario);
     }
 
-    private void editarSenha(RequestQueue queue) {
+    private void editarSenha(RequestQueue queue, SharedPreferences ler) {
 
         int timeout = 20000;
         RetryPolicy policy = new DefaultRetryPolicy(timeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                  DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
 
-        SharedPreferences ler = getActivity().getApplicationContext().getSharedPreferences(
-                "usuario", Context.MODE_PRIVATE);
-
-
-        //http://localhost:29346/api/Usuario/Editar/?email=banana@gmail.com&senha=123456789
         String endpoint = "http://10.0.2.2:5000/api/Usuario/Editar/?email="+ler.getString("email", "")
                 +"&senha="+ler.getString("senha", "")+"&senhaNova="+senhaNova.getText().toString();
 
-        Log.d("endpoint", ">>>>>>>>>" + endpoint);
         StringRequest request = new StringRequest(Request.Method.PUT, endpoint, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
