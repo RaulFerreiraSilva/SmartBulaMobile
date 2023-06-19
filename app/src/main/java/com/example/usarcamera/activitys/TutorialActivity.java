@@ -17,8 +17,10 @@ public class TutorialActivity extends AppCompatActivity {
     ImageSwitcher switcher;
     AppCompatButton anterior, proximo, sairTutorial;
     int posicao = 0;
-    int[] img = {R.drawable.TelaHome, R.drawable.TelaAlergia, R.drawable.TelaHistorico, R.drawable.TelaUser, R.drawable.TelaUser2,
-            R.drawable.TelaListar, R.drawable.TelaCamera, R.drawable.TelaBula, R.drawable.TelaBulaResumo, R.drawable.TelaFavorito};
+    int[] img = {R.drawable.tela_home, R.drawable.tela_alergia, R.drawable.tela_historico,
+            R.drawable.tela_user, R.drawable.tela_user2, R.drawable.tela_listar,
+            R.drawable.tela_camera, R.drawable.tela_bula, R.drawable.tela_bula_resumo,
+            R.drawable.tela_favorito};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +58,7 @@ public class TutorialActivity extends AppCompatActivity {
 
         anterior.setOnClickListener(v ->{
             if (posicao>0){
+                posicao--;
                 switcher.setImageResource(img[posicao]);
             }
         });

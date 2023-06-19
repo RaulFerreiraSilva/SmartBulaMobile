@@ -123,6 +123,7 @@ public class CadastroActivity extends AppCompatActivity {
                 if (!response.equals(null) && response.length() > 0){
                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(intent);
+                    limpaCampos();
                 } else {
                     Toast.makeText(CadastroActivity.this, "Usuario não cadastrado, favor tentar novamente!", Toast.LENGTH_SHORT).show();
                 }
@@ -136,6 +137,15 @@ public class CadastroActivity extends AppCompatActivity {
         });
 
         queue.add(request);
+    }
+
+    private void limpaCampos() {
+        editNome.setText("");
+        editSobrenome.setText("");
+        editEmail.setText("");
+        editNascimento.setText("");
+        editSenha.setText("");
+        editConfirmarSenha.setText("");
     }
 
     private void iniciarComponentes() {

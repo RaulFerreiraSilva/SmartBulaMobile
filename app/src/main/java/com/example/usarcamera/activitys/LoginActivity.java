@@ -146,8 +146,9 @@ public class LoginActivity extends AppCompatActivity {
                     tempo.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            Intent intent = new Intent(getApplicationContext(), TutorialActivity.class);
                             startActivity(intent);
+                            limpaCampos();
                         }
                     }, 3000);
                 }else {
@@ -163,5 +164,10 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
         queue.add(request);
+    }
+
+    private void limpaCampos() {
+        emailLogin.setText("");
+        senhaLogin.setText("");
     }
 }
