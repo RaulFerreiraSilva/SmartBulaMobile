@@ -35,9 +35,9 @@ public class HomeFragment extends Fragment {
 
     private ImageButton verTutorial, capsulaSair;
 
-    private TextView tituloAlertDialog, mensagemAlertDialog, mostrarAlergia;
+    private TextView tituloAlertDialog, mensagemAlertDialog;
 
-    private AppCompatButton btnConfirmarSaida, btnCancelarSaida;
+    private AppCompatButton btnConfirmarSaida, btnCancelarSaida, mostrarAlergia;
 
     private FragmentHomeBinding binding;
     @Override
@@ -139,7 +139,7 @@ public class HomeFragment extends Fragment {
     private void iniciarCompontes(View root, View layout) {
         nomePessoa = root.findViewById(R.id.bem_vindo);
         capsulaSair = root.findViewById(R.id.img_sair);
-        mostrarAlergia = root.findViewById(R.id.txtMostrarAlergias);
+        mostrarAlergia = root.findViewById(R.id.btnMostrarAlergias);
         tituloAlertDialog = layout.findViewById(R.id.tituloDialog);
         mensagemAlertDialog = layout.findViewById(R.id.mensagemDialog);
         btnConfirmarSaida = layout.findViewById(R.id.btnConfirmar);

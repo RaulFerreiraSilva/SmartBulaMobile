@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText emailLogin, senhaLogin;
 
-    private AppCompatButton btnLogar, txtCadastrar;
+    private AppCompatButton btnLogar, btnCadastrar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +89,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void iniciarComponentes() {
-        txtCadastrar = findViewById(R.id.txtCadastro);
+        btnCadastrar = findViewById(R.id.btnCadastro);
         btnLogar = findViewById(R.id.btnLogar);
         senhaLogin = findViewById(R.id.editSenhaLogin);
         emailLogin = findViewById(R.id.editEmailLogin);
@@ -97,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void mudarTela() {
-        txtCadastrar.setOnClickListener(new View.OnClickListener() {
+        btnCadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), CadastroActivity.class);
