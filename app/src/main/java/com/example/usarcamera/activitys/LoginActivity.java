@@ -11,10 +11,10 @@ import android.os.Handler;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.ImageButton;
+
 import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -24,25 +24,20 @@ import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
+
 import com.android.volley.toolbox.Volley;
 import com.example.usarcamera.R;
 import com.example.usarcamera.classes.NotificationHelper;
-import com.example.usarcamera.classes.Pessoa;
-import com.google.gson.JsonArray;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity {
-
-    private TextView txtCadastrar;
-
-    private ImageView verSenha;
+    private ImageButton verSenha;
 
     private EditText emailLogin, senhaLogin;
-    private AppCompatButton btnLogar;
+
+    private AppCompatButton btnLogar, txtCadastrar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -19,8 +19,10 @@
             app:layout_constraintTop_toTopOf="parent"
             android:orientation="horizontal">
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/img_sair"
+                android:background="@null"
+                android:scaleType="fitCenter"
                 style="@style/ImgCapsula"/>
 
             <View

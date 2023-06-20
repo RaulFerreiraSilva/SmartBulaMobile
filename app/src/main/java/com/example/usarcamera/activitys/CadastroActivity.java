@@ -1,15 +1,14 @@
 package com.example.usarcamera.activitys;
 
-import androidx.annotation.Nullable;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
+
 import android.util.Log;
-import android.view.View;
+
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -19,7 +18,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
+
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.usarcamera.R;
@@ -30,7 +29,7 @@ import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
+
 import java.util.Date;
 
 public class CadastroActivity extends AppCompatActivity {

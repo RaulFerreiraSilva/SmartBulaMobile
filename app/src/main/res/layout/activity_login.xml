@@ -68,9 +68,10 @@
         android:textSize="22sp"
         android:inputType="numberPassword"/>
 
-    <ImageView
+    <ImageButton
         android:id="@+id/mostrarSenha"
         style="@style/IconLogin"
+        android:background="@null"
         android:src="@drawable/ic_senha_login"
         app:layout_constraintEnd_toEndOf="@id/editSenhaLogin"
         app:layout_constraintBottom_toBottomOf="@id/editSenhaLogin"
@@ -90,14 +91,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/mostrarSenha"/>
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/txtCadastro"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/txtCadastro"
-        android:textSize="21sp"
+        android:textAllCaps="false"
+        android:textSize="19sp"
         android:textColor="@color/black"
         android:textStyle="italic"
+        android:background="@null"
         android:textAlignment="textEnd"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="25dp"

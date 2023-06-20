@@ -55,18 +55,15 @@ import java.util.Map;
 
 
 public class CameraFragment extends Fragment {
-
     private FragmentCameraBinding binding;
 
     private ImageButton fotoRemedio, btnPesquisarFala;
-
-    private AppCompatButton pesquisar;
 
     private EditText pesquisarPorTexto;
 
     private TextView tituloAlertDialogCamera, mensagemAlertDialogCamera;
 
-    private AppCompatButton btnConfirmar, btnCancelar;
+    private AppCompatButton btnConfirmar, btnCancelar, pesquisar;
 
     private String[] remediosCadastrados = {"dipirona"};
 

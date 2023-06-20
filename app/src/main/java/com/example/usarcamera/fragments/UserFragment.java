@@ -13,7 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.TextView;
+
 import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -33,16 +33,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class UserFragment extends Fragment {
-
     private FragmentUserBinding binding;
     private EditText nome, sobreNome, email, dataNascimento;
 
     private EditText senhaAtual, senhaNova, confirmarSenha;
 
-    private TextView alterarSenha;
-
-    private AppCompatButton mostrarAlergia;
-
+    private AppCompatButton mostrarAlergia, alterarSenha;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,8 +53,6 @@ public class UserFragment extends Fragment {
                 "usuario", Context.MODE_PRIVATE);
 
         passarDados(ler);
-
-
 
         RequestQueue queue = Volley.newRequestQueue(getActivity().getApplicationContext());
 
@@ -81,7 +75,6 @@ public class UserFragment extends Fragment {
         }catch (ParseException exc){
             Log.d("CATCH", ">>>>>>>>>>>>" + exc);
         }
-        
     }
 
     private void alergiaUsuario() {
@@ -129,7 +122,6 @@ public class UserFragment extends Fragment {
                         ", favor tente novamente!", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
     private void iniciarComponentes(View root) {
@@ -178,7 +170,5 @@ public class UserFragment extends Fragment {
         });
 
         queue.add(request);
-
-
     }
 }

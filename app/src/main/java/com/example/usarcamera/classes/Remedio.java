@@ -1,6 +1,6 @@
 package com.example.usarcamera.classes;
 
-import androidx.annotation.NonNull;
+
 
 public class Remedio {
     private int id;

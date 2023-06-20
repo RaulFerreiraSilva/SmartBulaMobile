@@ -4,18 +4,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.speech.tts.TextToSpeech;
+
 import android.text.Html;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
-import android.widget.ImageView;
+
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -26,6 +27,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.usarcamera.R;
 
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,12 +35,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class BulaActivity extends AppCompatActivity {
 
     private TextView bula, opcaoBula, opcaoResumo;
     private ImageButton voltarTela, aumentarFonte, diminuirFonte;
-    private ImageView favorito;
-
+    private ImageButton favorito;
     private SwitchCompat alternarTexto;
 
     @Override
@@ -128,16 +130,19 @@ public class BulaActivity extends AppCompatActivity {
 
                     bula.setText(txtFormatado);
 
+
                     opcaoBula.setElevation(elevation);
                     opcaoBula.setVisibility(View.INVISIBLE);
                     opcaoResumo.setElevation(elevationUpper);
                     opcaoResumo.setVisibility(View.VISIBLE);
                 } else {
+
                     bula.setText(ler.getString("bula", ""));
 
                     String txtFormatado = Html.fromHtml(bula.getText().toString()).toString();
 
                     bula.setText(txtFormatado);
+
 
                     opcaoResumo.setElevation(elevation);
                     opcaoResumo.setVisibility(View.INVISIBLE);
@@ -166,7 +171,8 @@ public class BulaActivity extends AppCompatActivity {
 
     private void voltar() {
         voltarTela.setOnClickListener(view -> {
-            onBackPressed();
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
         });
     }
 

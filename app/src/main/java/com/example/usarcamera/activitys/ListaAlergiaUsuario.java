@@ -18,7 +18,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.usarcamera.R;
 import com.example.usarcamera.classes.Alergia;
-import com.example.usarcamera.classes.Pessoa;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListaAlergiaUsuario extends AppCompatActivity {
-
     private ImageButton btnVoltarAlergiaUser;
 
     private ListView alergiaUser;

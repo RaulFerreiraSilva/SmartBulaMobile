@@ -7,14 +7,14 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.os.Handler;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
+
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,9 +27,9 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.usarcamera.R;
-import com.example.usarcamera.activitys.AlergiaActivity;
+
 import com.example.usarcamera.activitys.BulaActivity;
-import com.example.usarcamera.classes.Alergia;
+
 import com.example.usarcamera.classes.Remedio;
 import com.example.usarcamera.databinding.FragmentFavoritoBinding;
 
@@ -58,14 +58,12 @@ public class FavoritoFragment extends Fragment {
 
         View root = binding.getRoot();
 
-        View layout = inflater.inflate(R.layout.activity_bula, container, false);
-
         RequestQueue queue = Volley.newRequestQueue(getActivity().getApplicationContext());
 
         SharedPreferences ler = getActivity().getApplicationContext().getSharedPreferences(
                 "usuario", Context.MODE_PRIVATE);
 
-        iniciarComponentes(root, layout);
+        iniciarComponentes(root);
 
         listarFavoritos(queue, root, ler);
 
@@ -105,7 +103,7 @@ public class FavoritoFragment extends Fragment {
                         android.R.layout.simple_list_item_1, //Layout padrão
                         lista); //Lista com os valores
                 favoritos.setAdapter(adaptador);
-                //verificarFavorito(adaptador, favoritos);
+
                 verFavorito(queue, lista, ler);
             }
         }, new Response.ErrorListener() {
@@ -147,7 +145,6 @@ public class FavoritoFragment extends Fragment {
                                 response.getString("resumoBula"),
                                 response.getString("principioAtivo"));
 
-                                bula.setText(ler.getString("bula", ""));
                                 Intent intent = new Intent(getActivity().getApplicationContext(), BulaActivity.class);
                                 startActivity(intent);
                     }catch (JSONException ex){
@@ -172,8 +169,7 @@ public class FavoritoFragment extends Fragment {
     }
 
 
-    private void iniciarComponentes(View root, View layout){
+    private void iniciarComponentes(View root){
         favoritos = root.findViewById(R.id.listViewFavorito);
-        bula = layout.findViewById(R.id.txtBula);
     }
 }

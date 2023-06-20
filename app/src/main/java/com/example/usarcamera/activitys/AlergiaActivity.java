@@ -1,24 +1,22 @@
 package com.example.usarcamera.activitys;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
-import android.app.AlertDialog;
+
 import android.content.Context;
-import android.content.DialogInterface;
+
 import android.content.SharedPreferences;
-import android.graphics.drawable.ColorDrawable;
+
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
+
 import android.view.View;
-import android.view.ViewGroup;
+
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.TextView;
+
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -40,14 +38,9 @@ import java.util.List;
 
 public class AlergiaActivity extends AppCompatActivity {
 
-    private TextView tituloAlertDialogAlergia, mensagemAlertDialogAlergia;
-
     private ImageButton voltar;
-    private AppCompatButton btnConfirmarAlergia, btnCancelarAlergia;
 
     private ListView alergiasListV;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,11 +49,9 @@ public class AlergiaActivity extends AppCompatActivity {
 
         RequestQueue queue = Volley.newRequestQueue(this);
 
-
         iniciarComponentes();
         mostrarRemedios(queue);
         fecharTela();
-
     }
 
 
@@ -147,6 +138,7 @@ public class AlergiaActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 Log.d("RESPONSE", ">>>>>>>>>>>>>" + response);
+                Toast.makeText(AlergiaActivity.this, "Alergia salva!", Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override

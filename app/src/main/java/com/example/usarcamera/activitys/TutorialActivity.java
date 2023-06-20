@@ -26,6 +26,8 @@ public class TutorialActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tutorial);
+        
+        getSupportActionBar().hide();
 
         iniciarComponentes();
         colocarImagens();
@@ -44,6 +46,7 @@ public class TutorialActivity extends AppCompatActivity {
             @Override
             public View makeView() {
                 ImageView imgView = new ImageView(getApplicationContext());
+                imgView.setScaleType(ImageView.ScaleType.FIT_XY);
                 return imgView;
             }
         });

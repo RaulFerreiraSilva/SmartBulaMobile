@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -22,6 +21,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.usarcamera.R;
 import com.example.usarcamera.activitys.BulaActivity;
 import com.example.usarcamera.classes.Remedio;
@@ -47,10 +47,14 @@ public class HistoricoFragment extends Fragment {
         binding = FragmentHistoricoBinding.inflate(getLayoutInflater());
         View root = binding.getRoot();
 
+        RequestQueue queue = Volley.newRequestQueue(root.getContext());
+
         SharedPreferences ler = getActivity().getApplicationContext().getSharedPreferences("usuario", Context.MODE_PRIVATE);
 
         iniciarComponentes(root);
         gerarLista(ler, root);
+        selecionarBulaHistorico(queue, lista, ler);
+
         return root;
     }
 
@@ -63,7 +67,7 @@ public class HistoricoFragment extends Fragment {
                 android.R.layout.simple_list_item_1, lista);
         historico.setAdapter(adaptador);
     }
-    private void verBulaHistorico(RequestQueue queue, List<Remedio> lista, SharedPreferences ler){
+    private void selecionarBulaHistorico(RequestQueue queue, List<Remedio> lista, SharedPreferences ler){
         historico.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

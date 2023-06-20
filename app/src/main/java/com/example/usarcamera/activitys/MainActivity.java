@@ -12,13 +12,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.util.Log;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.TextView;
+
 
 import com.example.usarcamera.R;
 import com.example.usarcamera.databinding.ActivityMainBinding;
-import com.example.usarcamera.databinding.FragmentCameraBinding;
+
 import com.example.usarcamera.fragments.CameraFragment;
 import com.example.usarcamera.fragments.FavoritoFragment;
 import com.example.usarcamera.fragments.HistoricoFragment;
@@ -31,7 +29,6 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
-    private FragmentCameraBinding bdg;
 
 
     @Override
@@ -39,8 +36,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-
 
         //alternar fragments
         replaceFragment(new HomeFragment());

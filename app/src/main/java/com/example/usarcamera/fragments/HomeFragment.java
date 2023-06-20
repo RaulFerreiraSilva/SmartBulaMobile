@@ -9,53 +9,35 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.constraintlayout.widget.ConstraintLayout;
+
 import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ListView;
+
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.usarcamera.R;
 import com.example.usarcamera.activitys.AlergiaActivity;
 import com.example.usarcamera.activitys.LoginActivity;
 import com.example.usarcamera.activitys.TutorialActivity;
-import com.example.usarcamera.classes.Alergia;
+
 import com.example.usarcamera.databinding.FragmentHomeBinding;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class HomeFragment extends Fragment {
-
     private TextView nomePessoa;
 
-    private ImageButton verTutorial;
+    private ImageButton verTutorial, capsulaSair;
 
     private TextView tituloAlertDialog, mensagemAlertDialog, mostrarAlergia;
 
     private AppCompatButton btnConfirmarSaida, btnCancelarSaida;
-
-    private ImageView capsulaSair;
 
     private FragmentHomeBinding binding;
     @Override
@@ -122,7 +104,7 @@ public class HomeFragment extends Fragment {
                             atraso.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Toast.makeText(getActivity().getApplicationContext(), "", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity().getApplicationContext(), "Usuário desconectado!", Toast.LENGTH_SHORT).show();
                                 }
                             }, 2500);
                             dialog.dismiss();

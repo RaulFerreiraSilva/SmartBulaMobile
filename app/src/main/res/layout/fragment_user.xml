@@ -179,12 +179,16 @@
             app:layout_constraintTop_toBottomOf="@id/layout_alterar"
             android:orientation="horizontal">
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/txtAcaoAlterarSenha"
+                android:background="@null"
+                android:textAllCaps="false"
                 style="@style/TextAlterar"/>
 
             <ImageButton
-                style="@style/ButtonAlterar"/>
+                style="@style/ButtonAlterar"
+                android:layout_marginTop="30dp"/>
+
         </LinearLayout>
 
         <View
